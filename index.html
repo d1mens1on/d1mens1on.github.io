@@ -116,6 +116,7 @@
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
     .user-badge { font-size:0.85rem; background:#1e3a8a; padding:0.2rem 0.8rem; border-radius:12px; }
+    .search-box { display:flex; gap:0.5rem; align-items:center; }
   </style>
 </head>
 <body>
@@ -168,7 +169,14 @@
       <div id="shopDetail"></div>
     </div>
     <div id="rankingView" class="view">
-      <div class="card"><h3>🏆 天府美食榜</h3><p class="text-sm mt-2">基于所有用户真实打卡次数排序</p><div id="rankingList"></div></div>
+      <div class="card">
+        <h3>🏆 天府美食榜</h3>
+        <p class="text-sm mt-2">基于所有用户真实打卡次数排序</p>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="rankingSearch" placeholder="搜索店铺..." oninput="filterRanking()">
+        </div>
+        <div id="rankingList"></div>
+      </div>
     </div>
     <div id="footprintView" class="view">
       <div class="card"><h3>👣 我的美食足迹</h3><p class="text-sm mt-2">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
@@ -268,12 +276,10 @@
     if (raw) {
       try {
         const parsed = JSON.parse(raw);
-        // 兼容旧数据：如果 checkins 里的条目是字符串（旧格式），强制转换
         if (parsed.checkins) {
           for (const shopId in parsed.checkins) {
             const arr = parsed.checkins[shopId];
             if (arr && arr.length > 0 && typeof arr[0] === 'string') {
-              // 旧格式：纯日期字符串 -> 清除（或转换为未归属的打卡，但为准确，清空）
               parsed.checkins[shopId] = [];
             }
           }
@@ -313,26 +319,22 @@
     return d.toISOString().split('T')[0];
   }
 
-  // 全局统计：某店铺近三个月总打卡次数（所有用户）
   function countRecentCheckins(shopId) {
     const checkins = appData.checkins[shopId] || [];
     const start = threeMonthsAgo();
     return checkins.filter(entry => entry.date >= start).length;
   }
 
-  // 全局统计：某店铺总打卡次数
   function countTotalCheckins(shopId) {
     return (appData.checkins[shopId] || []).length;
   }
 
-  // 个人统计：当前用户在某店铺的总打卡次数
   function countUserTotalCheckins(shopId) {
     if (!currentUser) return 0;
     const checkins = appData.checkins[shopId] || [];
     return checkins.filter(entry => entry.userId === currentUser.username).length;
   }
 
-  // 打卡函数：记录当前用户
   function checkinShop(shopId) {
     if (!appData.shops[shopId] || !currentUser) return;
     const today = new Date().toISOString().split('T')[0];
@@ -342,7 +344,6 @@
     renderShopDetail(shopId);
   }
 
-  // 评论功能（不变）
   function addComment(shopId, text) {
     if (!text.trim() || !currentUser || currentUser.banned) return;
     if (!appData.comments[shopId]) appData.comments[shopId] = [];
@@ -410,6 +411,8 @@
       document.getElementById('rankingView').classList.add('active');
       document.querySelector('[data-view="ranking"]')?.classList.add('active');
       renderRanking();
+      // 保留搜索框内容，直接应用过滤
+      filterRanking();
     } else if (viewName === 'footprint') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('footprintView').classList.add('active');
@@ -515,6 +518,16 @@
     }
   }
 
+  // --- 搜索过滤函数 ---
+  function filterRanking() {
+    const keyword = document.getElementById('rankingSearch')?.value?.toLowerCase() || '';
+    const items = document.querySelectorAll('#rankingList .shop-item');
+    items.forEach(item => {
+      const name = item.getAttribute('data-name') || '';
+      item.style.display = name.includes(keyword) ? '' : 'none';
+    });
+  }
+
   // --- 渲染各视图 ---
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
@@ -603,7 +616,7 @@
     ranked.forEach((shop, idx) => {
       let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
       html += `
-        <div class="shop-item">
+        <div class="shop-item" data-name="${shop.name.toLowerCase()}">
           <div class="flex-row">
             <span class="rank-number ${rankClass}">#${idx+1}</span>
             <div><strong>${shop.name}</strong><div class="text-sm">${shop.recent} 次打卡</div></div>
@@ -615,7 +628,6 @@
     listDiv.innerHTML = html;
   }
 
-  // 修改：足迹只统计当前用户
   function renderFootprint() {
     const allShops = Object.values(appData.shops);
     const userShops = allShops.map(shop => ({
