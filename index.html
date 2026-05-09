@@ -4,172 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>成都美食天府榜</title>
-  <meta name="description" content="成都美食热度榜，深夜食堂排名，用户真实打卡，三个月热度见真章。">
+  <meta name="description" content="成都美食天府榜，美食排名，用脚投票，用嘴衡量，日久知味。">
   <meta name="keywords" content="成都美食,热度榜,火锅,串串,探店,打卡">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif;
       background: #0a0f1f;
-      background-image: linear-gradient(rgba(10,15,31,0.7), rgba(10,15,31,0.7)), 
+      background-image: linear-gradient(rgba(10,15,31,0.7), rgba(10,15,31,0.7)),
                         url('https://d1mens1on.github.io/panda-night.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       color: #e1e8f0;
       min-height: 100vh;
-      backdrop-filter: blur(2px);
     }
-    .app {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-    /* 头部 */
+    .app { max-width:900px; margin:0 auto; padding:1rem; }
     .header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      backdrop-filter: blur(20px);
-      background: rgba(10, 20, 40, 0.6);
-      border-radius: 0 0 32px 32px;
-      margin-bottom: 1.5rem;
+      text-align:center; padding:2rem 1rem 1rem;
+      backdrop-filter: blur(20px); background: rgba(10,20,40,0.6);
+      border-radius:0 0 32px 32px; margin-bottom:1.5rem;
     }
-    .header h1 {
-      font-size: 2.2rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: #c1d4ff;
-    }
-    .header p {
-      color: #8899cc;
-      margin-top: 0.5rem;
-    }
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.6rem;
-      margin-top: 1.5rem;
-    }
+    .header h1 { font-size:2.2rem; font-weight:600; letter-spacing:1px; color:#c1d4ff; }
+    .header p { color:#8899cc; margin-top:0.5rem; }
+    .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.6rem; margin-top:1.5rem; }
     .nav-btn {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #bdd1ff;
-      padding: 0.7rem 1.4rem;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
+      background:rgba(255,255,255,0.08); backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.1); color:#bdd1ff; padding:0.7rem 1.4rem;
+      border-radius:30px; font-size:0.95rem; cursor:pointer; transition:all 0.2s;
     }
     .nav-btn.active, .nav-btn:hover {
-      background: #1e3a8a;
-      border-color: #3b82f6;
-      color: white;
-      box-shadow: 0 0 12px #3b82f680;
+      background:#1e3a8a; border-color:#3b82f6; color:white; box-shadow:0 0 12px #3b82f680;
     }
-    /* 卡片容器 */
-    .view {
-      display: none;
-      animation: fade 0.25s;
-    }
-    .view.active { display: block; }
+    .view { display:none; animation:fade 0.25s; }
+    .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .card {
-      background: rgba(15, 25, 45, 0.75);
-      backdrop-filter: blur(16px);
-      border-radius: 24px;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      background:rgba(15,25,45,0.75); backdrop-filter:blur(16px); border-radius:24px;
+      padding:1.2rem; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
     }
-    .card h3 {
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #d9e6ff;
-    }
+    .card h3 { font-weight:600; font-size:1.2rem; color:#d9e6ff; }
     .btn {
-      background: #1e3a8a;
-      border: none;
-      color: white;
-      padding: 0.6rem 1.4rem;
-      border-radius: 24px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-size: 0.9rem;
+      background:#1e3a8a; border:none; color:white; padding:0.6rem 1.4rem;
+      border-radius:24px; font-weight:500; cursor:pointer; transition:background 0.2s; font-size:0.9rem;
     }
-    .btn:hover { background: #2563eb; }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #3b82f6;
-      color: #93b4ff;
-    }
-    .btn-outline:hover { background: #1e3a8a; }
+    .btn:hover { background:#2563eb; }
+    .btn-outline { background:transparent; border:1px solid #3b82f6; color:#93b4ff; }
+    .btn-outline:hover { background:#1e3a8a; }
     .input {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 0.7rem 1rem;
-      width: 100%;
-      color: white;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border 0.2s;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+      border-radius:16px; padding:0.7rem 1rem; width:100%; color:white; font-size:0.95rem;
+      outline:none; transition:border 0.2s;
     }
-    .input:focus { border-color: #3b82f6; }
-    .flex-row {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .badge {
-      background: #1e3a8a;
-      color: white;
-      border-radius: 20px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.8rem;
-    }
+    .input:focus { border-color:#3b82f6; }
+    .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
+    .badge { background:#1e3a8a; color:white; border-radius:20px; padding:0.3rem 0.9rem; font-size:0.8rem; }
     .shop-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
     }
-    .shop-item:last-child { border-bottom: none; }
-    .rank-number {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #ffd966;
-      min-width: 2rem;
-    }
-    .gold { color: #ffd966; }
-    .silver { color: #c0c0c0; }
-    .bronze { color: #cd7f32; }
-    /* 分类网格 */
+    .shop-item:last-child { border-bottom:none; }
+    .rank-number { font-size:1.6rem; font-weight:700; color:#ffd966; min-width:2rem; }
+    .gold { color:#ffd966; }
+    .silver { color:#c0c0c0; }
+    .bronze { color:#cd7f32; }
     .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.8rem;
-      margin: 1rem 0;
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+      gap:0.8rem; margin:1rem 0;
     }
     .category-item {
-      background: rgba(255,255,255,0.06);
-      border-radius: 20px;
-      padding: 1.2rem 0.8rem;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
+      background:rgba(255,255,255,0.06); border-radius:20px; padding:1.2rem 0.8rem;
+      text-align:center; cursor:pointer; transition:0.2s;
     }
-    .category-item:hover { background: #1e3a8a; }
-    .category-item span { font-size: 2rem; display: block; }
-    .mt-2 { margin-top: 0.8rem; }
-    .mb-2 { margin-bottom: 0.8rem; }
-    .text-right { text-align: right; }
-    .text-sm { font-size: 0.8rem; color: #8899cc; }
+    .category-item:hover { background:#1e3a8a; }
+    .category-item span { font-size:2rem; display:block; }
+    .mt-2 { margin-top:0.8rem; }
+    .mb-2 { margin-bottom:0.8rem; }
+    .text-sm { font-size:0.8rem; color:#8899cc; }
   </style>
 </head>
 <body>
@@ -180,6 +92,7 @@
     <div class="nav" id="mainNav">
       <button class="nav-btn active" data-view="home">🏠 首页</button>
       <button class="nav-btn" data-view="ranking">🔥 热度榜</button>
+      <button class="nav-btn" data-view="footprint">👣 足迹</button>
       <button class="nav-btn" data-view="add">➕ 添加店铺</button>
     </div>
   </div>
@@ -205,8 +118,16 @@
   <div id="rankingView" class="view">
     <div class="card">
       <h3>🏆 近3个月热度排行榜</h3>
-      <p class="text-sm mt-2">基于用户真实打卡次数排序</p>
+      <p class="text-sm mt-2">基于所有用户真实打卡次数排序</p>
       <div id="rankingList"></div>
+    </div>
+  </div>
+
+  <div id="footprintView" class="view">
+    <div class="card">
+      <h3>👣 我的美食足迹</h3>
+      <p class="text-sm mt-2">你打卡次数最多的10家店铺</p>
+      <div id="footprintList"></div>
     </div>
   </div>
 
@@ -237,7 +158,6 @@
 <script>
   // ---------- 数据存储 ----------
   const STORAGE_KEY = 'chengdu_food_data';
-  // 初始分类定义
   const DEFAULT_CATEGORIES = {
     hotpot: { name:'火锅', icon:'🍲' },
     skewer: { name:'串串香', icon:'🍢' },
@@ -249,19 +169,16 @@
     sweet: { name:'甜品饮品', icon:'🍧' },
   };
 
-  // 全局数据结构
   let appData = {
-    shops: {},        // shopId -> { id, name, category, createdAt }
-    checkins: {},     // shopId -> [ dateString, ... ]
-    comments: {},     // shopId -> [ {text, date}, ... ]
+    shops: {},
+    checkins: {},   // shopId -> [ dateString, ... ]
+    comments: {},   // shopId -> [ {text, date}, ... ]
   };
 
   function loadData() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      try {
-        appData = JSON.parse(raw);
-      } catch(e) { resetData(); }
+      try { appData = JSON.parse(raw); } catch(e) { resetData(); }
     } else {
       resetData();
     }
@@ -271,7 +188,6 @@
   }
   function resetData() {
     appData = { shops:{}, checkins:{}, comments:{} };
-    // 可初始化一些示例店铺，让界面不空
     const samples = [
       { id:'s1', name:'蜀大侠火锅', category:'hotpot' },
       { id:'s2', name:'钢管厂五区小郡肝', category:'skewer' },
@@ -286,37 +202,35 @@
     saveData();
   }
 
-  // 工具函数：生成唯一ID
   function uid() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+    return Date.now().toString(36) + Math.random().toString(36).substr(2,6);
   }
 
-  // 获取近三个月的日期范围（从今天往前推90天）
   function threeMonthsAgo() {
     const d = new Date();
     d.setDate(d.getDate() - 90);
-    return d.toISOString().split('T')[0]; // YYYY-MM-DD
+    return d.toISOString().split('T')[0];
   }
 
-  // 计算某店铺近三个月打卡次数
   function countRecentCheckins(shopId) {
     const checkins = appData.checkins[shopId] || [];
     const start = threeMonthsAgo();
     return checkins.filter(date => date >= start).length;
   }
 
-  // 店铺打卡
+  function countTotalCheckins(shopId) {
+    return (appData.checkins[shopId] || []).length;
+  }
+
   function checkinShop(shopId) {
     if (!appData.shops[shopId]) return;
     const today = new Date().toISOString().split('T')[0];
     if (!appData.checkins[shopId]) appData.checkins[shopId] = [];
-    // 简单防重复同天多次，但允许
     appData.checkins[shopId].push(today);
     saveData();
     renderShopDetail(shopId);
   }
 
-  // 添加评论
   function addComment(shopId, text) {
     if (!text.trim()) return;
     if (!appData.comments[shopId]) appData.comments[shopId] = [];
@@ -349,6 +263,10 @@
       document.getElementById('rankingView').classList.add('active');
       document.querySelector('[data-view="ranking"]').classList.add('active');
       renderRanking();
+    } else if (viewName === 'footprint') {
+      document.getElementById('footprintView').classList.add('active');
+      document.querySelector('[data-view="footprint"]').classList.add('active');
+      renderFootprint();
     } else if (viewName === 'add') {
       document.getElementById('addView').classList.add('active');
       document.querySelector('[data-view="add"]').classList.add('active');
@@ -359,7 +277,6 @@
     switchView('category', currentCategory);
   }
 
-  // 首页分类网格
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
@@ -372,7 +289,6 @@
     });
   }
 
-  // 分类详情：该分类下的店铺列表
   function renderCategory(catKey) {
     const cat = DEFAULT_CATEGORIES[catKey];
     const shopIds = Object.keys(appData.shops).filter(id => appData.shops[id].category === catKey);
@@ -398,13 +314,11 @@
     detailDiv.innerHTML = html;
   }
 
-  // 店铺详情页：打卡、评论、统计
   function renderShopDetail(shopId) {
     const shop = appData.shops[shopId];
     if (!shop) return;
-    const checkins = appData.checkins[shopId] || [];
     const recentCount = countRecentCheckins(shopId);
-    const totalCount = checkins.length;
+    const totalCount = countTotalCheckins(shopId);
     const comments = appData.comments[shopId] || [];
     const detailDiv = document.getElementById('shopDetail');
     let html = `
@@ -432,7 +346,6 @@
     detailDiv.innerHTML = html;
   }
 
-  // 热度排行榜：所有店铺按近三月打卡次数排序
   function renderRanking() {
     const allShops = Object.values(appData.shops);
     const ranked = allShops.map(shop => ({
@@ -457,7 +370,7 @@
             <span class="rank-number ${rankClass}">#${idx+1}</span>
             <div>
               <strong>${shop.name}</strong>
-              <div class="text-sm">${recentText(shop.recent)} 次打卡</div>
+              <div class="text-sm">${shop.recent} 次打卡</div>
             </div>
           </div>
           <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
@@ -467,11 +380,43 @@
     listDiv.innerHTML = html;
   }
 
-  function recentText(count) {
-    return count;
+  // 新增：个人足迹排行榜
+  function renderFootprint() {
+    const allShops = Object.values(appData.shops);
+    const sorted = allShops.map(shop => ({
+      ...shop,
+      total: countTotalCheckins(shop.id)
+    })).filter(s => s.total > 0)
+      .sort((a,b) => b.total - a.total)
+      .slice(0, 10);
+
+    const listDiv = document.getElementById('footprintList');
+    if (sorted.length === 0) {
+      listDiv.innerHTML = '<p class="text-sm mt-2">你还没有打卡记录，快去尝尝看吧～</p>';
+      return;
+    }
+    let html = '<div class="mt-2">';
+    sorted.forEach((shop, idx) => {
+      let rankClass = '';
+      if (idx === 0) rankClass = 'gold';
+      else if (idx === 1) rankClass = 'silver';
+      else if (idx === 2) rankClass = 'bronze';
+      html += `
+        <div class="shop-item">
+          <div class="flex-row">
+            <span class="rank-number ${rankClass}">#${idx+1}</span>
+            <div>
+              <strong>${shop.name}</strong>
+              <div class="text-sm">${shop.total} 次打卡</div>
+            </div>
+          </div>
+          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
+        </div>`;
+    });
+    html += '</div>';
+    listDiv.innerHTML = html;
   }
 
-  // 添加新店铺
   function addShop() {
     const name = document.getElementById('newShopName').value.trim();
     const category = document.getElementById('newCategory').value;
