@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>夜成都美食天府榜</title>
-  <meta name="description" content="夜成都美食天府榜，美食排名，用脚投票，用嘴衡量，日久知味。">
+  <title>夜成都天府美食榜</title>
+  <meta name="description" content="夜成都天府美食榜，美食排名，用脚投票，用嘴衡量，日久知味。">
   <meta name="keywords" content="成都美食,热度榜,火锅,串串,探店,打卡">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -27,77 +27,163 @@
     }
     .header h1 { font-size:2.2rem; font-weight:600; letter-spacing:1px; color:#c1d4ff; }
     .header p { color:#8899cc; margin-top:0.5rem; }
-    .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.6rem; margin-top:1.5rem; }
+
+    /* ---------- 可点击：导航按钮 ---------- */
+    .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
     .nav-btn {
-      background:rgba(255,255,255,0.08); backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,0.1); color:#bdd1ff; padding:0.7rem 1.4rem;
-      border-radius:30px; font-size:0.95rem; cursor:pointer; transition:all 0.2s;
+      background: linear-gradient(135deg, rgba(30,58,138,0.7) 0%, rgba(37,99,235,0.5) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,165,250,0.4);
+      color: #dbeafe;
+      padding: 0.7rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 8px rgba(59,130,246,0.3);
+      font-weight: 500;
     }
     .nav-btn.active, .nav-btn:hover {
-      background:#1e3a8a; border-color:#3b82f6; color:white; box-shadow:0 0 12px #3b82f680;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      border-color: #60a5fa;
+      color: white;
+      box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80;
+      transform: scale(1.03);
     }
-    .view { display:none; animation:fade 0.25s; }
-    .view.active { display:block; }
-    @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+    /* ---------- 不可点击：信息卡片 ---------- */
     .card {
-      background:rgba(15,25,45,0.75); backdrop-filter:blur(16px); border-radius:24px;
-      padding:1.2rem; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+      background: rgba(15,25,45,0.55);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .card h3 { font-weight:600; font-size:1.2rem; color:#d9e6ff; }
+    .card h3 { font-weight:600; font-size:1.2rem; color:#b9c9e0; }
+
+    /* ---------- 可点击：主按钮（亮色） ---------- */
     .btn {
-      background:#1e3a8a; border:none; color:white; padding:0.6rem 1.4rem;
-      border-radius:24px; font-weight:500; cursor:pointer; transition:background 0.2s; font-size:0.9rem;
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      border: none;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 0 12px rgba(37,99,235,0.5);
     }
-    .btn:hover { background:#2563eb; }
-    .btn-outline { background:transparent; border:1px solid #3b82f6; color:#93b4ff; }
-    .btn-outline:hover { background:#1e3a8a; }
+    .btn:hover {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      box-shadow: 0 0 18px #3b82f6;
+      transform: scale(1.03);
+    }
+
+    /* ---------- 可点击：次按钮（轮廓） ---------- */
+    .btn-outline {
+      background: rgba(30,58,138,0.35);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3b82f6;
+      color: #bfdbfe;
+      padding: 0.5rem 1.2rem;
+      border-radius: 24px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .btn-outline:hover {
+      background: #1e3a8a;
+      border-color: #60a5fa;
+      box-shadow: 0 0 12px #3b82f680;
+      color: white;
+    }
+
     .input {
-      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
-      border-radius:16px; padding:0.7rem 1rem; width:100%; color:white; font-size:0.95rem;
-      outline:none; transition:border 0.2s;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 0.7rem 1rem;
+      width: 100%;
+      color: white;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s;
     }
     .input:focus { border-color:#3b82f6; }
+
     .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
-    .badge { background:#1e3a8a; color:white; border-radius:20px; padding:0.3rem 0.9rem; font-size:0.8rem; }
+
+    /* 不可点击：标签 */
+    .badge {
+      background: rgba(30,58,138,0.5);
+      color: #cbd5e1;
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+    }
+
     .shop-item {
       display:flex; justify-content:space-between; align-items:center;
       padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
     }
     .shop-item:last-child { border-bottom:none; }
+
     .rank-number { font-size:1.6rem; font-weight:700; color:#ffd966; min-width:2rem; }
     .gold { color:#ffd966; }
     .silver { color:#c0c0c0; }
     .bronze { color:#cd7f32; }
+
+    /* ---------- 可点击：分类网格项 ---------- */
     .category-grid {
       display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
       gap:0.8rem; margin:1rem 0;
     }
     .category-item {
-      background:rgba(255,255,255,0.06); border-radius:20px; padding:1.2rem 0.8rem;
-      text-align:center; cursor:pointer; transition:0.2s;
+      background: linear-gradient(145deg, rgba(30,58,138,0.45) 0%, rgba(15,23,42,0.7) 100%);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(96,165,250,0.25);
+      border-radius: 20px;
+      padding: 1.2rem 0.8rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #dbeafe;
+      box-shadow: 0 0 6px rgba(59,130,246,0.15);
     }
-    .category-item:hover { background:#1e3a8a; }
+    .category-item:hover {
+      background: linear-gradient(145deg, #1e3a8a 0%, #1e40af 100%);
+      border-color: #60a5fa;
+      box-shadow: 0 0 18px #3b82f680;
+      transform: translateY(-2px);
+      color: white;
+    }
     .category-item span { font-size:2rem; display:block; }
+
     .mt-2 { margin-top:0.8rem; }
     .mb-2 { margin-bottom:0.8rem; }
     .text-sm { font-size:0.8rem; color:#8899cc; }
+    .view { display:none; animation:fade 0.25s; }
+    .view.active { display:block; }
+    @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
   </style>
 </head>
 <body>
 <div class="app" id="app">
   <div class="header">
-    <h1>🌃 夜成都美食天府榜</h1>
+    <h1>夜成都天府美食榜</h1>
     <p>深夜里的地道成都味道，由你打卡决定</p>
     <div class="nav" id="mainNav">
       <button class="nav-btn active" data-view="home">🏠 首页</button>
-      <button class="nav-btn" data-view="ranking">🔥 天府榜</button>
+      <button class="nav-btn" data-view="ranking">🔥 天府美食榜</button>
       <button class="nav-btn" data-view="footprint">👣 我的足迹</button>
-      <button class="nav-btn" data-view="add">➕ 我的美食</button>
+      <button class="nav-btn" data-view="add">➕ 评价店铺</button>
     </div>
   </div>
 
-  <!-- 视图容器 -->
   <div id="homeView" class="view active">
     <div class="card">
       <h3>📂 美食分类</h3>
@@ -156,7 +242,6 @@
 </div>
 
 <script>
-  // ---------- 数据存储 ----------
   const STORAGE_KEY = 'chengdu_food_data';
   const DEFAULT_CATEGORIES = {
     hotpot: { name:'火锅', icon:'🍲' },
@@ -171,8 +256,8 @@
 
   let appData = {
     shops: {},
-    checkins: {},   // shopId -> [ dateString, ... ]
-    comments: {},   // shopId -> [ {text, date}, ... ]
+    checkins: {},
+    comments: {},
   };
 
   function loadData() {
@@ -239,7 +324,6 @@
     renderShopDetail(shopId);
   }
 
-  // ---------- UI 渲染 ----------
   let currentCategory = null;
   let currentShopId = null;
 
@@ -380,7 +464,6 @@
     listDiv.innerHTML = html;
   }
 
-  // 新增：个人足迹排行榜
   function renderFootprint() {
     const allShops = Object.values(appData.shops);
     const sorted = allShops.map(shop => ({
@@ -436,7 +519,6 @@
     switchView('home');
   }
 
-  // 导航事件
   document.getElementById('mainNav').addEventListener('click', e => {
     if (e.target.classList.contains('nav-btn')) {
       const view = e.target.dataset.view;
@@ -444,7 +526,6 @@
     }
   });
 
-  // 初始加载
   loadData();
   renderHome();
 </script>
