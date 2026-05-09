@@ -20,19 +20,12 @@
       min-height: 100vh;
     }
     .app { max-width:900px; margin:0 auto; padding:1rem; }
-
-    /* 登录/注册卡片 */
-    .auth-container {
-      max-width:400px; margin:4rem auto 2rem;
-    }
-    .auth-toggle {
-      display:flex; justify-content:center; margin-bottom:1rem;
-    }
+    .auth-container { max-width:400px; margin:4rem auto 2rem; }
+    .auth-toggle { display:flex; justify-content:center; margin-bottom:1rem; }
     .auth-toggle span {
       padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent;
     }
     .auth-toggle span.active { opacity:1; border-color:#3b82f6; color:#fff; }
-
     .header {
       text-align:center; padding:2rem 1rem 1rem;
       backdrop-filter: blur(20px); background: rgba(10,20,40,0.6);
@@ -66,10 +59,7 @@
       border-radius: 24px; padding: 1.2rem; margin-bottom: 1rem;
       border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .card h3 {
-      font-weight: 600; font-size: 1.2rem; color: #ffffff;
-      text-shadow: 0 0 8px rgba(100,180,255,0.5);
-    }
+    .card h3 { font-weight: 600; font-size: 1.2rem; color: #ffffff; text-shadow: 0 0 8px rgba(100,180,255,0.5); }
     .btn {
       background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
       border: none; color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
@@ -130,7 +120,6 @@
 </head>
 <body>
 <div class="app" id="app">
-  <!-- 登录/注册区域（未登录时显示） -->
   <div id="authView" class="view active">
     <div class="auth-container card">
       <div class="auth-toggle">
@@ -150,7 +139,6 @@
     </div>
   </div>
 
-  <!-- 主界面（登录后显示） -->
   <div id="mainView" class="view">
     <div class="header">
       <h1>夜成都天府美食榜</h1>
@@ -201,7 +189,6 @@
         <p class="text-sm mt-2">添加后可在分类里找到，并开始打卡。</p>
       </div>
     </div>
-    <!-- 管理员面板 -->
     <div id="adminPanelView" class="view">
       <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回首页</button>
       <div class="card"><h3>👥 用户管理</h3><div id="userList"></div></div>
@@ -215,7 +202,6 @@
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
-  // 初始化用户（预置管理员）
   function initUsers() {
     if (!localStorage.getItem(USER_STORAGE_KEY)) {
       const defaultUsers = {
@@ -232,8 +218,7 @@
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
   }
 
-  // 当前登录用户
-  let currentUser = null; // { username, role, banned }
+  let currentUser = null;
 
   function loadSession() {
     const stored = localStorage.getItem(SESSION_KEY);
@@ -274,32 +259,43 @@
 
   let appData = {
     shops: {},
-    checkins: {},
-    comments: {},   // shopId -> [ { commentId, userId, text, date } ]
+    checkins: {},    // shopId -> [ {userId, date}, ... ]
+    comments: {},    // shopId -> [ {commentId, userId, text, date}, ... ]
   };
 
   function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      try { appData = JSON.parse(raw); } catch(e) { initAppData(); }
+      try {
+        const parsed = JSON.parse(raw);
+        // 兼容旧数据：如果 checkins 里的条目是字符串（旧格式），强制转换
+        if (parsed.checkins) {
+          for (const shopId in parsed.checkins) {
+            const arr = parsed.checkins[shopId];
+            if (arr && arr.length > 0 && typeof arr[0] === 'string') {
+              // 旧格式：纯日期字符串 -> 清除（或转换为未归属的打卡，但为准确，清空）
+              parsed.checkins[shopId] = [];
+            }
+          }
+        }
+        appData = parsed;
+      } catch(e) { initAppData(); }
     } else {
       initAppData();
     }
   }
 
   function initAppData() {
-    appData = { shops:{}, checkins:{}, comments:{} };
-    const samples = [
-      { id:'s1', name:'蜀大侠火锅', category:'hotpot' },
-      { id:'s2', name:'钢管厂五区小郡肝', category:'skewer' },
-      { id:'s3', name:'明婷饭店', category:'sichuan' },
-      { id:'s4', name:'洞子口张老二凉粉', category:'snack' },
-    ];
-    samples.forEach(s => {
-      appData.shops[s.id] = { id:s.id, name:s.name, category:s.category, createdAt: Date.now() };
-      appData.checkins[s.id] = [];
-      appData.comments[s.id] = [];
-    });
+    appData = {
+      shops: {
+        s1: { id:'s1', name:'蜀大侠火锅', category:'hotpot', createdAt: Date.now() },
+        s2: { id:'s2', name:'钢管厂五区小郡肝', category:'skewer', createdAt: Date.now() },
+        s3: { id:'s3', name:'明婷饭店', category:'sichuan', createdAt: Date.now() },
+        s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', createdAt: Date.now() },
+      },
+      checkins: {},
+      comments: {}
+    };
     saveAppData();
   }
 
@@ -317,24 +313,36 @@
     return d.toISOString().split('T')[0];
   }
 
+  // 全局统计：某店铺近三个月总打卡次数（所有用户）
   function countRecentCheckins(shopId) {
     const checkins = appData.checkins[shopId] || [];
     const start = threeMonthsAgo();
-    return checkins.filter(date => date >= start).length;
+    return checkins.filter(entry => entry.date >= start).length;
   }
 
+  // 全局统计：某店铺总打卡次数
   function countTotalCheckins(shopId) {
     return (appData.checkins[shopId] || []).length;
   }
 
+  // 个人统计：当前用户在某店铺的总打卡次数
+  function countUserTotalCheckins(shopId) {
+    if (!currentUser) return 0;
+    const checkins = appData.checkins[shopId] || [];
+    return checkins.filter(entry => entry.userId === currentUser.username).length;
+  }
+
+  // 打卡函数：记录当前用户
   function checkinShop(shopId) {
     if (!appData.shops[shopId] || !currentUser) return;
     const today = new Date().toISOString().split('T')[0];
-    appData.checkins[shopId].push(today);
+    if (!appData.checkins[shopId]) appData.checkins[shopId] = [];
+    appData.checkins[shopId].push({ userId: currentUser.username, date: today });
     saveAppData();
     renderShopDetail(shopId);
   }
 
+  // 评论功能（不变）
   function addComment(shopId, text) {
     if (!text.trim() || !currentUser || currentUser.banned) return;
     if (!appData.comments[shopId]) appData.comments[shopId] = [];
@@ -355,7 +363,6 @@
     const idx = comments.findIndex(c => c.commentId === commentId);
     if (idx === -1) return;
     const comment = comments[idx];
-    // 权限：作者或管理员
     if (currentUser.role === 'admin' || comment.userId === currentUser.username) {
       comments.splice(idx, 1);
       saveAppData();
@@ -377,7 +384,6 @@
   // ========== UI 渲染 ==========
   let currentCategory = null;
   let currentShopId = null;
-  let currentMainView = 'home';
 
   function switchView(viewName, categoryKey = null, shopId = null) {
     if (!currentUser && viewName !== 'auth') return;
@@ -389,41 +395,34 @@
       document.getElementById('homeView').classList.add('active');
       document.querySelector('[data-view="home"]')?.classList.add('active');
       renderHome();
-      currentMainView = 'home';
     } else if (viewName === 'category') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('categoryView').classList.add('active');
       currentCategory = categoryKey;
       renderCategory(categoryKey);
-      currentMainView = 'category';
     } else if (viewName === 'shop') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('shopView').classList.add('active');
       currentShopId = shopId;
       renderShopDetail(shopId);
-      currentMainView = 'shop';
     } else if (viewName === 'ranking') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('rankingView').classList.add('active');
       document.querySelector('[data-view="ranking"]')?.classList.add('active');
       renderRanking();
-      currentMainView = 'ranking';
     } else if (viewName === 'footprint') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('footprintView').classList.add('active');
       document.querySelector('[data-view="footprint"]')?.classList.add('active');
       renderFootprint();
-      currentMainView = 'footprint';
     } else if (viewName === 'add') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('addView').classList.add('active');
       document.querySelector('[data-view="add"]')?.classList.add('active');
-      currentMainView = 'add';
     } else if (viewName === 'adminPanel') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('adminPanelView').classList.add('active');
       renderAdminPanel();
-      currentMainView = 'admin';
     } else if (viewName === 'auth') {
       document.getElementById('authView').classList.add('active');
     }
@@ -433,7 +432,7 @@
     switchView('category', currentCategory);
   }
 
-  // 登录/注册 UI
+  // 登录/注册
   function switchAuthTab(tab) {
     document.getElementById('loginTab').classList.toggle('active', tab === 'login');
     document.getElementById('regTab').classList.toggle('active', tab === 'register');
@@ -447,10 +446,7 @@
     if (!username || !password) return alert('请输入用户名和密码');
     const users = getUsers();
     const user = users[username];
-    if (!user || user.password !== password) {
-      return alert('用户名或密码错误');
-    }
-    // 更新 ban 状态
+    if (!user || user.password !== password) return alert('用户名或密码错误');
     const sessionUser = { username, role: user.role, banned: user.banned || false };
     saveSession(sessionUser);
     document.getElementById('authView').classList.remove('active');
@@ -489,7 +485,6 @@
     document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
   }
 
-  // 管理员面板
   function renderAdminPanel() {
     const users = getUsers();
     const listDiv = document.getElementById('userList');
@@ -498,13 +493,8 @@
       const isBanned = info.banned || false;
       html += `
         <div class="shop-item">
-          <div>
-            <strong>${uname}</strong> (${info.role})
-            <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span>
-          </div>
-          <div>
-            ${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}
-          </div>
+          <div><strong>${uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
+          <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
         </div>`;
     });
     listDiv.innerHTML = html || '<p>暂无用户</p>';
@@ -516,7 +506,6 @@
     if (users[username] && users[username].role !== 'admin') {
       users[username].banned = !users[username].banned;
       saveUsers(users);
-      // 如果当前被ban的正好是登录用户，更新 session
       if (currentUser.username === username) {
         currentUser.banned = users[username].banned;
         saveSession(currentUser);
@@ -526,7 +515,7 @@
     }
   }
 
-  // 渲染首页分类
+  // --- 渲染各视图 ---
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
@@ -552,10 +541,7 @@
         const shop = appData.shops[id];
         html += `
           <div class="shop-item">
-            <div>
-              <strong>${shop.name}</strong>
-              <div class="text-sm">近3月打卡: ${countRecentCheckins(id)} 次</div>
-            </div>
+            <div><strong>${shop.name}</strong><div class="text-sm">近3月打卡: ${countRecentCheckins(id)} 次</div></div>
             <button class="btn-outline btn" onclick="switchView('shop', '${catKey}', '${id}')">详情</button>
           </div>`;
       });
@@ -629,19 +615,23 @@
     listDiv.innerHTML = html;
   }
 
+  // 修改：足迹只统计当前用户
   function renderFootprint() {
     const allShops = Object.values(appData.shops);
-    const sorted = allShops.map(shop => ({ ...shop, total: countTotalCheckins(shop.id) }))
-      .filter(s => s.total > 0)
+    const userShops = allShops.map(shop => ({
+      ...shop,
+      total: countUserTotalCheckins(shop.id)
+    })).filter(s => s.total > 0)
       .sort((a,b) => b.total - a.total)
       .slice(0, 10);
+
     const listDiv = document.getElementById('footprintList');
-    if (sorted.length === 0) {
+    if (userShops.length === 0) {
       listDiv.innerHTML = '<p class="text-sm mt-2">你还没有打卡记录，快去尝尝看吧～</p>';
       return;
     }
     let html = '<div class="mt-2">';
-    sorted.forEach((shop, idx) => {
+    userShops.forEach((shop, idx) => {
       let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
       html += `
         <div class="shop-item">
@@ -671,7 +661,6 @@
     switchView('home');
   }
 
-  // 导航事件
   document.getElementById('mainNav').addEventListener('click', e => {
     if (e.target.classList.contains('nav-btn')) {
       const view = e.target.dataset.view;
