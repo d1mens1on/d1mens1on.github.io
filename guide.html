@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成都美食攻略 - 火锅、串串、川菜探店合集</title>
+  <meta name="description" content="成都美食攻略，包含火锅、串串香、地道川菜、街头小吃的详细路线和避雷指南，2026实时更新。">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', 'PingFang SC', Microsoft YaHei, sans-serif; background:#fff8f0; color:#3e2723; }
+    header { background:#b22222; color:white; padding:1.2rem 5%; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+    header .logo { font-size:1.8rem; font-weight:bold; }
+    nav a { color:#ffdac1; margin-left:1.5rem; text-decoration:none; font-weight:500; }
+    nav a:hover { color:#ffc107; }
+    .container { max-width:1100px; margin:2rem auto; padding:0 5%; }
+    .search-box { margin:1.5rem 0; display:flex; justify-content:center; }
+    .search-box input { width:100%; max-width:500px; padding:0.9rem 1.2rem; border:2px solid #e0b4a4; border-radius:30px; font-size:1rem; outline:none; background:white; }
+    .search-box input:focus { border-color:#b22222; }
+    .card { background:white; border-radius:12px; padding:1.5rem; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); display:flex; gap:1.2rem; align-items:center; }
+    .card img { width:120px; height:80px; object-fit:cover; border-radius:8px; background:#f8d7da; }
+    .card-content h3 { margin-bottom:0.4rem; color:#b22222; }
+    .card-content p { color:#5d4037; }
+    footer { text-align:center; padding:2rem 5%; background:#b22222; color:#ffdac1; margin-top:3rem; }
+    @media (max-width:600px) { .card { flex-direction:column; } .card img { width:100%; height:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🌶️ 成都美食站</div>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="guide.html">美食攻略</a>
+      <a href="characters.html">必吃推荐</a>
+      <a href="download.html">优惠券</a>
+      <a href="about.html">关于我</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1 style="color:#b22222;">🍽️ 美食探店攻略</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="搜你想吃的，如：火锅、串串、甜水面…" onkeyup="filterCards()">
+    </div>
+    <div id="cardContainer">
+      <div class="card" data-keywords="火锅 鸭血 毛肚 九宫格">
+        <img src="https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=400" alt="火锅">
+        <div class="card-content">
+          <h3>成都火锅本地人地图</h3>
+          <p>不排队！藏在居民楼下的8家神级火锅。</p>
+        </div>
+      </div>
+      <div class="card" data-keywords="串串 冷锅 热锅 小郡肝">
+        <img src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=400" alt="串串">
+        <div class="card-content">
+          <h3>串串香红黑榜</h3>
+          <p>钢管厂五区、冒椒火辣真实测评，避坑必看。</p>
+        </div>
+      </div>
+      <div class="card" data-keywords="小吃 蛋烘糕 甜水面 三大炮">
+        <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400" alt="小吃">
+        <div class="card-content">
+          <h3>建设路小吃一条龙</h3>
+          <p>从街头吃到巷尾，人均30元吃撑。</p>
+        </div>
+      </div>
+      <div class="card" data-keywords="川菜 回锅肉 水煮鱼 夫妻肺片">
+        <img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=400" alt="川菜">
+        <div class="card-content">
+          <h3>老成都川菜馆子</h3>
+          <p>明婷、雨田…承载记忆的苍蝇馆子。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 成都美食推荐站</p></footer>
+
+  <script>
+    function filterCards() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('#cardContainer .card');
+      cards.forEach(card => {
+        const keywords = card.getAttribute('data-keywords').toLowerCase();
+        card.style.display = keywords.includes(input) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
