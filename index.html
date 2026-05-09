@@ -193,6 +193,8 @@
           </select>
         </div>
         <div class="mt-2"><input type="text" class="input" id="newShopName" placeholder="输入店铺名称"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopAddress" placeholder="地址（必填）"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopPhone" placeholder="电话（选填）"></div>
         <button class="btn mt-2" onclick="addShop()">添加店铺</button>
         <p class="text-sm mt-2">添加后可在分类里找到，并开始打卡。</p>
       </div>
@@ -284,6 +286,12 @@
             }
           }
         }
+        // 补全老店铺缺失的地址电话字段
+        for (const shopId in parsed.shops) {
+          const s = parsed.shops[shopId];
+          if (s.address === undefined) s.address = '';
+          if (s.phone === undefined) s.phone = '';
+        }
         appData = parsed;
       } catch(e) { initAppData(); }
     } else {
@@ -294,10 +302,10 @@
   function initAppData() {
     appData = {
       shops: {
-        s1: { id:'s1', name:'蜀大侠火锅', category:'hotpot', createdAt: Date.now() },
-        s2: { id:'s2', name:'钢管厂五区小郡肝', category:'skewer', createdAt: Date.now() },
-        s3: { id:'s3', name:'明婷饭店', category:'sichuan', createdAt: Date.now() },
-        s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', createdAt: Date.now() },
+        s1: { id:'s1', name:'蜀大侠火锅', category:'hotpot', address:'春熙路南段8号', phone:'028-88886666', createdAt: Date.now() },
+        s2: { id:'s2', name:'钢管厂五区小郡肝', category:'skewer', address:'新华公园后门', phone:'', createdAt: Date.now() },
+        s3: { id:'s3', name:'明婷饭店', category:'sichuan', address:'外曹家巷26号', phone:'', createdAt: Date.now() },
+        s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', address:'文殊院街39号', phone:'028-86938998', createdAt: Date.now() },
       },
       checkins: {},
       comments: {}
@@ -382,6 +390,21 @@
     }
   }
 
+  // 管理员编辑店铺地址电话
+  function editShop(shopId) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    const shop = appData.shops[shopId];
+    if (!shop) return;
+    const newAddress = prompt('修改地址', shop.address || '');
+    if (newAddress === null) return; // 取消
+    const newPhone = prompt('修改电话', shop.phone || '');
+    if (newPhone === null) return;
+    shop.address = newAddress.trim();
+    shop.phone = newPhone.trim();
+    saveAppData();
+    renderShopDetail(shopId);
+  }
+
   // ========== UI 渲染 ==========
   let currentCategory = null;
   let currentShopId = null;
@@ -411,7 +434,6 @@
       document.getElementById('rankingView').classList.add('active');
       document.querySelector('[data-view="ranking"]')?.classList.add('active');
       renderRanking();
-      // 保留搜索框内容，直接应用过滤
       filterRanking();
     } else if (viewName === 'footprint') {
       document.getElementById('mainView').classList.add('active');
@@ -435,7 +457,6 @@
     switchView('category', currentCategory);
   }
 
-  // 登录/注册
   function switchAuthTab(tab) {
     document.getElementById('loginTab').classList.toggle('active', tab === 'login');
     document.getElementById('regTab').classList.toggle('active', tab === 'register');
@@ -518,7 +539,6 @@
     }
   }
 
-  // --- 搜索过滤函数 ---
   function filterRanking() {
     const keyword = document.getElementById('rankingSearch')?.value?.toLowerCase() || '';
     const items = document.querySelectorAll('#rankingList .shop-item');
@@ -528,7 +548,6 @@
     });
   }
 
-  // --- 渲染各视图 ---
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
@@ -574,13 +593,18 @@
       <div class="card">
         <h3>${shop.name}</h3>
         <p class="text-sm">分类：${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${DEFAULT_CATEGORIES[shop.category]?.name}</p>
+        <p class="text-sm">📍 地址：${shop.address || '暂无'}</p>
+        <p class="text-sm">📞 电话：${shop.phone || '暂无'}</p>
         <div class="flex-row mt-2">
           <div class="badge">🔥 近三月打卡 ${recentCount} 次</div>
           <div class="badge">📋 总打卡 ${totalCount} 次</div>
         </div>
         <div class="mt-2">
           <button class="btn" onclick="checkinShop('${shopId}')">✅ 我今天去了这里</button>
-          ${currentUser.role === 'admin' ? `<button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">🗑️ 删除店铺</button>` : ''}
+          ${currentUser.role === 'admin' ? `
+            <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">✏️ 编辑信息</button>
+            <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">🗑️ 删除店铺</button>
+          ` : ''}
         </div>
       </div>
       <div class="card mt-2">
@@ -662,13 +686,18 @@
     if (!currentUser) return;
     const name = document.getElementById('newShopName').value.trim();
     const category = document.getElementById('newCategory').value;
+    const address = document.getElementById('newShopAddress').value.trim();
+    const phone = document.getElementById('newShopPhone').value.trim();
     if (!name) return alert('请输入店铺名');
+    if (!address) return alert('请输入地址');
     const shopId = uid();
-    appData.shops[shopId] = { id: shopId, name, category, createdAt: Date.now() };
+    appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
     appData.checkins[shopId] = [];
     appData.comments[shopId] = [];
     saveAppData();
     document.getElementById('newShopName').value = '';
+    document.getElementById('newShopAddress').value = '';
+    document.getElementById('newShopPhone').value = '';
     alert('店铺添加成功！');
     switchView('home');
   }
