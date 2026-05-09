@@ -20,266 +20,248 @@
       min-height: 100vh;
     }
     .app { max-width:900px; margin:0 auto; padding:1rem; }
+
+    /* 登录/注册卡片 */
+    .auth-container {
+      max-width:400px; margin:4rem auto 2rem;
+    }
+    .auth-toggle {
+      display:flex; justify-content:center; margin-bottom:1rem;
+    }
+    .auth-toggle span {
+      padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent;
+    }
+    .auth-toggle span.active { opacity:1; border-color:#3b82f6; color:#fff; }
+
     .header {
       text-align:center; padding:2rem 1rem 1rem;
       backdrop-filter: blur(20px); background: rgba(10,20,40,0.6);
       border-radius:0 0 32px 32px; margin-bottom:1.5rem;
     }
-
-    /* 🔥 主标题优化：蓝白渐变+发光 */
     .header h1 {
-      font-size: 2.6rem;
-      font-weight: 700;
-      letter-spacing: 2px;
+      font-size: 2.6rem; font-weight: 700; letter-spacing: 2px;
       background: linear-gradient(135deg, #ffffff 0%, #a0d0ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
       text-shadow: 0 0 16px rgba(80,160,255,0.7);
       margin-bottom: 0.5rem;
     }
-
-    /* 副标题提亮 */
     .header p { color:#c1d4ff; margin-top:0.5rem; font-size:1rem; }
-
-    /* ---------- 可点击：导航按钮 ---------- */
     .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
     .nav-btn {
       background: linear-gradient(135deg, rgba(30,58,138,0.7) 0%, rgba(37,99,235,0.5) 100%);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(96,165,250,0.4);
-      color: #dbeafe;
-      padding: 0.7rem 1.4rem;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 0 8px rgba(59,130,246,0.3);
-      font-weight: 500;
+      color: #dbeafe; padding: 0.7rem 1.4rem; border-radius: 30px;
+      font-size: 0.95rem; cursor:pointer; transition: all 0.2s;
+      box-shadow: 0 0 8px rgba(59,130,246,0.3); font-weight: 500;
     }
     .nav-btn.active, .nav-btn:hover {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-      border-color: #60a5fa;
-      color: white;
-      box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80;
-      transform: scale(1.03);
+      border-color: #60a5fa; color: white;
+      box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80; transform: scale(1.03);
     }
-
-    /* ---------- 不可点击：信息卡片 ---------- */
     .card {
-      background: rgba(15,25,45,0.55);
-      backdrop-filter: blur(12px);
-      border-radius: 24px;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      background: rgba(15,25,45,0.55); backdrop-filter: blur(12px);
+      border-radius: 24px; padding: 1.2rem; margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-
-    /* 卡片标题提亮 */
     .card h3 {
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #ffffff;
+      font-weight: 600; font-size: 1.2rem; color: #ffffff;
       text-shadow: 0 0 8px rgba(100,180,255,0.5);
     }
-
-    /* ---------- 可点击：主按钮（亮色） ---------- */
     .btn {
       background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-      border: none;
-      color: white;
-      padding: 0.6rem 1.4rem;
-      border-radius: 24px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
+      border: none; color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
       box-shadow: 0 0 12px rgba(37,99,235,0.5);
     }
-    .btn:hover {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      box-shadow: 0 0 18px #3b82f6;
-      transform: scale(1.03);
-    }
-
-    /* ---------- 可点击：次按钮（轮廓） ---------- */
+    .btn:hover { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 0 18px #3b82f6; transform: scale(1.03); }
     .btn-outline {
-      background: rgba(30,58,138,0.35);
-      backdrop-filter: blur(8px);
-      border: 1px solid #3b82f6;
-      color: #bfdbfe;
-      padding: 0.5rem 1.2rem;
-      border-radius: 24px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
+      background: rgba(30,58,138,0.35); backdrop-filter: blur(8px);
+      border: 1px solid #3b82f6; color: #bfdbfe; padding: 0.5rem 1.2rem;
+      border-radius: 24px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
     }
-    .btn-outline:hover {
-      background: #1e3a8a;
-      border-color: #60a5fa;
-      box-shadow: 0 0 12px #3b82f680;
-      color: white;
-    }
-
+    .btn-outline:hover { background: #1e3a8a; border-color: #60a5fa; box-shadow: 0 0 12px #3b82f680; color: white; }
     .input {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 0.7rem 1rem;
-      width: 100%;
-      color: white;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border 0.2s;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
+      font-size: 0.95rem; outline: none; transition: border 0.2s;
     }
     .input:focus { border-color:#3b82f6; }
-
     .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
-
-    /* 不可点击：标签 */
-    .badge {
-      background: rgba(30,58,138,0.5);
-      color: #cbd5e1;
-      border-radius: 20px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.8rem;
-    }
-
+    .badge { background: rgba(30,58,138,0.5); color: #cbd5e1; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.8rem; }
     .shop-item {
       display:flex; justify-content:space-between; align-items:center;
       padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
     }
     .shop-item:last-child { border-bottom:none; }
-
-    /* 店名加强 */
-    .shop-item strong {
-      color: #ffffff;
-      text-shadow: 0 0 6px rgba(100,180,255,0.6);
-    }
-
-    /* 排名数字发光 */
+    .shop-item strong { color: #ffffff; text-shadow: 0 0 6px rgba(100,180,255,0.6); }
     .rank-number {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #ffd966;
-      min-width: 2rem;
+      font-size: 1.6rem; font-weight: 700; color: #ffd966; min-width: 2rem;
       text-shadow: 0 0 12px rgba(255,200,0,0.5);
     }
     .gold { color:#ffd966; text-shadow:0 0 14px #ffd966; }
     .silver { color:#ffffff; text-shadow:0 0 10px #ffffff; }
     .bronze { color:#e0a96d; text-shadow:0 0 10px #cd7f32; }
-
-    /* ---------- 可点击：分类网格项 ---------- */
-    .category-grid {
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
-      gap:0.8rem; margin:1rem 0;
-    }
+    .category-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:0.8rem; margin:1rem 0; }
     .category-item {
       background: linear-gradient(145deg, rgba(30,58,138,0.45) 0%, rgba(15,23,42,0.7) 100%);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(96,165,250,0.25);
-      border-radius: 20px;
-      padding: 1.2rem 0.8rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: #e0efff;
+      backdrop-filter: blur(8px); border: 1px solid rgba(96,165,250,0.25);
+      border-radius: 20px; padding: 1.2rem 0.8rem; text-align: center;
+      cursor: pointer; transition: all 0.2s; color: #e0efff;
       box-shadow: 0 0 6px rgba(59,130,246,0.15);
     }
     .category-item:hover {
       background: linear-gradient(145deg, #1e3a8a 0%, #1e40af 100%);
-      border-color: #60a5fa;
-      box-shadow: 0 0 18px #3b82f680;
-      transform: translateY(-2px);
-      color: white;
+      border-color: #60a5fa; box-shadow: 0 0 18px #3b82f680;
+      transform: translateY(-2px); color: white;
     }
     .category-item span { font-size:2rem; display:block; }
-    .category-item div {
-      text-shadow: 0 0 6px rgba(100,180,255,0.4);
-    }
-
-    .mt-2 { margin-top:0.8rem; }
-    .mb-2 { margin-bottom:0.8rem; }
-    .text-sm { font-size:0.8rem; color:#b0c4de; } /* 小字提亮 */
+    .category-item div { text-shadow: 0 0 6px rgba(100,180,255,0.4); }
+    .mt-2 { margin-top:0.8rem; } .mb-2 { margin-bottom:0.8rem; }
+    .text-sm { font-size:0.8rem; color:#b0c4de; }
     .view { display:none; animation:fade 0.25s; }
     .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+    .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
+    .user-badge { font-size:0.85rem; background:#1e3a8a; padding:0.2rem 0.8rem; border-radius:12px; }
   </style>
 </head>
 <body>
 <div class="app" id="app">
-  <div class="header">
-    <h1>夜成都天府美食榜</h1>
-    <p>深夜里的地道成都味道，由你打卡决定</p>
-    <div class="nav" id="mainNav">
-      <button class="nav-btn active" data-view="home">🏠 首页</button>
-      <button class="nav-btn" data-view="ranking">🔥 天府美食榜</button>
-      <button class="nav-btn" data-view="footprint">👣 我的足迹</button>
-      <button class="nav-btn" data-view="add">➕ 评价店铺</button>
-    </div>
-  </div>
-
-  <div id="homeView" class="view active">
-    <div class="card">
-      <h3>📂 美食分类</h3>
-      <div class="category-grid" id="categoryGrid"></div>
-    </div>
-  </div>
-
-  <div id="categoryView" class="view">
-    <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回分类</button>
-    <div id="categoryDetail"></div>
-  </div>
-
-  <div id="shopView" class="view">
-    <button class="btn-outline btn mb-2" onclick="backToCategory()">← 返回列表</button>
-    <div id="shopDetail"></div>
-  </div>
-
-  <div id="rankingView" class="view">
-    <div class="card">
-      <h3>🏆 近3个月热度排行榜</h3>
-      <p class="text-sm mt-2">基于所有用户真实打卡次数排序</p>
-      <div id="rankingList"></div>
-    </div>
-  </div>
-
-  <div id="footprintView" class="view">
-    <div class="card">
-      <h3>👣 我的美食足迹</h3>
-      <p class="text-sm mt-2">你打卡次数最多的10家店铺</p>
-      <div id="footprintList"></div>
-    </div>
-  </div>
-
-  <div id="addView" class="view">
-    <div class="card">
-      <h3>➕ 添加新店铺</h3>
-      <div class="mt-2">
-        <select id="newCategory" class="input">
-          <option value="hotpot">🍲 火锅</option>
-          <option value="skewer">🍢 串串香</option>
-          <option value="sichuan">🥢 川菜馆</option>
-          <option value="snack">🥟 小吃</option>
-          <option value="noodle">🍜 面馆/米粉</option>
-          <option value="bbq">🍖 烧烤</option>
-          <option value="foreign">🌮 异国料理</option>
-          <option value="sweet">🍧 甜品饮品</option>
-        </select>
+  <!-- 登录/注册区域（未登录时显示） -->
+  <div id="authView" class="view active">
+    <div class="auth-container card">
+      <div class="auth-toggle">
+        <span id="loginTab" class="active" onclick="switchAuthTab('login')">登录</span>
+        <span id="regTab" onclick="switchAuthTab('register')">注册</span>
       </div>
-      <div class="mt-2">
-        <input type="text" class="input" id="newShopName" placeholder="输入店铺名称">
+      <div id="loginForm">
+        <input type="text" id="loginUsername" class="input mb-2" placeholder="用户名">
+        <input type="password" id="loginPassword" class="input mb-2" placeholder="密码">
+        <button class="btn" onclick="handleLogin()">登录</button>
       </div>
-      <button class="btn mt-2" onclick="addShop()">添加店铺</button>
-      <p class="text-sm mt-2">添加后可在分类里找到，并开始打卡。</p>
+      <div id="registerForm" style="display:none;">
+        <input type="text" id="regUsername" class="input mb-2" placeholder="用户名">
+        <input type="password" id="regPassword" class="input mb-2" placeholder="密码">
+        <button class="btn" onclick="handleRegister()">注册</button>
+        <p class="text-sm mt-2">注册后默认为普通用户</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主界面（登录后显示） -->
+  <div id="mainView" class="view">
+    <div class="header">
+      <h1>夜成都天府美食榜</h1>
+      <p id="welcomeText">深夜里的地道成都味道，由你打卡决定</p>
+      <div class="flex-row" style="justify-content:center; margin-top:0.5rem;">
+        <span class="user-badge" id="userBadge"></span>
+        <span class="logout-btn btn-outline" onclick="logout()">退出登录</span>
+        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')">⚙️ 管理面板</button>
+      </div>
+      <div class="nav" id="mainNav">
+        <button class="nav-btn active" data-view="home">🏠 首页</button>
+        <button class="nav-btn" data-view="ranking">🔥 天府美食榜</button>
+        <button class="nav-btn" data-view="footprint">👣 我的足迹</button>
+        <button class="nav-btn" data-view="add">➕ 评价店铺</button>
+      </div>
+    </div>
+
+    <div id="homeView" class="view active">
+      <div class="card"><h3>📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
+    </div>
+    <div id="categoryView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回分类</button>
+      <div id="categoryDetail"></div>
+    </div>
+    <div id="shopView" class="view">
+      <button class="btn-outline btn mb-2" onclick="backToCategory()">← 返回列表</button>
+      <div id="shopDetail"></div>
+    </div>
+    <div id="rankingView" class="view">
+      <div class="card"><h3>🏆 近3个月热度排行榜</h3><p class="text-sm mt-2">基于所有用户真实打卡次数排序</p><div id="rankingList"></div></div>
+    </div>
+    <div id="footprintView" class="view">
+      <div class="card"><h3>👣 我的美食足迹</h3><p class="text-sm mt-2">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
+    </div>
+    <div id="addView" class="view">
+      <div class="card">
+        <h3>➕ 添加新店铺</h3>
+        <div class="mt-2">
+          <select id="newCategory" class="input">
+            <option value="hotpot">🍲 火锅</option><option value="skewer">🍢 串串香</option>
+            <option value="sichuan">🥢 川菜馆</option><option value="snack">🥟 小吃</option>
+            <option value="noodle">🍜 面馆/米粉</option><option value="bbq">🍖 烧烤</option>
+            <option value="foreign">🌮 异国料理</option><option value="sweet">🍧 甜品饮品</option>
+          </select>
+        </div>
+        <div class="mt-2"><input type="text" class="input" id="newShopName" placeholder="输入店铺名称"></div>
+        <button class="btn mt-2" onclick="addShop()">添加店铺</button>
+        <p class="text-sm mt-2">添加后可在分类里找到，并开始打卡。</p>
+      </div>
+    </div>
+    <!-- 管理员面板 -->
+    <div id="adminPanelView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回首页</button>
+      <div class="card"><h3>👥 用户管理</h3><div id="userList"></div></div>
     </div>
   </div>
 </div>
 
 <script>
+  // ========== 数据存储 ==========
   const STORAGE_KEY = 'chengdu_food_data';
+  const USER_STORAGE_KEY = 'chengdu_users';
+  const SESSION_KEY = 'chengdu_current_user';
+
+  // 初始化用户（预置管理员）
+  function initUsers() {
+    if (!localStorage.getItem(USER_STORAGE_KEY)) {
+      const defaultUsers = {
+        admin: { password: 'admin123', role: 'admin', banned: false }
+      };
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUsers));
+    }
+  }
+
+  function getUsers() {
+    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}');
+  }
+  function saveUsers(users) {
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+  }
+
+  // 当前登录用户
+  let currentUser = null; // { username, role, banned }
+
+  function loadSession() {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (stored) {
+      try {
+        const session = JSON.parse(stored);
+        const users = getUsers();
+        if (users[session.username] && users[session.username].role === session.role) {
+          currentUser = session;
+          return true;
+        }
+      } catch(e) {}
+    }
+    return false;
+  }
+
+  function saveSession(user) {
+    currentUser = user;
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  }
+
+  function clearSession() {
+    currentUser = null;
+    localStorage.removeItem(SESSION_KEY);
+  }
+
+  // ========== 美食数据 ==========
   const DEFAULT_CATEGORIES = {
     hotpot: { name:'火锅', icon:'🍲' },
     skewer: { name:'串串香', icon:'🍢' },
@@ -294,21 +276,19 @@
   let appData = {
     shops: {},
     checkins: {},
-    comments: {},
+    comments: {},   // shopId -> [ { commentId, userId, text, date } ]
   };
 
-  function loadData() {
+  function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      try { appData = JSON.parse(raw); } catch(e) { resetData(); }
+      try { appData = JSON.parse(raw); } catch(e) { initAppData(); }
     } else {
-      resetData();
+      initAppData();
     }
   }
-  function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-  }
-  function resetData() {
+
+  function initAppData() {
     appData = { shops:{}, checkins:{}, comments:{} };
     const samples = [
       { id:'s1', name:'蜀大侠火锅', category:'hotpot' },
@@ -321,7 +301,11 @@
       appData.checkins[s.id] = [];
       appData.comments[s.id] = [];
     });
-    saveData();
+    saveAppData();
+  }
+
+  function saveAppData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
   }
 
   function uid() {
@@ -345,52 +329,104 @@
   }
 
   function checkinShop(shopId) {
-    if (!appData.shops[shopId]) return;
+    if (!appData.shops[shopId] || !currentUser) return;
     const today = new Date().toISOString().split('T')[0];
-    if (!appData.checkins[shopId]) appData.checkins[shopId] = [];
     appData.checkins[shopId].push(today);
-    saveData();
+    saveAppData();
     renderShopDetail(shopId);
   }
 
   function addComment(shopId, text) {
-    if (!text.trim()) return;
+    if (!text.trim() || !currentUser || currentUser.banned) return;
     if (!appData.comments[shopId]) appData.comments[shopId] = [];
-    appData.comments[shopId].push({ text: text.trim(), date: new Date().toISOString() });
-    saveData();
+    const comment = {
+      commentId: uid(),
+      userId: currentUser.username,
+      text: text.trim(),
+      date: new Date().toISOString()
+    };
+    appData.comments[shopId].push(comment);
+    saveAppData();
     renderShopDetail(shopId);
   }
 
+  function deleteComment(shopId, commentId) {
+    if (!currentUser) return;
+    const comments = appData.comments[shopId] || [];
+    const idx = comments.findIndex(c => c.commentId === commentId);
+    if (idx === -1) return;
+    const comment = comments[idx];
+    // 权限：作者或管理员
+    if (currentUser.role === 'admin' || comment.userId === currentUser.username) {
+      comments.splice(idx, 1);
+      saveAppData();
+      renderShopDetail(shopId);
+    }
+  }
+
+  function deleteShop(shopId) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    if (confirm('确认删除该店铺？')) {
+      delete appData.shops[shopId];
+      delete appData.checkins[shopId];
+      delete appData.comments[shopId];
+      saveAppData();
+      switchView('home');
+    }
+  }
+
+  // ========== UI 渲染 ==========
   let currentCategory = null;
   let currentShopId = null;
+  let currentMainView = 'home';
 
   function switchView(viewName, categoryKey = null, shopId = null) {
+    if (!currentUser && viewName !== 'auth') return;
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
     if (viewName === 'home') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('homeView').classList.add('active');
-      document.querySelector('[data-view="home"]').classList.add('active');
+      document.querySelector('[data-view="home"]')?.classList.add('active');
       renderHome();
+      currentMainView = 'home';
     } else if (viewName === 'category') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('categoryView').classList.add('active');
       currentCategory = categoryKey;
       renderCategory(categoryKey);
+      currentMainView = 'category';
     } else if (viewName === 'shop') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('shopView').classList.add('active');
       currentShopId = shopId;
       renderShopDetail(shopId);
+      currentMainView = 'shop';
     } else if (viewName === 'ranking') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('rankingView').classList.add('active');
-      document.querySelector('[data-view="ranking"]').classList.add('active');
+      document.querySelector('[data-view="ranking"]')?.classList.add('active');
       renderRanking();
+      currentMainView = 'ranking';
     } else if (viewName === 'footprint') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('footprintView').classList.add('active');
-      document.querySelector('[data-view="footprint"]').classList.add('active');
+      document.querySelector('[data-view="footprint"]')?.classList.add('active');
       renderFootprint();
+      currentMainView = 'footprint';
     } else if (viewName === 'add') {
+      document.getElementById('mainView').classList.add('active');
       document.getElementById('addView').classList.add('active');
-      document.querySelector('[data-view="add"]').classList.add('active');
+      document.querySelector('[data-view="add"]')?.classList.add('active');
+      currentMainView = 'add';
+    } else if (viewName === 'adminPanel') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('adminPanelView').classList.add('active');
+      renderAdminPanel();
+      currentMainView = 'admin';
+    } else if (viewName === 'auth') {
+      document.getElementById('authView').classList.add('active');
     }
   }
 
@@ -398,6 +434,100 @@
     switchView('category', currentCategory);
   }
 
+  // 登录/注册 UI
+  function switchAuthTab(tab) {
+    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+    document.getElementById('regTab').classList.toggle('active', tab === 'register');
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  }
+
+  function handleLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    if (!username || !password) return alert('请输入用户名和密码');
+    const users = getUsers();
+    const user = users[username];
+    if (!user || user.password !== password) {
+      return alert('用户名或密码错误');
+    }
+    // 更新 ban 状态
+    const sessionUser = { username, role: user.role, banned: user.banned || false };
+    saveSession(sessionUser);
+    document.getElementById('authView').classList.remove('active');
+    document.getElementById('mainView').classList.add('active');
+    updateUserUI();
+    switchView('home');
+  }
+
+  function handleRegister() {
+    const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    if (!username || !password) return alert('请输入用户名和密码');
+    const users = getUsers();
+    if (users[username]) return alert('用户名已存在');
+    users[username] = { password, role: 'user', banned: false };
+    saveUsers(users);
+    alert('注册成功，请登录');
+    document.getElementById('regUsername').value = '';
+    document.getElementById('regPassword').value = '';
+    switchAuthTab('login');
+  }
+
+  function logout() {
+    clearSession();
+    document.getElementById('mainView').classList.remove('active');
+    document.getElementById('authView').classList.add('active');
+    document.getElementById('loginUsername').value = '';
+    document.getElementById('loginPassword').value = '';
+  }
+
+  function updateUserUI() {
+    if (!currentUser) return;
+    document.getElementById('userBadge').innerHTML = 
+      `${currentUser.role === 'admin' ? '👑' : '👤'} ${currentUser.username} (${currentUser.role})` +
+      (currentUser.banned ? ' <span style="color:red;">[已禁言]</span>' : '');
+    document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
+  }
+
+  // 管理员面板
+  function renderAdminPanel() {
+    const users = getUsers();
+    const listDiv = document.getElementById('userList');
+    let html = '';
+    Object.entries(users).forEach(([uname, info]) => {
+      const isBanned = info.banned || false;
+      html += `
+        <div class="shop-item">
+          <div>
+            <strong>${uname}</strong> (${info.role})
+            <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span>
+          </div>
+          <div>
+            ${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}
+          </div>
+        </div>`;
+    });
+    listDiv.innerHTML = html || '<p>暂无用户</p>';
+  }
+
+  function toggleBanUser(username) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    const users = getUsers();
+    if (users[username] && users[username].role !== 'admin') {
+      users[username].banned = !users[username].banned;
+      saveUsers(users);
+      // 如果当前被ban的正好是登录用户，更新 session
+      if (currentUser.username === username) {
+        currentUser.banned = users[username].banned;
+        saveSession(currentUser);
+        updateUserUI();
+      }
+      renderAdminPanel();
+    }
+  }
+
+  // 渲染首页分类
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
@@ -437,7 +567,7 @@
 
   function renderShopDetail(shopId) {
     const shop = appData.shops[shopId];
-    if (!shop) return;
+    if (!shop || !currentUser) return;
     const recentCount = countRecentCheckins(shopId);
     const totalCount = countTotalCheckins(shopId);
     const comments = appData.comments[shopId] || [];
@@ -452,28 +582,33 @@
         </div>
         <div class="mt-2">
           <button class="btn" onclick="checkinShop('${shopId}')">✅ 我今天去了这里</button>
+          ${currentUser.role === 'admin' ? `<button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">🗑️ 删除店铺</button>` : ''}
         </div>
       </div>
       <div class="card mt-2">
         <h4>💬 留言 (${comments.length})</h4>
         <div id="commentsList">
-          ${comments.slice(-5).map(c => `<div class="text-sm mt-2">🗣 ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></div>`).join('')}
+          ${comments.slice(-10).map(c => {
+            const canDelete = (currentUser.role === 'admin' || c.userId === currentUser.username);
+            return `<div class="text-sm mt-2" style="display:flex; justify-content:space-between;">
+              <span>🗣 <strong>${c.userId}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+              ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>` : ''}
+            </div>`;
+          }).join('')}
         </div>
+        ${!currentUser.banned ? `
         <div class="flex-row mt-2">
           <input type="text" class="input" id="commentInput" placeholder="写点评价...">
           <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">发送</button>
-        </div>
+        </div>` : '<p class="text-sm mt-2" style="color:#ff6666;">你已被禁言，无法发表评论。</p>'}
       </div>`;
     detailDiv.innerHTML = html;
   }
 
   function renderRanking() {
     const allShops = Object.values(appData.shops);
-    const ranked = allShops.map(shop => ({
-      ...shop,
-      recent: countRecentCheckins(shop.id)
-    })).sort((a,b) => b.recent - a.recent);
-
+    const ranked = allShops.map(shop => ({ ...shop, recent: countRecentCheckins(shop.id) }))
+      .sort((a,b) => b.recent - a.recent);
     const listDiv = document.getElementById('rankingList');
     if (ranked.length === 0) {
       listDiv.innerHTML = '<p class="text-sm mt-2">还没有店铺数据。</p>';
@@ -481,18 +616,12 @@
     }
     let html = '<div class="mt-2">';
     ranked.forEach((shop, idx) => {
-      let rankClass = '';
-      if (idx === 0) rankClass = 'gold';
-      else if (idx === 1) rankClass = 'silver';
-      else if (idx === 2) rankClass = 'bronze';
+      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
       html += `
         <div class="shop-item">
           <div class="flex-row">
             <span class="rank-number ${rankClass}">#${idx+1}</span>
-            <div>
-              <strong>${shop.name}</strong>
-              <div class="text-sm">${shop.recent} 次打卡</div>
-            </div>
+            <div><strong>${shop.name}</strong><div class="text-sm">${shop.recent} 次打卡</div></div>
           </div>
           <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
         </div>`;
@@ -503,13 +632,10 @@
 
   function renderFootprint() {
     const allShops = Object.values(appData.shops);
-    const sorted = allShops.map(shop => ({
-      ...shop,
-      total: countTotalCheckins(shop.id)
-    })).filter(s => s.total > 0)
+    const sorted = allShops.map(shop => ({ ...shop, total: countTotalCheckins(shop.id) }))
+      .filter(s => s.total > 0)
       .sort((a,b) => b.total - a.total)
       .slice(0, 10);
-
     const listDiv = document.getElementById('footprintList');
     if (sorted.length === 0) {
       listDiv.innerHTML = '<p class="text-sm mt-2">你还没有打卡记录，快去尝尝看吧～</p>';
@@ -517,18 +643,12 @@
     }
     let html = '<div class="mt-2">';
     sorted.forEach((shop, idx) => {
-      let rankClass = '';
-      if (idx === 0) rankClass = 'gold';
-      else if (idx === 1) rankClass = 'silver';
-      else if (idx === 2) rankClass = 'bronze';
+      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
       html += `
         <div class="shop-item">
           <div class="flex-row">
             <span class="rank-number ${rankClass}">#${idx+1}</span>
-            <div>
-              <strong>${shop.name}</strong>
-              <div class="text-sm">${shop.total} 次打卡</div>
-            </div>
+            <div><strong>${shop.name}</strong><div class="text-sm">${shop.total} 次打卡</div></div>
           </div>
           <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
         </div>`;
@@ -538,24 +658,21 @@
   }
 
   function addShop() {
+    if (!currentUser) return;
     const name = document.getElementById('newShopName').value.trim();
     const category = document.getElementById('newCategory').value;
     if (!name) return alert('请输入店铺名');
     const shopId = uid();
-    appData.shops[shopId] = {
-      id: shopId,
-      name,
-      category,
-      createdAt: Date.now()
-    };
+    appData.shops[shopId] = { id: shopId, name, category, createdAt: Date.now() };
     appData.checkins[shopId] = [];
     appData.comments[shopId] = [];
-    saveData();
+    saveAppData();
     document.getElementById('newShopName').value = '';
     alert('店铺添加成功！');
     switchView('home');
   }
 
+  // 导航事件
   document.getElementById('mainNav').addEventListener('click', e => {
     if (e.target.classList.contains('nav-btn')) {
       const view = e.target.dataset.view;
@@ -563,8 +680,18 @@
     }
   });
 
-  loadData();
-  renderHome();
+  // 初始化
+  initUsers();
+  loadAppData();
+  if (loadSession()) {
+    document.getElementById('authView').classList.remove('active');
+    document.getElementById('mainView').classList.add('active');
+    updateUserUI();
+    switchView('home');
+  } else {
+    document.getElementById('authView').classList.add('active');
+    document.getElementById('mainView').classList.remove('active');
+  }
 </script>
 </body>
 </html>
