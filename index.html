@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成都美食推荐 - 本地人私藏的老馆子、小吃攻略</title>
+  <meta name="description" content="成都美食推荐，涵盖火锅、串串、小吃、川菜馆子，2026最新本地人指南，带你吃遍蓉城不踩雷。">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', 'PingFang SC', Microsoft YaHei, sans-serif; background:#fff8f0; color:#3e2723; line-height:1.6; }
+    header { background:#b22222; color:white; padding:1.2rem 5%; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+    header .logo { font-size:1.8rem; font-weight:bold; }
+    nav a { color:#ffdac1; margin-left:1.5rem; text-decoration:none; font-weight:500; }
+    nav a:hover { color:#ffc107; }
+    .container { max-width:1100px; margin:2rem auto; padding:0 5%; }
+    .hero { text-align:center; padding:3rem 1rem; background:linear-gradient(135deg, #d4380d, #ad2102); color:white; border-radius:16px; margin-bottom:2rem; }
+    .hero h1 { font-size:2.5rem; margin-bottom:0.8rem; }
+    .hero p { font-size:1.2rem; opacity:0.95; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem; margin-top:2rem; }
+    .card { background:white; border-radius:12px; padding:1.8rem; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-left:4px solid #d4380d; transition:transform 0.2s; }
+    .card:hover { transform:translateY(-4px); }
+    .card h3 { color:#b22222; margin-bottom:0.8rem; }
+    .btn { display:inline-block; margin-top:1rem; background:#e67e22; color:white; padding:0.6rem 1.4rem; border-radius:8px; text-decoration:none; font-weight:bold; }
+    .btn:hover { background:#d35400; }
+    footer { text-align:center; padding:2rem 5%; background:#b22222; color:#ffdac1; margin-top:3rem; }
+    @media (max-width:600px) { header { flex-direction:column; gap:0.8rem; } nav a { margin-left:0.8rem; font-size:0.95rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🌶️ 成都美食站</div>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="guide.html">美食攻略</a>
+      <a href="characters.html">必吃推荐</a>
+      <a href="download.html">优惠券</a>
+      <a href="about.html">关于我</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <h1>🐼 从街头到巷尾，吃遍成都</h1>
+      <p>本地人私藏 · 2026最新美食指南 · 不排网红店也能封神</p>
+      <a href="guide.html" class="btn" style="background:white; color:#b22222; margin-top:1.5rem;">🍲 开始逛吃</a>
+    </div>
+
+    <h2 style="text-align:center; margin:2rem 0 1rem; color:#b22222;">🔥 热门推荐</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>🍲 火锅打卡地图</h3>
+        <p>九宫格、清油、兔火锅... 附本地人常去的10家馆子。</p>
+        <a href="guide.html" class="btn">看攻略</a>
+      </div>
+      <div class="card">
+        <h3>🥟 必吃小吃清单</h3>
+        <p>蛋烘糕、甜水面、钟水饺，一条街吃到位。</p>
+        <a href="characters.html" class="btn">小吃推荐</a>
+      </div>
+      <div class="card">
+        <h3>🎫 美食优惠券</h3>
+        <p>美团、点评隐藏折扣，直接领券省钱。</p>
+        <a href="download.html" class="btn">领券</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 成都美食推荐站 · 跟着本地人吃，不踩雷</p>
+  </footer>
+</body>
+</html>
