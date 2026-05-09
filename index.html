@@ -25,8 +25,22 @@
       backdrop-filter: blur(20px); background: rgba(10,20,40,0.6);
       border-radius:0 0 32px 32px; margin-bottom:1.5rem;
     }
-    .header h1 { font-size:2.2rem; font-weight:600; letter-spacing:1px; color:#c1d4ff; }
-    .header p { color:#8899cc; margin-top:0.5rem; }
+
+    /* 🔥 主标题优化：蓝白渐变+发光 */
+    .header h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff 0%, #a0d0ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 16px rgba(80,160,255,0.7);
+      margin-bottom: 0.5rem;
+    }
+
+    /* 副标题提亮 */
+    .header p { color:#c1d4ff; margin-top:0.5rem; font-size:1rem; }
 
     /* ---------- 可点击：导航按钮 ---------- */
     .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
@@ -61,7 +75,14 @@
       border: 1px solid rgba(255,255,255,0.06);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .card h3 { font-weight:600; font-size:1.2rem; color:#b9c9e0; }
+
+    /* 卡片标题提亮 */
+    .card h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(100,180,255,0.5);
+    }
 
     /* ---------- 可点击：主按钮（亮色） ---------- */
     .btn {
@@ -132,10 +153,23 @@
     }
     .shop-item:last-child { border-bottom:none; }
 
-    .rank-number { font-size:1.6rem; font-weight:700; color:#ffd966; min-width:2rem; }
-    .gold { color:#ffd966; }
-    .silver { color:#c0c0c0; }
-    .bronze { color:#cd7f32; }
+    /* 店名加强 */
+    .shop-item strong {
+      color: #ffffff;
+      text-shadow: 0 0 6px rgba(100,180,255,0.6);
+    }
+
+    /* 排名数字发光 */
+    .rank-number {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffd966;
+      min-width: 2rem;
+      text-shadow: 0 0 12px rgba(255,200,0,0.5);
+    }
+    .gold { color:#ffd966; text-shadow:0 0 14px #ffd966; }
+    .silver { color:#ffffff; text-shadow:0 0 10px #ffffff; }
+    .bronze { color:#e0a96d; text-shadow:0 0 10px #cd7f32; }
 
     /* ---------- 可点击：分类网格项 ---------- */
     .category-grid {
@@ -151,7 +185,7 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
-      color: #dbeafe;
+      color: #e0efff;
       box-shadow: 0 0 6px rgba(59,130,246,0.15);
     }
     .category-item:hover {
@@ -162,10 +196,13 @@
       color: white;
     }
     .category-item span { font-size:2rem; display:block; }
+    .category-item div {
+      text-shadow: 0 0 6px rgba(100,180,255,0.4);
+    }
 
     .mt-2 { margin-top:0.8rem; }
     .mb-2 { margin-bottom:0.8rem; }
-    .text-sm { font-size:0.8rem; color:#8899cc; }
+    .text-sm { font-size:0.8rem; color:#b0c4de; } /* 小字提亮 */
     .view { display:none; animation:fade 0.25s; }
     .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
