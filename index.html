@@ -105,10 +105,7 @@
       padding-right: 2.5rem;
       color: #e1e8f0;
     }
-    select.input option {
-      background: #15203d;
-      color: #e1e8f0;
-    }
+    select.input option { background: #15203d; color: #e1e8f0; }
 
     .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
     .badge { background: rgba(30,58,138,0.5); color: #cbd5e1; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.8rem; }
@@ -153,8 +150,19 @@
     }
     .search-box { display:flex; gap:0.5rem; align-items:center; }
     .avatar-small { width:28px; height:28px; border-radius:50%; object-fit:cover; }
-    .settings-btn { background: transparent; border: none; color: #bfdbfe; font-size:1.5rem; cursor:pointer; transition:0.2s; }
-    .settings-btn:hover { color: white; text-shadow: 0 0 8px #3b82f6; }
+    /* 设置按钮 – 圆形玻璃框 */
+    .settings-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(30,58,138,0.25); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #bfdbfe; font-size: 1.4rem; cursor: pointer; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 8px rgba(59,130,246,0.3);
+    }
+    .settings-btn:hover {
+      background: rgba(30,58,138,0.5); color: white;
+      box-shadow: 0 0 16px #3b82f6; transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -186,7 +194,7 @@
         <img id="userAvatar" class="avatar-small" style="display:none;">
         <span class="user-badge" id="userBadge"></span>
         <span class="logout-btn btn-outline" onclick="logout()" data-i18n="logout">退出登录</span>
-        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')" data-i18n="adminPanel">⚙️ 管理面板</button>
+        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')" data-i18n="adminPanel">管理面板</button>
         <button class="settings-btn" onclick="window.location.href='settings.html'" title="设置">⚙️</button>
       </div>
       <div class="nav" id="mainNav">
@@ -241,7 +249,13 @@
     </div>
     <div id="adminPanelView" class="view">
       <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backHome">← 返回首页</button>
-      <div class="card"><h3 data-i18n="userManagement">👥 用户管理</h3><div id="userList"></div></div>
+      <div class="card">
+        <h3 data-i18n="userManagement">👥 用户管理</h3>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="userSearch" placeholder="搜索用户..." oninput="filterUsers()">
+        </div>
+        <div id="userList"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -252,7 +266,7 @@
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
-  // ========== 多语言包 ==========
+  // ========== 多语言包（已去除管理面板图标） ==========
   const i18n = {
     zh: {
       siteTitle: '夜成都天府美食榜',
@@ -264,7 +278,7 @@
       loginBtn: '登录',
       regBtn: '注册',
       logout: '退出登录',
-      adminPanel: '⚙️ 管理面板',
+      adminPanel: '管理面板',
       home: '🏠 首页',
       ranking: '🔥 天府美食榜',
       footprint: '👣 我的足迹',
@@ -326,7 +340,7 @@
       loginBtn: 'Login',
       regBtn: 'Register',
       logout: 'Logout',
-      adminPanel: '⚙️ Admin',
+      adminPanel: 'Admin',
       home: '🏠 Home',
       ranking: '🔥 Food Chart',
       footprint: '👣 My Footprint',
@@ -388,7 +402,7 @@
       loginBtn: 'ログイン',
       regBtn: '登録',
       logout: 'ログアウト',
-      adminPanel: '⚙️ 管理',
+      adminPanel: '管理',
       home: '🏠 ホーム',
       ranking: '🔥 美食ランキング',
       footprint: '👣 足跡',
@@ -450,7 +464,7 @@
       loginBtn: '로그인',
       regBtn: '회원가입',
       logout: '로그아웃',
-      adminPanel: '⚙️ 관리',
+      adminPanel: '관리',
       home: '🏠 홈',
       ranking: '🔥 미식 차트',
       footprint: '👣 내 발자취',
@@ -547,13 +561,8 @@
     }
   }
 
-  function getUsers() {
-    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}');
-  }
-
-  function saveUsers(users) {
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
-  }
+  function getUsers() { return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}'); }
+  function saveUsers(users) { localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users)); }
 
   let currentUser = null;
 
@@ -588,10 +597,7 @@
     }));
   }
 
-  function clearSession() {
-    currentUser = null;
-    localStorage.removeItem(SESSION_KEY);
-  }
+  function clearSession() { currentUser = null; localStorage.removeItem(SESSION_KEY); }
 
   function getDisplayName(username) {
     const users = getUsers();
@@ -621,9 +627,7 @@
         if (parsed.checkins) {
           for (const shopId in parsed.checkins) {
             const arr = parsed.checkins[shopId];
-            if (arr && arr.length > 0 && typeof arr[0] === 'string') {
-              parsed.checkins[shopId] = [];
-            }
+            if (arr && arr.length > 0 && typeof arr[0] === 'string') parsed.checkins[shopId] = [];
           }
         }
         for (const shopId in parsed.shops) {
@@ -633,9 +637,7 @@
         }
         appData = parsed;
       } catch(e) { initAppData(); }
-    } else {
-      initAppData();
-    }
+    } else { initAppData(); }
   }
 
   function initAppData() {
@@ -646,35 +648,20 @@
         s3: { id:'s3', name:'明婷饭店', category:'sichuan', address:'外曹家巷26号', phone:'', createdAt: Date.now() },
         s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', address:'文殊院街39号', phone:'028-86938998', createdAt: Date.now() },
       },
-      checkins: {},
-      comments: {}
+      checkins: {}, comments: {}
     };
     saveAppData();
   }
 
-  function saveAppData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-  }
-
-  function uid() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2,6);
-  }
-
-  function threeMonthsAgo() {
-    const d = new Date(); d.setDate(d.getDate() - 90);
-    return d.toISOString().split('T')[0];
-  }
-
+  function saveAppData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2,6); }
+  function threeMonthsAgo() { const d = new Date(); d.setDate(d.getDate() - 90); return d.toISOString().split('T')[0]; }
   function countRecentCheckins(shopId) {
     const checkins = appData.checkins[shopId] || [];
     const start = threeMonthsAgo();
     return checkins.filter(entry => entry.date >= start).length;
   }
-
-  function countTotalCheckins(shopId) {
-    return (appData.checkins[shopId] || []).length;
-  }
-
+  function countTotalCheckins(shopId) { return (appData.checkins[shopId] || []).length; }
   function countUserTotalCheckins(shopId) {
     if (!currentUser) return 0;
     const checkins = appData.checkins[shopId] || [];
@@ -693,12 +680,7 @@
   function addComment(shopId, text) {
     if (!text.trim() || !currentUser || currentUser.banned) return;
     if (!appData.comments[shopId]) appData.comments[shopId] = [];
-    const comment = {
-      commentId: uid(),
-      userId: currentUser.username,
-      text: text.trim(),
-      date: new Date().toISOString()
-    };
+    const comment = { commentId: uid(), userId: currentUser.username, text: text.trim(), date: new Date().toISOString() };
     appData.comments[shopId].push(comment);
     saveAppData();
     renderShopDetail(shopId);
@@ -720,9 +702,7 @@
   function deleteShop(shopId) {
     if (!currentUser || currentUser.role !== 'admin') return;
     if (confirm(t('confirmDelete'))) {
-      delete appData.shops[shopId];
-      delete appData.checkins[shopId];
-      delete appData.comments[shopId];
+      delete appData.shops[shopId]; delete appData.checkins[shopId]; delete appData.comments[shopId];
       saveAppData();
       switchView('home');
     }
@@ -736,8 +716,7 @@
     if (newAddress === null) return;
     const newPhone = prompt(t('phoneLabel'), shop.phone || '');
     if (newPhone === null) return;
-    shop.address = newAddress.trim();
-    shop.phone = newPhone.trim();
+    shop.address = newAddress.trim(); shop.phone = newPhone.trim();
     saveAppData();
     renderShopDetail(shopId);
   }
@@ -745,14 +724,12 @@
   // ========== UI 渲染 ==========
   let currentCategory = null;
   let currentShopId = null;
-  // 记录进入详情前的视图
   let fromView = null;
   let fromCategory = null;
 
   function switchView(viewName, categoryKey = null, shopId = null) {
     if (!currentUser && viewName !== 'auth') return;
 
-    // 如果即将进入店铺详情，记录当前的来源视图
     if (viewName === 'shop') {
       if (document.getElementById('categoryView').classList.contains('active')) {
         fromView = 'category';
@@ -765,7 +742,6 @@
         fromView = 'home';
       }
     } else if (viewName === 'category') {
-      // 进入分类时重置来源，以便返回列表时不会是旧数据干扰
       fromView = null;
       fromCategory = null;
     }
@@ -820,7 +796,6 @@
     } else if (fromView === 'footprint') {
       switchView('footprint');
     } else {
-      // 如果找不到来源，回到首页
       switchView('home');
     }
   }
@@ -906,12 +881,21 @@
     Object.entries(users).forEach(([uname, info]) => {
       const isBanned = info.banned || false;
       html += `
-        <div class="shop-item">
+        <div class="shop-item" data-username="${uname.toLowerCase()}">
           <div><strong>${info.nickname || uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
           <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
         </div>`;
     });
     listDiv.innerHTML = html || '<p>暂无用户</p>';
+  }
+
+  function filterUsers() {
+    const keyword = document.getElementById('userSearch')?.value?.toLowerCase() || '';
+    const items = document.querySelectorAll('#userList .shop-item');
+    items.forEach(item => {
+      const name = item.getAttribute('data-username') || '';
+      item.style.display = name.includes(keyword) ? '' : 'none';
+    });
   }
 
   function toggleBanUser(username) {
@@ -1082,12 +1066,9 @@
     if (!address) return alert(t('addressRequired'));
     const shopId = uid();
     appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
-    appData.checkins[shopId] = [];
-    appData.comments[shopId] = [];
+    appData.checkins[shopId] = []; appData.comments[shopId] = [];
     saveAppData();
-    document.getElementById('newShopName').value = '';
-    document.getElementById('newShopAddress').value = '';
-    document.getElementById('newShopPhone').value = '';
+    document.getElementById('newShopName').value = ''; document.getElementById('newShopAddress').value = ''; document.getElementById('newShopPhone').value = '';
     alert(t('shopAdded'));
     switchView('home');
   }
