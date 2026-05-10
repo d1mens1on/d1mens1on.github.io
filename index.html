@@ -115,8 +115,11 @@
     .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
-    .user-badge { font-size:0.85rem; background:#1e3a8a; padding:0.2rem 0.8rem; border-radius:12px; }
+    .user-badge { font-size:0.85rem; background:#1e3a8a; padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem; }
     .search-box { display:flex; gap:0.5rem; align-items:center; }
+    .avatar-small { width:28px; height:28px; border-radius:50%; object-fit:cover; }
+    .settings-btn { background: transparent; border: none; color: #bfdbfe; font-size:1.5rem; cursor:pointer; transition:0.2s; }
+    .settings-btn:hover { color: white; text-shadow: 0 0 8px #3b82f6; }
   </style>
 </head>
 <body>
@@ -142,48 +145,50 @@
 
   <div id="mainView" class="view">
     <div class="header">
-      <h1>夜成都天府美食榜</h1>
-      <p id="welcomeText">深夜里的地道成都味道，由你打卡决定</p>
-      <div class="flex-row" style="justify-content:center; margin-top:0.5rem;">
+      <h1 data-i18n="siteTitle">夜成都天府美食榜</h1>
+      <p data-i18n="siteSubtitle" id="welcomeText">深夜里的地道成都味道，由你打卡决定</p>
+      <div class="flex-row" style="justify-content:center; margin-top:0.5rem; align-items:center;">
+        <img id="userAvatar" class="avatar-small" style="display:none;">
         <span class="user-badge" id="userBadge"></span>
-        <span class="logout-btn btn-outline" onclick="logout()">退出登录</span>
-        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')">⚙️ 管理面板</button>
+        <span class="logout-btn btn-outline" onclick="logout()" data-i18n="logout">退出登录</span>
+        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')" data-i18n="adminPanel">⚙️ 管理面板</button>
+        <button class="settings-btn" onclick="window.location.href='settings.html'" title="设置">⚙️</button>
       </div>
       <div class="nav" id="mainNav">
-        <button class="nav-btn active" data-view="home">🏠 首页</button>
-        <button class="nav-btn" data-view="ranking">🔥 天府美食榜</button>
-        <button class="nav-btn" data-view="footprint">👣 我的足迹</button>
-        <button class="nav-btn" data-view="add">➕ 评价店铺</button>
+        <button class="nav-btn active" data-view="home" data-i18n="home">🏠 首页</button>
+        <button class="nav-btn" data-view="ranking" data-i18n="ranking">🔥 天府美食榜</button>
+        <button class="nav-btn" data-view="footprint" data-i18n="footprint">👣 我的足迹</button>
+        <button class="nav-btn" data-view="add" data-i18n="addShop">➕ 评价店铺</button>
       </div>
     </div>
 
     <div id="homeView" class="view active">
-      <div class="card"><h3>📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
+      <div class="card"><h3 data-i18n="category">📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
     </div>
     <div id="categoryView" class="view">
-      <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回分类</button>
+      <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backCategory">← 返回分类</button>
       <div id="categoryDetail"></div>
     </div>
     <div id="shopView" class="view">
-      <button class="btn-outline btn mb-2" onclick="backToCategory()">← 返回列表</button>
+      <button class="btn-outline btn mb-2" onclick="backToCategory()" data-i18n="backList">← 返回列表</button>
       <div id="shopDetail"></div>
     </div>
     <div id="rankingView" class="view">
       <div class="card">
-        <h3>🏆 天府美食榜</h3>
-        <p class="text-sm mt-2">基于所有用户真实打卡次数排序</p>
+        <h3 data-i18n="rankTitle">🏆 天府美食榜</h3>
+        <p class="text-sm mt-2" data-i18n="rankDesc">基于所有用户真实打卡次数排序</p>
         <div class="search-box mt-2 mb-2">
-          <input type="text" class="input" id="rankingSearch" placeholder="搜索店铺..." oninput="filterRanking()">
+          <input type="text" class="input" id="rankingSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索店铺..." oninput="filterRanking()">
         </div>
         <div id="rankingList"></div>
       </div>
     </div>
     <div id="footprintView" class="view">
-      <div class="card"><h3>👣 我的美食足迹</h3><p class="text-sm mt-2">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
+      <div class="card"><h3 data-i18n="footprintTitle">👣 我的美食足迹</h3><p class="text-sm mt-2" data-i18n="footprintDesc">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
     </div>
     <div id="addView" class="view">
       <div class="card">
-        <h3>➕ 添加新店铺</h3>
+        <h3 data-i18n="addShopTitle">➕ 添加新店铺</h3>
         <div class="mt-2">
           <select id="newCategory" class="input">
             <option value="hotpot">🍲 火锅</option><option value="skewer">🍢 串串香</option>
@@ -192,16 +197,16 @@
             <option value="foreign">🌮 异国料理</option><option value="sweet">🍧 甜品饮品</option>
           </select>
         </div>
-        <div class="mt-2"><input type="text" class="input" id="newShopName" placeholder="输入店铺名称"></div>
-        <div class="mt-2"><input type="text" class="input" id="newShopAddress" placeholder="地址（必填）"></div>
-        <div class="mt-2"><input type="text" class="input" id="newShopPhone" placeholder="电话（选填）"></div>
-        <button class="btn mt-2" onclick="addShop()">添加店铺</button>
-        <p class="text-sm mt-2">添加后可在分类里找到，并开始打卡。</p>
+        <div class="mt-2"><input type="text" class="input" id="newShopName" data-i18n-placeholder="shopNamePlaceholder" placeholder="输入店铺名称"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopAddress" data-i18n-placeholder="addressPlaceholder" placeholder="地址（必填）"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopPhone" data-i18n-placeholder="phonePlaceholder" placeholder="电话（选填）"></div>
+        <button class="btn mt-2" onclick="addShop()" data-i18n="addBtn">添加店铺</button>
+        <p class="text-sm mt-2" data-i18n="addHint">添加后可在分类里找到，并开始打卡。</p>
       </div>
     </div>
     <div id="adminPanelView" class="view">
-      <button class="btn-outline btn mb-2" onclick="switchView('home')">← 返回首页</button>
-      <div class="card"><h3>👥 用户管理</h3><div id="userList"></div></div>
+      <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backHome">← 返回首页</button>
+      <div class="card"><h3 data-i18n="userManagement">👥 用户管理</h3><div id="userList"></div></div>
     </div>
   </div>
 </div>
@@ -212,10 +217,226 @@
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
+  // ========== 多语言包 ==========
+  const i18n = {
+    zh: {
+      siteTitle: '夜成都天府美食榜',
+      siteSubtitle: '深夜里的地道成都味道，由你打卡决定',
+      logout: '退出登录',
+      adminPanel: '⚙️ 管理面板',
+      home: '🏠 首页',
+      ranking: '🔥 天府美食榜',
+      footprint: '👣 我的足迹',
+      addShop: '➕ 评价店铺',
+      category: '📂 美食分类',
+      backCategory: '← 返回分类',
+      backList: '← 返回列表',
+      rankTitle: '🏆 天府美食榜',
+      rankDesc: '基于所有用户真实打卡次数排序',
+      searchPlaceholder: '搜索店铺...',
+      footprintTitle: '👣 我的美食足迹',
+      footprintDesc: '你打卡次数最多的10家店铺',
+      addShopTitle: '➕ 添加新店铺',
+      shopNamePlaceholder: '输入店铺名称',
+      addressPlaceholder: '地址（必填）',
+      phonePlaceholder: '电话（选填）',
+      addBtn: '添加店铺',
+      addHint: '添加后可在分类里找到，并开始打卡。',
+      backHome: '← 返回首页',
+      userManagement: '👥 用户管理',
+      noShop: '暂无店铺，快去添加一个吧～',
+      noData: '还没有店铺数据。',
+      noFootprint: '你还没有打卡记录，快去尝尝看吧～',
+      bannedMsg: '你已被禁言，无法发表评论。',
+      commentPlaceholder: '写点评价...',
+      send: '发送',
+      checkin: '✅ 我今天去了这里',
+      editInfo: '✏️ 编辑信息',
+      deleteShop: '🗑️ 删除店铺',
+      addressLabel: '📍 地址：',
+      phoneLabel: '📞 电话：',
+      recentCheckins: '近3月打卡',
+      totalCheckins: '总打卡',
+      categoryLabel: '分类：',
+      defaultNickname: '用户',
+      nicknameExists: '昵称已被使用，请更换',
+      regSuccess: '注册成功，请登录',
+      loginError: '用户名或密码错误',
+      shopNameRequired: '请输入店铺名',
+      addressRequired: '请输入地址',
+      shopAdded: '店铺添加成功！',
+      confirmDelete: '确认删除该店铺？'
+    },
+    en: {
+      siteTitle: 'Chengdu Night Food Chart',
+      siteSubtitle: 'Authentic Chengdu flavors voted by your visits',
+      logout: 'Logout',
+      adminPanel: '⚙️ Admin',
+      home: '🏠 Home',
+      ranking: '🔥 Food Chart',
+      footprint: '👣 My Footprint',
+      addShop: '➕ Add Shop',
+      category: '📂 Categories',
+      backCategory: '← Back to Categories',
+      backList: '← Back to List',
+      rankTitle: '🏆 Chengdu Food Chart',
+      rankDesc: 'Ranked by real user visits (last 3 months)',
+      searchPlaceholder: 'Search shops...',
+      footprintTitle: '👣 My Food Footprint',
+      footprintDesc: 'Your top 10 most visited shops',
+      addShopTitle: '➕ Add New Shop',
+      shopNamePlaceholder: 'Shop name',
+      addressPlaceholder: 'Address (required)',
+      phonePlaceholder: 'Phone (optional)',
+      addBtn: 'Add Shop',
+      addHint: 'After adding, it will appear in the category for check-ins.',
+      backHome: '← Back to Home',
+      userManagement: '👥 User Management',
+      noShop: 'No shops yet, go add one~',
+      noData: 'No data yet.',
+      noFootprint: 'No check-ins yet, go try some food~',
+      bannedMsg: 'You have been muted and cannot comment.',
+      commentPlaceholder: 'Write a review...',
+      send: 'Send',
+      checkin: '✅ I went here today',
+      editInfo: '✏️ Edit Info',
+      deleteShop: '🗑️ Delete Shop',
+      addressLabel: '📍 Address: ',
+      phoneLabel: '📞 Phone: ',
+      recentCheckins: 'Recent 3 months',
+      totalCheckins: 'Total',
+      categoryLabel: 'Category: ',
+      defaultNickname: 'User',
+      nicknameExists: 'Nickname already taken',
+      regSuccess: 'Registration successful. Please login.',
+      loginError: 'Wrong username or password',
+      shopNameRequired: 'Please enter a shop name',
+      addressRequired: 'Please enter an address',
+      shopAdded: 'Shop added!',
+      confirmDelete: 'Delete this shop?'
+    },
+    ja: {
+      siteTitle: '夜成都天府美食ランキング',
+      siteSubtitle: '本場の成都の味をあなたのチェックインで決める',
+      logout: 'ログアウト',
+      adminPanel: '⚙️ 管理',
+      home: '🏠 ホーム',
+      ranking: '🔥 美食ランキング',
+      footprint: '👣 足跡',
+      addShop: '➕ 店舗追加',
+      category: '📂 カテゴリ',
+      backCategory: '← カテゴリに戻る',
+      backList: '← リストに戻る',
+      rankTitle: '🏆 天府美食ランキング',
+      rankDesc: '全ユーザーのチェックイン数に基づく',
+      searchPlaceholder: '店舗を検索...',
+      footprintTitle: '👣 私の美食足跡',
+      footprintDesc: 'あなたが最もチェックインした上位10店舗',
+      addShopTitle: '➕ 新規店舗追加',
+      shopNamePlaceholder: '店舗名',
+      addressPlaceholder: '住所（必須）',
+      phonePlaceholder: '電話番号（任意）',
+      addBtn: '追加',
+      addHint: '追加後、カテゴリからチェックインできます。',
+      backHome: '← ホームに戻る',
+      userManagement: '👥 ユーザー管理',
+      noShop: 'まだ店舗がありません。追加してください～',
+      noData: 'データがありません。',
+      noFootprint: 'まだチェックインがありません。食べに行きましょう～',
+      bannedMsg: 'あなたはミュートされています。コメントできません。',
+      commentPlaceholder: 'レビューを書く...',
+      send: '送信',
+      checkin: '✅ 今日行った',
+      editInfo: '✏️ 情報編集',
+      deleteShop: '🗑️ 店舗削除',
+      addressLabel: '📍 住所: ',
+      phoneLabel: '📞 電話: ',
+      recentCheckins: '直近3ヶ月',
+      totalCheckins: '合計',
+      categoryLabel: 'カテゴリ: ',
+      defaultNickname: 'ユーザー',
+      nicknameExists: 'そのニックネームは既に使われています',
+      regSuccess: '登録成功しました。ログインしてください。',
+      loginError: 'ユーザー名またはパスワードが違います',
+      shopNameRequired: '店舗名を入力してください',
+      addressRequired: '住所を入力してください',
+      shopAdded: '店舗を追加しました！',
+      confirmDelete: 'この店舗を削除しますか？'
+    },
+    ko: {
+      siteTitle: '청두 야간 미식 차트',
+      siteSubtitle: '방문으로 결정되는 진짜 청두의 맛',
+      logout: '로그아웃',
+      adminPanel: '⚙️ 관리',
+      home: '🏠 홈',
+      ranking: '🔥 미식 차트',
+      footprint: '👣 내 발자취',
+      addShop: '➕ 가게 추가',
+      category: '📂 카테고리',
+      backCategory: '← 카테고리로 돌아가기',
+      backList: '← 목록으로 돌아가기',
+      rankTitle: '🏆 청두 미식 차트',
+      rankDesc: '실제 사용자 방문 횟수 기준',
+      searchPlaceholder: '가게 검색...',
+      footprintTitle: '👣 나의 미식 발자취',
+      footprintDesc: '가장 많이 방문한 상위 10개 가게',
+      addShopTitle: '➕ 새 가게 추가',
+      shopNamePlaceholder: '가게 이름',
+      addressPlaceholder: '주소 (필수)',
+      phonePlaceholder: '전화번호 (선택)',
+      addBtn: '추가',
+      addHint: '추가 후 카테고리에서 체크인할 수 있습니다.',
+      backHome: '← 홈으로 돌아가기',
+      userManagement: '👥 사용자 관리',
+      noShop: '아직 가게가 없습니다. 추가해주세요~',
+      noData: '데이터가 없습니다.',
+      noFootprint: '체크인 기록이 없습니다. 맛집을 찾아보세요~',
+      bannedMsg: '뮤트 상태입니다. 댓글을 작성할 수 없습니다.',
+      commentPlaceholder: '리뷰 작성...',
+      send: '보내기',
+      checkin: '✅ 오늘 다녀왔어요',
+      editInfo: '✏️ 정보 수정',
+      deleteShop: '🗑️ 가게 삭제',
+      addressLabel: '📍 주소: ',
+      phoneLabel: '📞 전화: ',
+      recentCheckins: '최근 3개월',
+      totalCheckins: '총',
+      categoryLabel: '카테고리: ',
+      defaultNickname: '사용자',
+      nicknameExists: '이미 사용 중인 닉네임입니다',
+      regSuccess: '회원가입 성공. 로그인해주세요.',
+      loginError: '아이디 또는 비밀번호 오류',
+      shopNameRequired: '가게 이름을 입력하세요',
+      addressRequired: '주소를 입력하세요',
+      shopAdded: '가게가 추가되었습니다!',
+      confirmDelete: '이 가게를 삭제하시겠습니까?'
+    }
+  };
+
+  let currentLanguage = 'zh';
+
+  function t(key) {
+    return (i18n[currentLanguage] || i18n.zh)[key] || key;
+  }
+
+  function applyLanguage(lang) {
+    currentLanguage = lang;
+    const dict = i18n[lang] || i18n.zh;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (dict[key]) el.placeholder = dict[key];
+    });
+  }
+
+  // ========== 用户数据 ==========
   function initUsers() {
     if (!localStorage.getItem(USER_STORAGE_KEY)) {
       const defaultUsers = {
-        admin: { password: 'admin123', role: 'admin', banned: false }
+        admin: { password: 'admin123', role: 'admin', banned: false, nickname: '管理员', avatar: '', language: 'zh' }
       };
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUsers));
     }
@@ -224,6 +445,7 @@
   function getUsers() {
     return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}');
   }
+
   function saveUsers(users) {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
   }
@@ -238,6 +460,10 @@
         const users = getUsers();
         if (users[session.username] && users[session.username].role === session.role) {
           currentUser = session;
+          currentUser.nickname = users[session.username].nickname || session.username;
+          currentUser.avatar = users[session.username].avatar || '';
+          currentUser.language = users[session.username].language || 'zh';
+          applyLanguage(currentUser.language);
           return true;
         }
       } catch(e) {}
@@ -247,7 +473,11 @@
 
   function saveSession(user) {
     currentUser = user;
-    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    localStorage.setItem(SESSION_KEY, JSON.stringify({
+      username: user.username,
+      role: user.role,
+      banned: user.banned
+    }));
   }
 
   function clearSession() {
@@ -255,7 +485,13 @@
     localStorage.removeItem(SESSION_KEY);
   }
 
-  // ========== 美食数据 ==========
+  function getDisplayName(username) {
+    const users = getUsers();
+    const user = users[username];
+    return (user?.nickname) || username;
+  }
+
+  // ========== 美食数据 (带地址/电话) ==========
   const DEFAULT_CATEGORIES = {
     hotpot: { name:'火锅', icon:'🍲' },
     skewer: { name:'串串香', icon:'🍢' },
@@ -267,11 +503,7 @@
     sweet: { name:'甜品饮品', icon:'🍧' },
   };
 
-  let appData = {
-    shops: {},
-    checkins: {},    // shopId -> [ {userId, date}, ... ]
-    comments: {},    // shopId -> [ {commentId, userId, text, date}, ... ]
-  };
+  let appData = { shops: {}, checkins: {}, comments: {} };
 
   function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -286,7 +518,6 @@
             }
           }
         }
-        // 补全老店铺缺失的地址电话字段
         for (const shopId in parsed.shops) {
           const s = parsed.shops[shopId];
           if (s.address === undefined) s.address = '';
@@ -322,8 +553,7 @@
   }
 
   function threeMonthsAgo() {
-    const d = new Date();
-    d.setDate(d.getDate() - 90);
+    const d = new Date(); d.setDate(d.getDate() - 90);
     return d.toISOString().split('T')[0];
   }
 
@@ -381,7 +611,7 @@
 
   function deleteShop(shopId) {
     if (!currentUser || currentUser.role !== 'admin') return;
-    if (confirm('确认删除该店铺？')) {
+    if (confirm(t('confirmDelete'))) {
       delete appData.shops[shopId];
       delete appData.checkins[shopId];
       delete appData.comments[shopId];
@@ -390,14 +620,13 @@
     }
   }
 
-  // 管理员编辑店铺地址电话
   function editShop(shopId) {
     if (!currentUser || currentUser.role !== 'admin') return;
     const shop = appData.shops[shopId];
     if (!shop) return;
-    const newAddress = prompt('修改地址', shop.address || '');
-    if (newAddress === null) return; // 取消
-    const newPhone = prompt('修改电话', shop.phone || '');
+    const newAddress = prompt(t('addressLabel'), shop.address || '');
+    if (newAddress === null) return;
+    const newPhone = prompt(t('phoneLabel'), shop.phone || '');
     if (newPhone === null) return;
     shop.address = newAddress.trim();
     shop.phone = newPhone.trim();
@@ -414,48 +643,20 @@
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-    if (viewName === 'home') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('homeView').classList.add('active');
-      document.querySelector('[data-view="home"]')?.classList.add('active');
-      renderHome();
-    } else if (viewName === 'category') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('categoryView').classList.add('active');
-      currentCategory = categoryKey;
-      renderCategory(categoryKey);
-    } else if (viewName === 'shop') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('shopView').classList.add('active');
-      currentShopId = shopId;
-      renderShopDetail(shopId);
-    } else if (viewName === 'ranking') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('rankingView').classList.add('active');
-      document.querySelector('[data-view="ranking"]')?.classList.add('active');
-      renderRanking();
-      filterRanking();
-    } else if (viewName === 'footprint') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('footprintView').classList.add('active');
-      document.querySelector('[data-view="footprint"]')?.classList.add('active');
-      renderFootprint();
-    } else if (viewName === 'add') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('addView').classList.add('active');
-      document.querySelector('[data-view="add"]')?.classList.add('active');
-    } else if (viewName === 'adminPanel') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('adminPanelView').classList.add('active');
-      renderAdminPanel();
-    } else if (viewName === 'auth') {
-      document.getElementById('authView').classList.add('active');
-    }
+    const actions = {
+      home: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('homeView').classList.add('active'); document.querySelector('[data-view="home"]')?.classList.add('active'); renderHome(); },
+      category: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('categoryView').classList.add('active'); currentCategory = categoryKey; renderCategory(categoryKey); },
+      shop: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('shopView').classList.add('active'); currentShopId = shopId; renderShopDetail(shopId); },
+      ranking: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('rankingView').classList.add('active'); document.querySelector('[data-view="ranking"]')?.classList.add('active'); renderRanking(); filterRanking(); },
+      footprint: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('footprintView').classList.add('active'); document.querySelector('[data-view="footprint"]')?.classList.add('active'); renderFootprint(); },
+      add: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('addView').classList.add('active'); document.querySelector('[data-view="add"]')?.classList.add('active'); },
+      adminPanel: () => { document.getElementById('mainView').classList.add('active'); document.getElementById('adminPanelView').classList.add('active'); renderAdminPanel(); },
+      auth: () => { document.getElementById('authView').classList.add('active'); }
+    };
+    if (actions[viewName]) actions[viewName]();
   }
 
-  function backToCategory() {
-    switchView('category', currentCategory);
-  }
+  function backToCategory() { switchView('category', currentCategory); }
 
   function switchAuthTab(tab) {
     document.getElementById('loginTab').classList.toggle('active', tab === 'login');
@@ -467,10 +668,10 @@
   function handleLogin() {
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
-    if (!username || !password) return alert('请输入用户名和密码');
+    if (!username || !password) return alert(t('loginError'));
     const users = getUsers();
     const user = users[username];
-    if (!user || user.password !== password) return alert('用户名或密码错误');
+    if (!user || user.password !== password) return alert(t('loginError'));
     const sessionUser = { username, role: user.role, banned: user.banned || false };
     saveSession(sessionUser);
     document.getElementById('authView').classList.remove('active');
@@ -482,12 +683,15 @@
   function handleRegister() {
     const username = document.getElementById('regUsername').value.trim();
     const password = document.getElementById('regPassword').value.trim();
-    if (!username || !password) return alert('请输入用户名和密码');
+    if (!username || !password) return alert(t('loginError'));
     const users = getUsers();
-    if (users[username]) return alert('用户名已存在');
-    users[username] = { password, role: 'user', banned: false };
+    if (users[username]) return alert(t('nicknameExists'));
+    const nickname = username;
+    const nicknameTaken = Object.values(users).some(u => u.nickname === nickname);
+    if (nicknameTaken) return alert(t('nicknameExists'));
+    users[username] = { password, role: 'user', banned: false, nickname: nickname, avatar: '', language: 'zh' };
     saveUsers(users);
-    alert('注册成功，请登录');
+    alert(t('regSuccess'));
     document.getElementById('regUsername').value = '';
     document.getElementById('regPassword').value = '';
     switchAuthTab('login');
@@ -503,9 +707,16 @@
 
   function updateUserUI() {
     if (!currentUser) return;
-    document.getElementById('userBadge').innerHTML = 
-      `${currentUser.role === 'admin' ? '👑' : '👤'} ${currentUser.username} (${currentUser.role})` +
-      (currentUser.banned ? ' <span style="color:red;">[已禁言]</span>' : '');
+    const avatarImg = document.getElementById('userAvatar');
+    if (currentUser.avatar) {
+      avatarImg.src = currentUser.avatar;
+      avatarImg.style.display = 'inline-block';
+    } else {
+      avatarImg.style.display = 'none';
+    }
+    document.getElementById('userBadge').textContent = 
+      `${currentUser.role === 'admin' ? '👑' : ''} ${currentUser.nickname || currentUser.username} (${currentUser.role})` +
+      (currentUser.banned ? ' [禁言]' : '');
     document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
   }
 
@@ -517,7 +728,7 @@
       const isBanned = info.banned || false;
       html += `
         <div class="shop-item">
-          <div><strong>${uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
+          <div><strong>${info.nickname || uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
           <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
         </div>`;
     });
@@ -566,14 +777,14 @@
     const detailDiv = document.getElementById('categoryDetail');
     let html = `<h3>${cat.icon} ${cat.name}</h3>`;
     if (shopIds.length === 0) {
-      html += '<p class="text-sm mt-2">暂无店铺，快去添加一个吧～</p>';
+      html += `<p class="text-sm mt-2">${t('noShop')}</p>`;
     } else {
       html += '<div class="mt-2">';
       shopIds.forEach(id => {
         const shop = appData.shops[id];
         html += `
           <div class="shop-item">
-            <div><strong>${shop.name}</strong><div class="text-sm">近3月打卡: ${countRecentCheckins(id)} 次</div></div>
+            <div><strong>${shop.name}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)} 次</div></div>
             <button class="btn-outline btn" onclick="switchView('shop', '${catKey}', '${id}')">详情</button>
           </div>`;
       });
@@ -592,18 +803,18 @@
     let html = `
       <div class="card">
         <h3>${shop.name}</h3>
-        <p class="text-sm">分类：${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${DEFAULT_CATEGORIES[shop.category]?.name}</p>
-        <p class="text-sm">📍 地址：${shop.address || '暂无'}</p>
-        <p class="text-sm">📞 电话：${shop.phone || '暂无'}</p>
+        <p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${DEFAULT_CATEGORIES[shop.category]?.name}</p>
+        <p class="text-sm">${t('addressLabel')} ${shop.address || '暂无'}</p>
+        <p class="text-sm">${t('phoneLabel')} ${shop.phone || '暂无'}</p>
         <div class="flex-row mt-2">
-          <div class="badge">🔥 近三月打卡 ${recentCount} 次</div>
-          <div class="badge">📋 总打卡 ${totalCount} 次</div>
+          <div class="badge">🔥 ${t('recentCheckins')} ${recentCount} 次</div>
+          <div class="badge">📋 ${t('totalCheckins')} ${totalCount} 次</div>
         </div>
         <div class="mt-2">
-          <button class="btn" onclick="checkinShop('${shopId}')">✅ 我今天去了这里</button>
+          <button class="btn" onclick="checkinShop('${shopId}')">${t('checkin')}</button>
           ${currentUser.role === 'admin' ? `
-            <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">✏️ 编辑信息</button>
-            <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">🗑️ 删除店铺</button>
+            <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">${t('editInfo')}</button>
+            <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">${t('deleteShop')}</button>
           ` : ''}
         </div>
       </div>
@@ -613,16 +824,16 @@
           ${comments.slice(-10).map(c => {
             const canDelete = (currentUser.role === 'admin' || c.userId === currentUser.username);
             return `<div class="text-sm mt-2" style="display:flex; justify-content:space-between;">
-              <span>🗣 <strong>${c.userId}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+              <span>🗣 <strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
               ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>` : ''}
             </div>`;
           }).join('')}
         </div>
         ${!currentUser.banned ? `
         <div class="flex-row mt-2">
-          <input type="text" class="input" id="commentInput" placeholder="写点评价...">
-          <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">发送</button>
-        </div>` : '<p class="text-sm mt-2" style="color:#ff6666;">你已被禁言，无法发表评论。</p>'}
+          <input type="text" class="input" id="commentInput" placeholder="${t('commentPlaceholder')}">
+          <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">${t('send')}</button>
+        </div>` : `<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`}
       </div>`;
     detailDiv.innerHTML = html;
   }
@@ -633,7 +844,7 @@
       .sort((a,b) => b.recent - a.recent);
     const listDiv = document.getElementById('rankingList');
     if (ranked.length === 0) {
-      listDiv.innerHTML = '<p class="text-sm mt-2">还没有店铺数据。</p>';
+      listDiv.innerHTML = `<p class="text-sm mt-2">${t('noData')}</p>`;
       return;
     }
     let html = '<div class="mt-2">';
@@ -663,7 +874,7 @@
 
     const listDiv = document.getElementById('footprintList');
     if (userShops.length === 0) {
-      listDiv.innerHTML = '<p class="text-sm mt-2">你还没有打卡记录，快去尝尝看吧～</p>';
+      listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFootprint')}</p>`;
       return;
     }
     let html = '<div class="mt-2">';
@@ -688,8 +899,8 @@
     const category = document.getElementById('newCategory').value;
     const address = document.getElementById('newShopAddress').value.trim();
     const phone = document.getElementById('newShopPhone').value.trim();
-    if (!name) return alert('请输入店铺名');
-    if (!address) return alert('请输入地址');
+    if (!name) return alert(t('shopNameRequired'));
+    if (!address) return alert(t('addressRequired'));
     const shopId = uid();
     appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
     appData.checkins[shopId] = [];
@@ -698,7 +909,7 @@
     document.getElementById('newShopName').value = '';
     document.getElementById('newShopAddress').value = '';
     document.getElementById('newShopPhone').value = '';
-    alert('店铺添加成功！');
+    alert(t('shopAdded'));
     switchView('home');
   }
 
