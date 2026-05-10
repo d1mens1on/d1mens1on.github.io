@@ -193,16 +193,16 @@
       </div>
     </div>
 
-    <!-- 各种视图容器 -->
+    <!-- 视图容器 -->
     <div id="homeView" class="view active">
       <div class="card"><h3 data-i18n="category">📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
       <div class="card" id="touristHotSection">
         <h3 data-i18n="mustKillTitle">🔪 必杀榜·热门TOP5</h3>
         <div id="touristHotList"></div>
-        <div class="card" id="forumTopSection">
+      </div>
+      <div class="card" id="forumTopSection">
         <h3 data-i18n="forumTopTitle">📚 热门攻略TOP5</h3>
         <div id="forumTopList"></div>
-        </div>
       </div>
     </div>
     <div id="categoryView" class="view">
@@ -367,7 +367,9 @@
       exportSuccess: '数据导出成功！', restoreConfirm: '恢复数据将覆盖当前所有信息，确定继续吗？',
       restoreSuccess: '数据恢复成功！即将刷新页面。', restoreError: '恢复失败：',
       invalidBackup: '备份文件格式不正确', loginToAction: '请先登录才能执行此操作',
-      loginRequired: '登录后可打卡、评论', touristHotTitle: '🔎 游客必看·热门TOP5',
+      loginRequired: '登录后可打卡、评论',
+      mustKillTitle: '🔪 必杀榜·热门TOP5',
+      forumTopTitle: '📚 热门攻略TOP5',
       forumTitle: '📝 美食攻略', forumSearchPlaceholder: '搜索攻略...',
       newPost: '发新帖', postTitlePlaceholder: '标题', postContentPlaceholder: '内容...',
       submitPost: '发布', category_guide: '🧳 旅游攻略', category_review: '🍽️ 美食评鉴',
@@ -406,7 +408,9 @@
       confirmDelete: 'Delete this restaurant?', category_hotpot: 'Hot Pot', category_skewer: 'Skewer',
       category_sichuan: 'Sichuan Cuisine', category_snack: 'Snacks', category_noodle: 'Noodles',
       category_bbq: 'BBQ', category_foreign: 'Foreign Cuisine', category_sweet: 'Desserts & Drinks',
-      loginToAction: 'Please login', touristHotTitle: '🔎 Top 5 for Tourists',
+      loginToAction: 'Please login',
+      mustKillTitle: '🔪 Must-Kill Top 5',
+      forumTopTitle: '📚 Hot Guides Top 5',
       forumTitle: '📝 Food Guide', forumSearchPlaceholder: 'Search posts...',
       newPost: 'New Post', postTitlePlaceholder: 'Title', postContentPlaceholder: 'Content...',
       submitPost: 'Post', category_guide: '🧳 Travel Guide', category_review: '🍽️ Food Review',
@@ -442,7 +446,9 @@
       confirmDelete: 'この店舗を削除しますか？', category_hotpot: '火鍋', category_skewer: '串串香',
       category_sichuan: '四川料理', category_snack: '軽食', category_noodle: '麺類',
       category_bbq: 'バーベキュー', category_foreign: '異国料理', category_sweet: 'デザート・ドリンク',
-      loginToAction: 'ログインが必要です', touristHotTitle: '🔎 観光客人気TOP5',
+      loginToAction: 'ログインが必要です',
+      mustKillTitle: '🔪 必殺ランキングTOP5',
+      forumTopTitle: '📚 人気攻略TOP5',
       forumTitle: '📝 美食攻略', forumSearchPlaceholder: '投稿を検索...',
       newPost: '新規投稿', postTitlePlaceholder: 'タイトル', postContentPlaceholder: '内容...',
       submitPost: '投稿', category_guide: '🧳 旅行ガイド', category_review: '🍽️ グルメ評価',
@@ -478,7 +484,9 @@
       confirmDelete: '이 식당을 삭제하시겠습니까?', category_hotpot: '훠궈', category_skewer: '꼬치구이',
       category_sichuan: '사천 요리', category_snack: '간식', category_noodle: '면류',
       category_bbq: '바비큐', category_foreign: '세계 요리', category_sweet: '디저트·음료',
-      loginToAction: '로그인이 필요합니다', touristHotTitle: '🔎 관광객 인기 TOP5',
+      loginToAction: '로그인이 필요합니다',
+      mustKillTitle: '🔪 필살 랭킹 TOP5',
+      forumTopTitle: '📚 인기 공략 TOP5',
       forumTitle: '📝 미식 공략', forumSearchPlaceholder: '게시글 검색...',
       newPost: '새 글', postTitlePlaceholder: '제목', postContentPlaceholder: '내용...',
       submitPost: '게시', category_guide: '🧳 여행 가이드', category_review: '🍽️ 음식 평가',
@@ -1293,35 +1301,34 @@
   }
 
   function renderForumTop() {
-  const topDiv = document.getElementById('forumTopList');
-  const posts = Object.values(appData.posts);
-  // 按收藏量降序，相同收藏按点赞数降序
-  posts.sort((a, b) => {
-    const favA = (a.favorites || []).length;
-    const favB = (b.favorites || []).length;
-    if (favB !== favA) return favB - favA;
-    const likeA = (a.likes || []).length;
-    const likeB = (b.likes || []).length;
-    return likeB - likeA;
-  });
-  const top5 = posts.slice(0, 5);
-  if (!top5.length) {
-    topDiv.innerHTML = '<p class="text-sm mt-2">暂无攻略</p>';
-    return;
+    const topDiv = document.getElementById('forumTopList');
+    const posts = Object.values(appData.posts);
+    posts.sort((a, b) => {
+      const favA = (a.favorites || []).length;
+      const favB = (b.favorites || []).length;
+      if (favB !== favA) return favB - favA;
+      const likeA = (a.likes || []).length;
+      const likeB = (b.likes || []).length;
+      return likeB - likeA;
+    });
+    const top5 = posts.slice(0, 5);
+    if (!top5.length) {
+      topDiv.innerHTML = '<p class="text-sm mt-2">暂无攻略</p>';
+      return;
+    }
+    let html = '<div class="mt-2">';
+    top5.forEach((p, i) => {
+      html += `
+        <div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
+          <div>
+            <span style="color:#ffd966;">#${i+1}</span> <strong>${p.title}</strong>
+            <div class="text-sm">${t('category_'+p.category)} · ❤️${(p.favorites||[]).length} · 👍${(p.likes||[]).length}</div>
+          </div>
+        </div>`;
+    });
+    html += '</div>';
+    topDiv.innerHTML = html;
   }
-  let html = '<div class="mt-2">';
-  top5.forEach((p, i) => {
-    html += `
-      <div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
-        <div>
-          <span style="color:#ffd966;">#${i+1}</span> <strong>${p.title}</strong>
-          <div class="text-sm">${t('category_'+p.category)} · ❤️${(p.favorites||[]).length} · 👍${(p.likes||[]).length}</div>
-        </div>
-      </div>`;
-  });
-  html += '</div>';
-  topDiv.innerHTML = html;
-}
 
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
