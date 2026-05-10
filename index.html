@@ -26,9 +26,10 @@
       padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent;
     }
     .auth-toggle span.active { opacity:1; border-color:#3b82f6; color:#fff; }
+    /* 头部 – 极透玻璃 */
     .header {
       text-align:center; padding:2rem 1rem 1rem;
-      backdrop-filter: blur(20px); background: rgba(10,20,40,0.6);
+      backdrop-filter: blur(40px); background: rgba(10,20,40,0.15);
       border-radius:0 0 32px 32px; margin-bottom:1.5rem;
     }
     .header h1 {
@@ -41,50 +42,62 @@
     }
     .header p { color:#c1d4ff; margin-top:0.5rem; font-size:1rem; }
     .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
+    /* 导航按钮 – 极透 */
     .nav-btn {
-      background: linear-gradient(135deg, rgba(30,58,138,0.7) 0%, rgba(37,99,235,0.5) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(96,165,250,0.4);
+      background: rgba(30,58,138,0.2);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(96,165,250,0.5);
       color: #dbeafe; padding: 0.7rem 1.4rem; border-radius: 30px;
       font-size: 0.95rem; cursor:pointer; transition: all 0.2s;
       box-shadow: 0 0 8px rgba(59,130,246,0.3); font-weight: 500;
     }
     .nav-btn.active, .nav-btn:hover {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      background: rgba(30,58,138,0.5);
       border-color: #60a5fa; color: white;
       box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80; transform: scale(1.03);
     }
+    /* 卡片 – 极透玻璃 */
     .card {
-      background: rgba(15,25,45,0.55); backdrop-filter: blur(12px);
+      background: rgba(15,25,45,0.15); backdrop-filter: blur(30px);
       border-radius: 24px; padding: 1.2rem; margin-bottom: 1rem;
-      border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     .card h3 { font-weight: 600; font-size: 1.2rem; color: #ffffff; text-shadow: 0 0 8px rgba(100,180,255,0.5); }
+    /* 主按钮 – 玻璃渐变 */
     .btn {
-      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-      border: none; color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.6) 0%, rgba(30,64,175,0.6) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
       font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
-      box-shadow: 0 0 12px rgba(37,99,235,0.5);
+      box-shadow: 0 0 12px rgba(37,99,235,0.4);
     }
-    .btn:hover { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 0 18px #3b82f6; transform: scale(1.03); }
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(59,130,246,0.7) 0%, rgba(37,99,235,0.7) 100%);
+      box-shadow: 0 0 18px #3b82f6; transform: scale(1.03);
+    }
+    /* 次按钮 – 更通透 */
     .btn-outline {
-      background: rgba(30,58,138,0.35); backdrop-filter: blur(8px);
+      background: rgba(30,58,138,0.15); backdrop-filter: blur(10px);
       border: 1px solid #3b82f6; color: #bfdbfe; padding: 0.5rem 1.2rem;
       border-radius: 24px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
     }
-    .btn-outline:hover { background: #1e3a8a; border-color: #60a5fa; box-shadow: 0 0 12px #3b82f680; color: white; }
+    .btn-outline:hover {
+      background: rgba(30,58,138,0.4); border-color: #60a5fa;
+      box-shadow: 0 0 12px #3b82f680; color: white;
+    }
     .input {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
       border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
       font-size: 0.95rem; outline: none; transition: border 0.2s;
     }
     .input:focus { border-color:#3b82f6; }
 
-    /* ---- 下拉框专属优化 ---- */
+    /* 下拉框优化（透明玻璃） */
     select.input {
       appearance: none;
       -webkit-appearance: none;
-      background-color: rgba(15,25,45,0.9);
+      background-color: rgba(15,25,45,0.3);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.8rem center;
@@ -113,17 +126,17 @@
     .silver { color:#ffffff; text-shadow:0 0 10px #ffffff; }
     .bronze { color:#e0a96d; text-shadow:0 0 10px #cd7f32; }
     .category-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:0.8rem; margin:1rem 0; }
+    /* 分类卡片 – 极透 */
     .category-item {
-      background: linear-gradient(145deg, rgba(30,58,138,0.45) 0%, rgba(15,23,42,0.7) 100%);
-      backdrop-filter: blur(8px); border: 1px solid rgba(96,165,250,0.25);
+      background: rgba(30,58,138,0.15); backdrop-filter: blur(20px);
+      border: 1px solid rgba(96,165,250,0.4);
       border-radius: 20px; padding: 1.2rem 0.8rem; text-align: center;
       cursor: pointer; transition: all 0.2s; color: #e0efff;
       box-shadow: 0 0 6px rgba(59,130,246,0.15);
     }
     .category-item:hover {
-      background: linear-gradient(145deg, #1e3a8a 0%, #1e40af 100%);
-      border-color: #60a5fa; box-shadow: 0 0 18px #3b82f680;
-      transform: translateY(-2px); color: white;
+      background: rgba(30,58,138,0.4); border-color: #60a5fa;
+      box-shadow: 0 0 18px #3b82f680; transform: translateY(-2px); color: white;
     }
     .category-item span { font-size:2rem; display:block; }
     .category-item div { text-shadow: 0 0 6px rgba(100,180,255,0.4); }
@@ -133,7 +146,11 @@
     .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
-    .user-badge { font-size:0.85rem; background:#1e3a8a; padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem; }
+    /* 用户徽章 – 半透明 */
+    .user-badge {
+      font-size:0.85rem; background: rgba(30,58,138,0.3); backdrop-filter: blur(10px);
+      padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem;
+    }
     .search-box { display:flex; gap:0.5rem; align-items:center; }
     .avatar-small { width:28px; height:28px; border-radius:50%; object-fit:cover; }
     .settings-btn { background: transparent; border: none; color: #bfdbfe; font-size:1.5rem; cursor:pointer; transition:0.2s; }
@@ -791,7 +808,6 @@
     const user = users[username];
     if (!user || user.password !== password) return alert(t('loginError'));
 
-    // 构建完整的会话对象，包含昵称、头像、语言
     const sessionUser = {
         username,
         role: user.role,
@@ -802,7 +818,7 @@
     };
 
     saveSession(sessionUser);
-    currentUser = sessionUser;      // 直接同步 currentUser
+    currentUser = sessionUser;
     applyLanguage(currentUser.language);
     document.getElementById('authView').classList.remove('active');
     document.getElementById('mainView').classList.add('active');
