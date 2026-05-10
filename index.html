@@ -3,54 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>设置 - 夜成都天府美食榜</title>
+  <title>夜成都天府美食榜</title>
+  <meta name="description" content="夜成都天府美食榜，美食排名，用脚投票，用嘴衡量，日久知味。">
+  <meta name="keywords" content="成都美食,热度榜,火锅,串串,探店,打卡">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif;
       background: #0a0f1f;
-      background-image: linear-gradient(rgba(10,15,31,0.7), rgba(10,15,31,0.7)), url('https://d1mens1on.github.io/panda-night.jpg');
+      background-image: linear-gradient(rgba(10,15,31,0.7), rgba(10,15,31,0.7)),
+                        url('https://d1mens1on.github.io/panda-night.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       color: #e1e8f0;
       min-height: 100vh;
     }
-    .container {
-      max-width: 500px;
-      margin: 2rem auto;
-      padding: 1rem;
+    .app { max-width:900px; margin:0 auto; padding:1rem; }
+    .auth-container { max-width:400px; margin:4rem auto 2rem; }
+    .auth-toggle { display:flex; justify-content:center; margin-bottom:1rem; }
+    .auth-toggle span {
+      padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent;
     }
-    /* 卡片 – 与 index 一致的透明玻璃 */
-    .card {
-      background: rgba(15,25,45,0.3);
+    .auth-toggle span.active { opacity:1; border-color:#3b82f6; color:#fff; }
+    /* 头部 – 极透玻璃 */
+    .header {
+      text-align:center; padding:2rem 1rem 1rem;
+      backdrop-filter: blur(40px); background: rgba(10,20,40,0.15);
+      border-radius:0 0 32px 32px; margin-bottom:1.5rem;
+    }
+    .header h1 {
+      font-size: 2.6rem; font-weight: 700; letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff 0%, #a0d0ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 16px rgba(80,160,255,0.7);
+      margin-bottom: 0.5rem;
+    }
+    .header p { color:#c1d4ff; margin-top:0.5rem; font-size:1rem; }
+    .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
+    /* 导航按钮 – 极透 */
+    .nav-btn {
+      background: rgba(30,58,138,0.2);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      margin-bottom: 1rem;
+      border: 1px solid rgba(96,165,250,0.5);
+      color: #dbeafe; padding: 0.7rem 1.4rem; border-radius: 30px;
+      font-size: 0.95rem; cursor:pointer; transition: all 0.2s;
+      box-shadow: 0 0 8px rgba(59,130,246,0.3); font-weight: 500;
     }
-    .card h3 { color: white; text-shadow: 0 0 8px rgba(100,180,255,0.5); margin-bottom: 1rem; }
-
-    /* 输入框 – 透明 */
+    .nav-btn.active, .nav-btn:hover {
+      background: rgba(30,58,138,0.5);
+      border-color: #60a5fa; color: white;
+      box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80; transform: scale(1.03);
+    }
+    /* 卡片 – 极透玻璃 */
+    .card {
+      background: rgba(15,25,45,0.15); backdrop-filter: blur(30px);
+      border-radius: 24px; padding: 1.2rem; margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .card h3 { font-weight: 600; font-size: 1.2rem; color: #ffffff; text-shadow: 0 0 8px rgba(100,180,255,0.5); }
+    /* 主按钮 – 玻璃渐变 */
+    .btn {
+      background: linear-gradient(135deg, rgba(37,99,235,0.6) 0%, rgba(30,64,175,0.6) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
+      box-shadow: 0 0 12px rgba(37,99,235,0.4);
+    }
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(59,130,246,0.7) 0%, rgba(37,99,235,0.7) 100%);
+      box-shadow: 0 0 18px #3b82f6; transform: scale(1.03);
+    }
+    /* 次按钮 – 更通透 */
+    .btn-outline {
+      background: rgba(30,58,138,0.15); backdrop-filter: blur(10px);
+      border: 1px solid #3b82f6; color: #bfdbfe; padding: 0.5rem 1.2rem;
+      border-radius: 24px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
+    }
+    .btn-outline:hover {
+      background: rgba(30,58,138,0.4); border-color: #60a5fa;
+      box-shadow: 0 0 12px #3b82f680; color: white;
+    }
     .input {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px;
-      padding: 0.7rem 1rem;
-      width: 100%;
-      color: white;
-      font-size: 0.95rem;
-      outline: none;
-      margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
+      font-size: 0.95rem; outline: none; transition: border 0.2s;
     }
+    .input:focus { border-color:#3b82f6; }
 
-    /* 下拉框 – 透明玻璃 */
+    /* 下拉框优化（透明玻璃） */
     select.input {
       appearance: none;
       -webkit-appearance: none;
-      background-color: rgba(15,25,45,0.5);
+      background-color: rgba(15,25,45,0.3);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.8rem center;
@@ -63,86 +110,442 @@
       color: #e1e8f0;
     }
 
-    /* 主按钮 – 玻璃渐变 */
-    .btn {
-      background: linear-gradient(135deg, rgba(37,99,235,0.7) 0%, rgba(30,64,175,0.7) 100%);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 0.6rem 1.4rem;
-      border-radius: 24px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
-      box-shadow: 0 0 12px rgba(37,99,235,0.5);
-      width: 100%;
+    .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
+    .badge { background: rgba(30,58,138,0.5); color: #cbd5e1; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.8rem; }
+    .shop-item {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
     }
-    .btn:hover {
-      background: linear-gradient(135deg, rgba(59,130,246,0.8) 0%, rgba(37,99,235,0.8) 100%);
-      box-shadow: 0 0 18px #3b82f6;
-      transform: scale(1.03);
+    .shop-item:last-child { border-bottom:none; }
+    .shop-item strong { color: #ffffff; text-shadow: 0 0 6px rgba(100,180,255,0.6); }
+    .rank-number {
+      font-size: 1.6rem; font-weight: 700; color: #ffd966; min-width: 2rem;
+      text-shadow: 0 0 12px rgba(255,200,0,0.5);
     }
-
-    /* 次按钮 – 更通透 */
-    .btn-outline {
-      background: rgba(30,58,138,0.2);
-      backdrop-filter: blur(8px);
-      border: 1px solid #3b82f6;
-      color: #bfdbfe;
-      padding: 0.5rem 1.2rem;
-      border-radius: 24px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
-      width: 100%;
+    .gold { color:#ffd966; text-shadow:0 0 14px #ffd966; }
+    .silver { color:#ffffff; text-shadow:0 0 10px #ffffff; }
+    .bronze { color:#e0a96d; text-shadow:0 0 10px #cd7f32; }
+    .category-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:0.8rem; margin:1rem 0; }
+    /* 分类卡片 – 极透 */
+    .category-item {
+      background: rgba(30,58,138,0.15); backdrop-filter: blur(20px);
+      border: 1px solid rgba(96,165,250,0.4);
+      border-radius: 20px; padding: 1.2rem 0.8rem; text-align: center;
+      cursor: pointer; transition: all 0.2s; color: #e0efff;
+      box-shadow: 0 0 6px rgba(59,130,246,0.15);
     }
-    .btn-outline:hover {
-      background: rgba(30,58,138,0.5);
-      border-color: #60a5fa;
-      box-shadow: 0 0 12px #3b82f680;
-      color: white;
+    .category-item:hover {
+      background: rgba(30,58,138,0.4); border-color: #60a5fa;
+      box-shadow: 0 0 18px #3b82f680; transform: translateY(-2px); color: white;
     }
-
-    .avatar-preview {
-      width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-      background: rgba(255,255,255,0.1); margin: 0.5rem auto;
-      display: block;
-    }
-    .mt-2 { margin-top: 0.8rem; }
-    .mb-2 { margin-bottom: 0.8rem; }
+    .category-item span { font-size:2rem; display:block; }
+    .category-item div { text-shadow: 0 0 6px rgba(100,180,255,0.4); }
+    .mt-2 { margin-top:0.8rem; } .mb-2 { margin-bottom:0.8rem; }
     .text-sm { font-size:0.8rem; color:#b0c4de; }
-    label { display:block; margin-bottom:0.3rem; font-size:0.9rem; }
+    .view { display:none; animation:fade 0.25s; }
+    .view.active { display:block; }
+    @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+    .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
+    /* 用户徽章 – 半透明 */
+    .user-badge {
+      font-size:0.85rem; background: rgba(30,58,138,0.3); backdrop-filter: blur(10px);
+      padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem;
+    }
+    .search-box { display:flex; gap:0.5rem; align-items:center; }
+    .avatar-small { width:28px; height:28px; border-radius:50%; object-fit:cover; }
+    .settings-btn { background: transparent; border: none; color: #bfdbfe; font-size:1.5rem; cursor:pointer; transition:0.2s; }
+    .settings-btn:hover { color: white; text-shadow: 0 0 8px #3b82f6; }
   </style>
 </head>
 <body>
-<div class="container">
-  <button class="btn-outline mb-2" onclick="window.location.href='index.html'" data-i18n="back">← 返回主页</button>
-  <div class="card">
-    <h3 data-i18n="profileTitle">👤 个人信息</h3>
-    <img id="avatarPreview" class="avatar-preview" src="" alt="头像">
-    <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="previewAvatar()">
-    <button class="btn-outline mt-2" data-i18n="changeAvatar" onclick="document.getElementById('avatarInput').click()">📷 更换头像</button>
-    <label for="nicknameInput" data-i18n="nicknameLabel">昵称</label>
-    <input type="text" class="input" id="nicknameInput" data-i18n-placeholder="nicknamePlaceholder" placeholder="设置昵称">
-    <button class="btn mt-2" data-i18n="saveProfile" onclick="saveProfile()">保存个人信息</button>
+<div class="app" id="app">
+  <div id="authView" class="view active">
+    <div class="auth-container card">
+      <div class="auth-toggle">
+        <span id="loginTab" class="active" onclick="switchAuthTab('login')" data-i18n="loginTab">登录</span>
+        <span id="regTab" onclick="switchAuthTab('register')" data-i18n="regTab">注册</span>
+      </div>
+      <div id="loginForm">
+        <input type="text" id="loginUsername" class="input mb-2" data-i18n-placeholder="usernamePlaceholder" placeholder="用户名">
+        <input type="password" id="loginPassword" class="input mb-2" data-i18n-placeholder="passwordPlaceholder" placeholder="密码">
+        <button class="btn" onclick="handleLogin()" data-i18n="loginBtn">登录</button>
+      </div>
+      <div id="registerForm" style="display:none;">
+        <input type="text" id="regUsername" class="input mb-2" data-i18n-placeholder="usernamePlaceholder" placeholder="用户名">
+        <input type="password" id="regPassword" class="input mb-2" data-i18n-placeholder="passwordPlaceholder" placeholder="密码">
+        <button class="btn" onclick="handleRegister()" data-i18n="regBtn">注册</button>
+      </div>
+    </div>
   </div>
-  <div class="card">
-    <h3 data-i18n="langTitle">🌐 语言设置</h3>
-    <select id="languageSelect" class="input">
-      <option value="zh">中文</option>
-      <option value="en">English</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-    </select>
-    <button class="btn mt-2" data-i18n="saveLang" onclick="saveLanguage()">保存语言</button>
+
+  <div id="mainView" class="view">
+    <div class="header">
+      <h1 data-i18n="siteTitle">夜成都天府美食榜</h1>
+      <p data-i18n="siteSubtitle" id="welcomeText">深夜里的地道成都味道，由你打卡决定</p>
+      <div class="flex-row" style="justify-content:center; margin-top:0.5rem; align-items:center;">
+        <img id="userAvatar" class="avatar-small" style="display:none;">
+        <span class="user-badge" id="userBadge"></span>
+        <span class="logout-btn btn-outline" onclick="logout()" data-i18n="logout">退出登录</span>
+        <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')" data-i18n="adminPanel">⚙️ 管理面板</button>
+        <button class="settings-btn" onclick="window.location.href='settings.html'" title="设置">⚙️</button>
+      </div>
+      <div class="nav" id="mainNav">
+        <button class="nav-btn active" data-view="home" data-i18n="home">🏠 首页</button>
+        <button class="nav-btn" data-view="ranking" data-i18n="ranking">🔥 天府美食榜</button>
+        <button class="nav-btn" data-view="footprint" data-i18n="footprint">👣 我的足迹</button>
+        <button class="nav-btn" data-view="add" data-i18n="addShop">➕ 评价店铺</button>
+      </div>
+    </div>
+
+    <div id="homeView" class="view active">
+      <div class="card"><h3 data-i18n="category">📂 美食种类</h3><div class="category-grid" id="categoryGrid"></div></div>
+    </div>
+    <div id="categoryView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backCategory">← 返回主页</button>
+      <div id="categoryDetail"></div>
+    </div>
+    <div id="shopView" class="view">
+      <button class="btn-outline btn mb-2" onclick="backToCategory()" data-i18n="backList">← 返回列表</button>
+      <div id="shopDetail"></div>
+    </div>
+    <div id="rankingView" class="view">
+      <div class="card">
+        <h3 data-i18n="rankTitle">🏆 天府美食榜</h3>
+        <p class="text-sm mt-2" data-i18n="rankDesc">近三个月所有用户真实打卡次数排序</p>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="rankingSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索店铺..." oninput="filterRanking()">
+        </div>
+        <div id="rankingList"></div>
+      </div>
+    </div>
+    <div id="footprintView" class="view">
+      <div class="card"><h3 data-i18n="footprintTitle">👣 我的美食足迹</h3><p class="text-sm mt-2" data-i18n="footprintDesc">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
+    </div>
+    <div id="addView" class="view">
+      <div class="card">
+        <h3 data-i18n="addShopTitle">➕ 添加新店铺</h3>
+        <div class="mt-2">
+          <select id="newCategory" class="input">
+            <option value="hotpot">🍲 火锅</option><option value="skewer">🍢 串串香</option>
+            <option value="sichuan">🥢 川菜馆</option><option value="snack">🥟 小吃</option>
+            <option value="noodle">🍜 面馆/米粉</option><option value="bbq">🍖 烧烤</option>
+            <option value="foreign">🌮 异国料理</option><option value="sweet">🍧 甜品饮品</option>
+          </select>
+        </div>
+        <div class="mt-2"><input type="text" class="input" id="newShopName" data-i18n-placeholder="shopNamePlaceholder" placeholder="输入店铺名称"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopAddress" data-i18n-placeholder="addressPlaceholder" placeholder="地址（必填）"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopPhone" data-i18n-placeholder="phonePlaceholder" placeholder="电话（选填）"></div>
+        <button class="btn mt-2" onclick="addShop()" data-i18n="addBtn">添加店铺</button>
+        <p class="text-sm mt-2" data-i18n="addHint">添加后可在分类里找到，并开始打卡。</p>
+      </div>
+    </div>
+    <div id="adminPanelView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backHome">← 返回首页</button>
+      <div class="card"><h3 data-i18n="userManagement">👥 用户管理</h3><div id="userList"></div></div>
+    </div>
   </div>
 </div>
 
 <script>
+  // ========== 数据存储 ==========
+  const STORAGE_KEY = 'chengdu_food_data';
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
+
+  // ========== 多语言包 ==========
+  const i18n = {
+    zh: {
+      siteTitle: '夜成都天府美食榜',
+      siteSubtitle: '深夜里的地道成都味道，由你打卡决定',
+      loginTab: '登录',
+      regTab: '注册',
+      usernamePlaceholder: '用户名',
+      passwordPlaceholder: '密码',
+      loginBtn: '登录',
+      regBtn: '注册',
+      logout: '退出登录',
+      adminPanel: '⚙️ 管理面板',
+      home: '🏠 首页',
+      ranking: '🔥 天府美食榜',
+      footprint: '👣 我的足迹',
+      addShop: '➕ 评价店铺',
+      category: '📂 美食分类',
+      backCategory: '← 返回分类',
+      backList: '← 返回列表',
+      rankTitle: '🏆 天府美食榜',
+      rankDesc: '基于所有用户真实打卡次数排序',
+      searchPlaceholder: '搜索店铺...',
+      footprintTitle: '👣 我的美食足迹',
+      footprintDesc: '你打卡次数最多的10家店铺',
+      addShopTitle: '➕ 添加新店铺',
+      shopNamePlaceholder: '输入店铺名称',
+      addressPlaceholder: '地址（必填）',
+      phonePlaceholder: '电话（选填）',
+      addBtn: '添加店铺',
+      addHint: '添加后可在分类里找到，并开始打卡。',
+      backHome: '← 返回首页',
+      userManagement: '👥 用户管理',
+      noShop: '暂无店铺，快去添加一个吧～',
+      noData: '还没有店铺数据。',
+      noFootprint: '你还没有打卡记录，快去尝尝看吧～',
+      bannedMsg: '你已被禁言，无法发表评论。',
+      commentPlaceholder: '写点评价...',
+      send: '发送',
+      checkin: '✅ 我今天去了这里',
+      editInfo: '✏️ 编辑信息',
+      deleteShop: '🗑️ 删除店铺',
+      addressLabel: '📍 地址：',
+      phoneLabel: '📞 电话：',
+      recentCheckins: '近3月打卡',
+      totalCheckins: '总打卡',
+      categoryLabel: '分类：',
+      defaultNickname: '用户',
+      nicknameExists: '昵称已被使用，请更换',
+      regSuccess: '注册成功，请登录',
+      loginError: '用户名或密码错误',
+      shopNameRequired: '请输入店铺名',
+      addressRequired: '请输入地址',
+      shopAdded: '店铺添加成功！',
+      confirmDelete: '确认删除该店铺？',
+      category_hotpot: '火锅',
+      category_skewer: '串串香',
+      category_sichuan: '川菜馆',
+      category_snack: '小吃',
+      category_noodle: '面馆/米粉',
+      category_bbq: '烧烤',
+      category_foreign: '异国料理',
+      category_sweet: '甜品饮品'
+    },
+    en: {
+      siteTitle: 'Chengdu Night Food Chart',
+      siteSubtitle: 'Authentic Chengdu flavors voted by your visits',
+      loginTab: 'Login',
+      regTab: 'Register',
+      usernamePlaceholder: 'Username',
+      passwordPlaceholder: 'Password',
+      loginBtn: 'Login',
+      regBtn: 'Register',
+      logout: 'Logout',
+      adminPanel: '⚙️ Admin',
+      home: '🏠 Home',
+      ranking: '🔥 Food Chart',
+      footprint: '👣 My Footprint',
+      addShop: '➕ Add Shop',
+      category: '📂 Categories',
+      backCategory: '← Back to Categories',
+      backList: '← Back to List',
+      rankTitle: '🏆 Chengdu Food Chart',
+      rankDesc: 'Ranked by real user visits (last 3 months)',
+      searchPlaceholder: 'Search shops...',
+      footprintTitle: '👣 My Food Footprint',
+      footprintDesc: 'Your top 10 most visited shops',
+      addShopTitle: '➕ Add New Shop',
+      shopNamePlaceholder: 'Shop name',
+      addressPlaceholder: 'Address (required)',
+      phonePlaceholder: 'Phone (optional)',
+      addBtn: 'Add Shop',
+      addHint: 'After adding, it will appear in the category for check-ins.',
+      backHome: '← Back to Home',
+      userManagement: '👥 User Management',
+      noShop: 'No shops yet, go add one~',
+      noData: 'No data yet.',
+      noFootprint: 'No check-ins yet, go try some food~',
+      bannedMsg: 'You have been muted and cannot comment.',
+      commentPlaceholder: 'Write a review...',
+      send: 'Send',
+      checkin: '✅ I went here today',
+      editInfo: '✏️ Edit Info',
+      deleteShop: '🗑️ Delete Shop',
+      addressLabel: '📍 Address: ',
+      phoneLabel: '📞 Phone: ',
+      recentCheckins: 'Recent 3 months',
+      totalCheckins: 'Total',
+      categoryLabel: 'Category: ',
+      defaultNickname: 'User',
+      nicknameExists: 'Nickname already taken',
+      regSuccess: 'Registration successful. Please login.',
+      loginError: 'Wrong username or password',
+      shopNameRequired: 'Please enter a shop name',
+      addressRequired: 'Please enter an address',
+      shopAdded: 'Shop added!',
+      confirmDelete: 'Delete this shop?',
+      category_hotpot: 'Hot Pot',
+      category_skewer: 'Skewer',
+      category_sichuan: 'Sichuan Cuisine',
+      category_snack: 'Snacks',
+      category_noodle: 'Noodles',
+      category_bbq: 'BBQ',
+      category_foreign: 'Foreign Cuisine',
+      category_sweet: 'Desserts & Drinks'
+    },
+    ja: {
+      siteTitle: '夜成都天府美食ランキング',
+      siteSubtitle: '本場の成都の味をあなたのチェックインで決める',
+      loginTab: 'ログイン',
+      regTab: '登録',
+      usernamePlaceholder: 'ユーザー名',
+      passwordPlaceholder: 'パスワード',
+      loginBtn: 'ログイン',
+      regBtn: '登録',
+      logout: 'ログアウト',
+      adminPanel: '⚙️ 管理',
+      home: '🏠 ホーム',
+      ranking: '🔥 美食ランキング',
+      footprint: '👣 足跡',
+      addShop: '➕ 店舗追加',
+      category: '📂 カテゴリ',
+      backCategory: '← カテゴリに戻る',
+      backList: '← リストに戻る',
+      rankTitle: '🏆 天府美食ランキング',
+      rankDesc: '全ユーザーのチェックイン数に基づく',
+      searchPlaceholder: '店舗を検索...',
+      footprintTitle: '👣 私の美食足跡',
+      footprintDesc: 'あなたが最もチェックインした上位10店舗',
+      addShopTitle: '➕ 新規店舗追加',
+      shopNamePlaceholder: '店舗名',
+      addressPlaceholder: '住所（必須）',
+      phonePlaceholder: '電話番号（任意）',
+      addBtn: '追加',
+      addHint: '追加後、カテゴリからチェックインできます。',
+      backHome: '← ホームに戻る',
+      userManagement: '👥 ユーザー管理',
+      noShop: 'まだ店舗がありません。追加してください～',
+      noData: 'データがありません。',
+      noFootprint: 'まだチェックインがありません。食べに行きましょう～',
+      bannedMsg: 'あなたはミュートされています。コメントできません。',
+      commentPlaceholder: 'レビューを書く...',
+      send: '送信',
+      checkin: '✅ 今日行った',
+      editInfo: '✏️ 情報編集',
+      deleteShop: '🗑️ 店舗削除',
+      addressLabel: '📍 住所: ',
+      phoneLabel: '📞 電話: ',
+      recentCheckins: '直近3ヶ月',
+      totalCheckins: '合計',
+      categoryLabel: 'カテゴリ: ',
+      defaultNickname: 'ユーザー',
+      nicknameExists: 'そのニックネームは既に使われています',
+      regSuccess: '登録成功しました。ログインしてください。',
+      loginError: 'ユーザー名またはパスワードが違います',
+      shopNameRequired: '店舗名を入力してください',
+      addressRequired: '住所を入力してください',
+      shopAdded: '店舗を追加しました！',
+      confirmDelete: 'この店舗を削除しますか？',
+      category_hotpot: '火鍋',
+      category_skewer: '串串香',
+      category_sichuan: '四川料理',
+      category_snack: '軽食',
+      category_noodle: '麺類',
+      category_bbq: 'バーベキュー',
+      category_foreign: '異国料理',
+      category_sweet: 'デザート・ドリンク'
+    },
+    ko: {
+      siteTitle: '청두 야간 미식 차트',
+      siteSubtitle: '방문으로 결정되는 진짜 청두의 맛',
+      loginTab: '로그인',
+      regTab: '회원가입',
+      usernamePlaceholder: '사용자 이름',
+      passwordPlaceholder: '비밀번호',
+      loginBtn: '로그인',
+      regBtn: '회원가입',
+      logout: '로그아웃',
+      adminPanel: '⚙️ 관리',
+      home: '🏠 홈',
+      ranking: '🔥 미식 차트',
+      footprint: '👣 내 발자취',
+      addShop: '➕ 가게 추가',
+      category: '📂 카테고리',
+      backCategory: '← 카테고리로 돌아가기',
+      backList: '← 목록으로 돌아가기',
+      rankTitle: '🏆 청두 미식 차트',
+      rankDesc: '실제 사용자 방문 횟수 기준',
+      searchPlaceholder: '가게 검색...',
+      footprintTitle: '👣 나의 미식 발자취',
+      footprintDesc: '가장 많이 방문한 상위 10개 가게',
+      addShopTitle: '➕ 새 가게 추가',
+      shopNamePlaceholder: '가게 이름',
+      addressPlaceholder: '주소 (필수)',
+      phonePlaceholder: '전화번호 (선택)',
+      addBtn: '추가',
+      addHint: '추가 후 카테고리에서 체크인할 수 있습니다.',
+      backHome: '← 홈으로 돌아가기',
+      userManagement: '👥 사용자 관리',
+      noShop: '아직 가게가 없습니다. 추가해주세요~',
+      noData: '데이터가 없습니다.',
+      noFootprint: '체크인 기록이 없습니다. 맛집을 찾아보세요~',
+      bannedMsg: '뮤트 상태입니다. 댓글을 작성할 수 없습니다.',
+      commentPlaceholder: '리뷰 작성...',
+      send: '보내기',
+      checkin: '✅ 오늘 다녀왔어요',
+      editInfo: '✏️ 정보 수정',
+      deleteShop: '🗑️ 가게 삭제',
+      addressLabel: '📍 주소: ',
+      phoneLabel: '📞 전화: ',
+      recentCheckins: '최근 3개월',
+      totalCheckins: '총',
+      categoryLabel: '카테고리: ',
+      defaultNickname: '사용자',
+      nicknameExists: '이미 사용 중인 닉네임입니다',
+      regSuccess: '회원가입 성공. 로그인해주세요.',
+      loginError: '아이디 또는 비밀번호 오류',
+      shopNameRequired: '가게 이름을 입력하세요',
+      addressRequired: '주소를 입력하세요',
+      shopAdded: '가게가 추가되었습니다!',
+      confirmDelete: '이 가게를 삭제하시겠습니까?',
+      category_hotpot: '훠궈',
+      category_skewer: '꼬치구이',
+      category_sichuan: '사천 요리',
+      category_snack: '간식',
+      category_noodle: '면류',
+      category_bbq: '바비큐',
+      category_foreign: '세계 요리',
+      category_sweet: '디저트·음료'
+    }
+  };
+
+  let currentLanguage = 'zh';
+
+  function t(key) {
+    return (i18n[currentLanguage] || i18n.zh)[key] || key;
+  }
+
+  function updateCategorySelect() {
+    const select = document.getElementById('newCategory');
+    if (!select) return;
+    const options = select.querySelectorAll('option');
+    options.forEach(opt => {
+      const key = opt.value;
+      if (key && DEFAULT_CATEGORIES[key]) {
+        const emoji = DEFAULT_CATEGORIES[key].icon;
+        opt.textContent = emoji + ' ' + t('category_' + key);
+      }
+    });
+  }
+
+  function applyLanguage(lang) {
+    currentLanguage = lang;
+    const dict = i18n[lang] || i18n.zh;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (dict[key]) el.placeholder = dict[key];
+    });
+    updateCategorySelect();
+  }
+
+  // ========== 用户数据 ==========
+  function initUsers() {
+    if (!localStorage.getItem(USER_STORAGE_KEY)) {
+      const defaultUsers = {
+        admin: { password: 'admin123', role: 'admin', banned: false, nickname: '管理员', avatar: '', language: 'zh' }
+      };
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUsers));
+    }
+  }
 
   function getUsers() {
     return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}');
@@ -152,143 +555,528 @@
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
   }
 
-  function getCurrentUsername() {
-    const session = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
-    return session.username || null;
-  }
+  let currentUser = null;
 
-  const username = getCurrentUsername();
-  if (!username) {
-    alert('请先登录');
-    window.location.href = 'index.html';
-  }
-
-  const users = getUsers();
-  const user = users[username];
-  if (!user) {
-    alert('用户数据异常');
-    window.location.href = 'index.html';
-  }
-
-  const SETTINGS_I18N = {
-    zh: {
-      profileTitle: '👤 个人信息',
-      changeAvatar: '📷 更换头像',
-      nicknameLabel: '昵称',
-      nicknamePlaceholder: '设置昵称',
-      saveProfile: '保存个人信息',
-      langTitle: '🌐 语言设置',
-      saveLang: '保存语言',
-      back: '← 返回主页',
-      nicknameRequired: '昵称不能为空',
-      nicknameTaken: '昵称已被其他用户使用',
-      profileSaved: '个人信息已保存',
-      langSaved: '语言已保存，返回主页生效'
-    },
-    en: {
-      profileTitle: '👤 Profile',
-      changeAvatar: '📷 Change Avatar',
-      nicknameLabel: 'Nickname',
-      nicknamePlaceholder: 'Set nickname',
-      saveProfile: 'Save Profile',
-      langTitle: '🌐 Language',
-      saveLang: 'Save Language',
-      back: '← Back to Home',
-      nicknameRequired: 'Nickname cannot be empty',
-      nicknameTaken: 'Nickname already taken',
-      profileSaved: 'Profile saved',
-      langSaved: 'Language saved, back to home to apply'
-    },
-    ja: {
-      profileTitle: '👤 プロフィール',
-      changeAvatar: '📷 アバター変更',
-      nicknameLabel: 'ニックネーム',
-      nicknamePlaceholder: 'ニックネームを設定',
-      saveProfile: 'プロフィール保存',
-      langTitle: '🌐 言語',
-      saveLang: '言語を保存',
-      back: '← ホームに戻る',
-      nicknameRequired: 'ニックネームは必須です',
-      nicknameTaken: 'そのニックネームは既に使われています',
-      profileSaved: 'プロフィールを保存しました',
-      langSaved: '言語を保存しました。ホームに戻って反映されます'
-    },
-    ko: {
-      profileTitle: '👤 프로필',
-      changeAvatar: '📷 아바타 변경',
-      nicknameLabel: '닉네임',
-      nicknamePlaceholder: '닉네임 설정',
-      saveProfile: '프로필 저장',
-      langTitle: '🌐 언어',
-      saveLang: '언어 저장',
-      back: '← 홈으로 돌아가기',
-      nicknameRequired: '닉네임을 입력하세요',
-      nicknameTaken: '이미 사용 중인 닉네임입니다',
-      profileSaved: '프로필이 저장되었습니다',
-      langSaved: '언어가 저장되었습니다. 홈으로 돌아가 적용됩니다'
+  function loadSession() {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (stored) {
+      try {
+        const session = JSON.parse(stored);
+        const users = getUsers();
+        if (users[session.username] && users[session.username].role === session.role) {
+          currentUser = session;
+          currentUser.nickname = users[session.username].nickname || session.username;
+          currentUser.avatar = users[session.username].avatar || '';
+          currentUser.language = users[session.username].language || 'zh';
+          applyLanguage(currentUser.language);
+          return true;
+        }
+      } catch(e) {}
     }
+    return false;
+  }
+
+  function saveSession(user) {
+    currentUser = user;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({
+        username: user.username,
+        role: user.role,
+        banned: user.banned,
+        nickname: user.nickname,
+        avatar: user.avatar,
+        language: user.language
+    }));
+}
+
+  function clearSession() {
+    currentUser = null;
+    localStorage.removeItem(SESSION_KEY);
+  }
+
+  function getDisplayName(username) {
+    const users = getUsers();
+    const user = users[username];
+    return (user?.nickname) || username;
+  }
+
+  // ========== 美食数据 ==========
+  const DEFAULT_CATEGORIES = {
+    hotpot: { name:'火锅', icon:'🍲' },
+    skewer: { name:'串串香', icon:'🍢' },
+    sichuan: { name:'川菜馆', icon:'🥢' },
+    snack: { name:'小吃', icon:'🥟' },
+    noodle: { name:'面馆/米粉', icon:'🍜' },
+    bbq: { name:'烧烤', icon:'🍖' },
+    foreign: { name:'异国料理', icon:'🌮' },
+    sweet: { name:'甜品饮品', icon:'🍧' },
   };
 
-  let currentLang = users[username].language || 'zh';
+  let appData = { shops: {}, checkins: {}, comments: {} };
 
-  function t(key) {
-    return (SETTINGS_I18N[currentLang] || SETTINGS_I18N.zh)[key] || key;
-  }
-
-  function applySettingsLanguage() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (t(key)) el.textContent = t(key);
-    });
-    const nicknameInput = document.getElementById('nicknameInput');
-    if (nicknameInput) {
-      nicknameInput.placeholder = t('nicknamePlaceholder');
+  function loadAppData() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed.checkins) {
+          for (const shopId in parsed.checkins) {
+            const arr = parsed.checkins[shopId];
+            if (arr && arr.length > 0 && typeof arr[0] === 'string') {
+              parsed.checkins[shopId] = [];
+            }
+          }
+        }
+        for (const shopId in parsed.shops) {
+          const s = parsed.shops[shopId];
+          if (s.address === undefined) s.address = '';
+          if (s.phone === undefined) s.phone = '';
+        }
+        appData = parsed;
+      } catch(e) { initAppData(); }
+    } else {
+      initAppData();
     }
   }
 
-  applySettingsLanguage();
+  function initAppData() {
+    appData = {
+      shops: {
+        s1: { id:'s1', name:'蜀大侠火锅', category:'hotpot', address:'春熙路南段8号', phone:'028-88886666', createdAt: Date.now() },
+        s2: { id:'s2', name:'钢管厂五区小郡肝', category:'skewer', address:'新华公园后门', phone:'', createdAt: Date.now() },
+        s3: { id:'s3', name:'明婷饭店', category:'sichuan', address:'外曹家巷26号', phone:'', createdAt: Date.now() },
+        s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', address:'文殊院街39号', phone:'028-86938998', createdAt: Date.now() },
+      },
+      checkins: {},
+      comments: {}
+    };
+    saveAppData();
+  }
 
-  document.getElementById('avatarPreview').src = user.avatar || '';
-  document.getElementById('nicknameInput').value = user.nickname || username;
-  document.getElementById('languageSelect').value = currentLang;
+  function saveAppData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+  }
 
-  document.getElementById('languageSelect').addEventListener('change', function() {
-    currentLang = this.value;
-    applySettingsLanguage();
+  function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+  }
+
+  function threeMonthsAgo() {
+    const d = new Date(); d.setDate(d.getDate() - 90);
+    return d.toISOString().split('T')[0];
+  }
+
+  function countRecentCheckins(shopId) {
+    const checkins = appData.checkins[shopId] || [];
+    const start = threeMonthsAgo();
+    return checkins.filter(entry => entry.date >= start).length;
+  }
+
+  function countTotalCheckins(shopId) {
+    return (appData.checkins[shopId] || []).length;
+  }
+
+  function countUserTotalCheckins(shopId) {
+    if (!currentUser) return 0;
+    const checkins = appData.checkins[shopId] || [];
+    return checkins.filter(entry => entry.userId === currentUser.username).length;
+  }
+
+  function checkinShop(shopId) {
+    if (!appData.shops[shopId] || !currentUser) return;
+    const today = new Date().toISOString().split('T')[0];
+    if (!appData.checkins[shopId]) appData.checkins[shopId] = [];
+    appData.checkins[shopId].push({ userId: currentUser.username, date: today });
+    saveAppData();
+    renderShopDetail(shopId);
+  }
+
+  function addComment(shopId, text) {
+    if (!text.trim() || !currentUser || currentUser.banned) return;
+    if (!appData.comments[shopId]) appData.comments[shopId] = [];
+    const comment = {
+      commentId: uid(),
+      userId: currentUser.username,
+      text: text.trim(),
+      date: new Date().toISOString()
+    };
+    appData.comments[shopId].push(comment);
+    saveAppData();
+    renderShopDetail(shopId);
+  }
+
+  function deleteComment(shopId, commentId) {
+    if (!currentUser) return;
+    const comments = appData.comments[shopId] || [];
+    const idx = comments.findIndex(c => c.commentId === commentId);
+    if (idx === -1) return;
+    const comment = comments[idx];
+    if (currentUser.role === 'admin' || comment.userId === currentUser.username) {
+      comments.splice(idx, 1);
+      saveAppData();
+      renderShopDetail(shopId);
+    }
+  }
+
+  function deleteShop(shopId) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    if (confirm(t('confirmDelete'))) {
+      delete appData.shops[shopId];
+      delete appData.checkins[shopId];
+      delete appData.comments[shopId];
+      saveAppData();
+      switchView('home');
+    }
+  }
+
+  function editShop(shopId) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    const shop = appData.shops[shopId];
+    if (!shop) return;
+    const newAddress = prompt(t('addressLabel'), shop.address || '');
+    if (newAddress === null) return;
+    const newPhone = prompt(t('phoneLabel'), shop.phone || '');
+    if (newPhone === null) return;
+    shop.address = newAddress.trim();
+    shop.phone = newPhone.trim();
+    saveAppData();
+    renderShopDetail(shopId);
+  }
+
+  // ========== UI 渲染 ==========
+  let currentCategory = null;
+  let currentShopId = null;
+
+  function switchView(viewName, categoryKey = null, shopId = null) {
+    if (!currentUser && viewName !== 'auth') return;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+    if (viewName === 'home') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('homeView').classList.add('active');
+      document.querySelector('[data-view="home"]')?.classList.add('active');
+      renderHome();
+    } else if (viewName === 'category') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('categoryView').classList.add('active');
+      currentCategory = categoryKey;
+      renderCategory(categoryKey);
+    } else if (viewName === 'shop') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('shopView').classList.add('active');
+      currentShopId = shopId;
+      renderShopDetail(shopId);
+    } else if (viewName === 'ranking') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('rankingView').classList.add('active');
+      document.querySelector('[data-view="ranking"]')?.classList.add('active');
+      renderRanking();
+      filterRanking();
+    } else if (viewName === 'footprint') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('footprintView').classList.add('active');
+      document.querySelector('[data-view="footprint"]')?.classList.add('active');
+      renderFootprint();
+    } else if (viewName === 'add') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('addView').classList.add('active');
+      document.querySelector('[data-view="add"]')?.classList.add('active');
+    } else if (viewName === 'adminPanel') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('adminPanelView').classList.add('active');
+      renderAdminPanel();
+    } else if (viewName === 'auth') {
+      document.getElementById('authView').classList.add('active');
+    }
+  }
+
+  function backToCategory() { switchView('category', currentCategory); }
+
+  function switchAuthTab(tab) {
+    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+    document.getElementById('regTab').classList.toggle('active', tab === 'register');
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+    applyLanguage(currentLanguage);
+  }
+
+  function handleLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    if (!username || !password) return alert(t('loginError'));
+    const users = getUsers();
+    const user = users[username];
+    if (!user || user.password !== password) return alert(t('loginError'));
+
+    const sessionUser = {
+        username,
+        role: user.role,
+        banned: user.banned || false,
+        nickname: user.nickname || username,
+        avatar: user.avatar || '',
+        language: user.language || 'zh'
+    };
+
+    saveSession(sessionUser);
+    currentUser = sessionUser;
+    applyLanguage(currentUser.language);
+    document.getElementById('authView').classList.remove('active');
+    document.getElementById('mainView').classList.add('active');
+    updateUserUI();
+    switchView('home');
+}
+
+  function handleRegister() {
+    const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    if (!username || !password) return alert(t('loginError'));
+    const users = getUsers();
+    if (users[username]) return alert(t('nicknameExists'));
+    const nickname = username;
+    const nicknameTaken = Object.values(users).some(u => u.nickname === nickname);
+    if (nicknameTaken) return alert(t('nicknameExists'));
+    users[username] = { password, role: 'user', banned: false, nickname: nickname, avatar: '', language: 'zh' };
+    saveUsers(users);
+    alert(t('regSuccess'));
+    document.getElementById('regUsername').value = '';
+    document.getElementById('regPassword').value = '';
+    switchAuthTab('login');
+  }
+
+  function logout() {
+    clearSession();
+    document.getElementById('mainView').classList.remove('active');
+    document.getElementById('authView').classList.add('active');
+    document.getElementById('loginUsername').value = '';
+    document.getElementById('loginPassword').value = '';
+  }
+
+  function updateUserUI() {
+    if (!currentUser) return;
+    const avatarImg = document.getElementById('userAvatar');
+    if (currentUser.avatar) {
+      avatarImg.src = currentUser.avatar;
+      avatarImg.style.display = 'inline-block';
+    } else {
+      avatarImg.style.display = 'none';
+    }
+    document.getElementById('userBadge').textContent = 
+      `${currentUser.role === 'admin' ? '👑' : ''} ${currentUser.nickname || currentUser.username} (${currentUser.role})` +
+      (currentUser.banned ? ' [禁言]' : '');
+    document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
+  }
+
+  function renderAdminPanel() {
+    const users = getUsers();
+    const listDiv = document.getElementById('userList');
+    let html = '';
+    Object.entries(users).forEach(([uname, info]) => {
+      const isBanned = info.banned || false;
+      html += `
+        <div class="shop-item">
+          <div><strong>${info.nickname || uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
+          <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
+        </div>`;
+    });
+    listDiv.innerHTML = html || '<p>暂无用户</p>';
+  }
+
+  function toggleBanUser(username) {
+    if (!currentUser || currentUser.role !== 'admin') return;
+    const users = getUsers();
+    if (users[username] && users[username].role !== 'admin') {
+      users[username].banned = !users[username].banned;
+      saveUsers(users);
+      if (currentUser.username === username) {
+        currentUser.banned = users[username].banned;
+        saveSession(currentUser);
+        updateUserUI();
+      }
+      renderAdminPanel();
+    }
+  }
+
+  function filterRanking() {
+    const keyword = document.getElementById('rankingSearch')?.value?.toLowerCase() || '';
+    const items = document.querySelectorAll('#rankingList .shop-item');
+    items.forEach(item => {
+      const name = item.getAttribute('data-name') || '';
+      item.style.display = name.includes(keyword) ? '' : 'none';
+    });
+  }
+
+  function renderHome() {
+    const grid = document.getElementById('categoryGrid');
+    grid.innerHTML = '';
+    Object.entries(DEFAULT_CATEGORIES).forEach(([key, cat]) => {
+      const div = document.createElement('div');
+      div.className = 'category-item';
+      div.innerHTML = `<span>${cat.icon}</span><div>${t('category_' + key)}</div>`;
+      div.onclick = () => switchView('category', key);
+      grid.appendChild(div);
+    });
+  }
+
+  function renderCategory(catKey) {
+    const cat = DEFAULT_CATEGORIES[catKey];
+    const shopIds = Object.keys(appData.shops).filter(id => appData.shops[id].category === catKey);
+    const detailDiv = document.getElementById('categoryDetail');
+    let html = `<h3>${cat.icon} ${t('category_' + catKey)}</h3>`;
+    if (shopIds.length === 0) {
+      html += `<p class="text-sm mt-2">${t('noShop')}</p>`;
+    } else {
+      html += '<div class="mt-2">';
+      shopIds.forEach(id => {
+        const shop = appData.shops[id];
+        html += `
+          <div class="shop-item">
+            <div><strong>${shop.name}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)} 次</div></div>
+            <button class="btn-outline btn" onclick="switchView('shop', '${catKey}', '${id}')">详情</button>
+          </div>`;
+      });
+      html += '</div>';
+    }
+    detailDiv.innerHTML = html;
+  }
+
+  function renderShopDetail(shopId) {
+    const shop = appData.shops[shopId];
+    if (!shop || !currentUser) return;
+    const recentCount = countRecentCheckins(shopId);
+    const totalCount = countTotalCheckins(shopId);
+    const comments = appData.comments[shopId] || [];
+    const detailDiv = document.getElementById('shopDetail');
+    let html = `
+      <div class="card">
+        <h3>${shop.name}</h3>
+        <p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${t('category_' + shop.category)}</p>
+        <p class="text-sm">${t('addressLabel')} ${shop.address || '暂无'}</p>
+        <p class="text-sm">${t('phoneLabel')} ${shop.phone || '暂无'}</p>
+        <div class="flex-row mt-2">
+          <div class="badge">🔥 ${t('recentCheckins')} ${recentCount} 次</div>
+          <div class="badge">📋 ${t('totalCheckins')} ${totalCount} 次</div>
+        </div>
+        <div class="mt-2">
+          <button class="btn" onclick="checkinShop('${shopId}')">${t('checkin')}</button>
+          ${currentUser.role === 'admin' ? `
+            <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">${t('editInfo')}</button>
+            <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">${t('deleteShop')}</button>
+          ` : ''}
+        </div>
+      </div>
+      <div class="card mt-2">
+        <h4>💬 留言 (${comments.length})</h4>
+        <div id="commentsList">
+          ${comments.slice(-10).map(c => {
+            const canDelete = (currentUser.role === 'admin' || c.userId === currentUser.username);
+            return `<div class="text-sm mt-2" style="display:flex; justify-content:space-between;">
+              <span>🗣 <strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+              ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+        ${!currentUser.banned ? `
+        <div class="flex-row mt-2">
+          <input type="text" class="input" id="commentInput" placeholder="${t('commentPlaceholder')}">
+          <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">${t('send')}</button>
+        </div>` : `<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`}
+      </div>`;
+    detailDiv.innerHTML = html;
+  }
+
+  function renderRanking() {
+    const allShops = Object.values(appData.shops);
+    const ranked = allShops.map(shop => ({ ...shop, recent: countRecentCheckins(shop.id) }))
+      .sort((a,b) => b.recent - a.recent);
+    const listDiv = document.getElementById('rankingList');
+    if (ranked.length === 0) {
+      listDiv.innerHTML = `<p class="text-sm mt-2">${t('noData')}</p>`;
+      return;
+    }
+    let html = '<div class="mt-2">';
+    ranked.forEach((shop, idx) => {
+      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
+      html += `
+        <div class="shop-item" data-name="${shop.name.toLowerCase()}">
+          <div class="flex-row">
+            <span class="rank-number ${rankClass}">#${idx+1}</span>
+            <div><strong>${shop.name}</strong><div class="text-sm">${shop.recent} 次打卡</div></div>
+          </div>
+          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
+        </div>`;
+    });
+    html += '</div>';
+    listDiv.innerHTML = html;
+  }
+
+  function renderFootprint() {
+    const allShops = Object.values(appData.shops);
+    const userShops = allShops.map(shop => ({
+      ...shop,
+      total: countUserTotalCheckins(shop.id)
+    })).filter(s => s.total > 0)
+      .sort((a,b) => b.total - a.total)
+      .slice(0, 10);
+
+    const listDiv = document.getElementById('footprintList');
+    if (userShops.length === 0) {
+      listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFootprint')}</p>`;
+      return;
+    }
+    let html = '<div class="mt-2">';
+    userShops.forEach((shop, idx) => {
+      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
+      html += `
+        <div class="shop-item">
+          <div class="flex-row">
+            <span class="rank-number ${rankClass}">#${idx+1}</span>
+            <div><strong>${shop.name}</strong><div class="text-sm">${shop.total} 次打卡</div></div>
+          </div>
+          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
+        </div>`;
+    });
+    html += '</div>';
+    listDiv.innerHTML = html;
+  }
+
+  function addShop() {
+    if (!currentUser) return;
+    const name = document.getElementById('newShopName').value.trim();
+    const category = document.getElementById('newCategory').value;
+    const address = document.getElementById('newShopAddress').value.trim();
+    const phone = document.getElementById('newShopPhone').value.trim();
+    if (!name) return alert(t('shopNameRequired'));
+    if (!address) return alert(t('addressRequired'));
+    const shopId = uid();
+    appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
+    appData.checkins[shopId] = [];
+    appData.comments[shopId] = [];
+    saveAppData();
+    document.getElementById('newShopName').value = '';
+    document.getElementById('newShopAddress').value = '';
+    document.getElementById('newShopPhone').value = '';
+    alert(t('shopAdded'));
+    switchView('home');
+  }
+
+  document.getElementById('mainNav').addEventListener('click', e => {
+    if (e.target.classList.contains('nav-btn')) {
+      const view = e.target.dataset.view;
+      switchView(view);
+    }
   });
 
-  function previewAvatar() {
-    const file = document.getElementById('avatarInput').files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById('avatarPreview').src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function saveProfile() {
-    const newNickname = document.getElementById('nicknameInput').value.trim();
-    const avatarData = document.getElementById('avatarPreview').src;
-    if (!newNickname) return alert(t('nicknameRequired'));
-    const allUsers = getUsers();
-    for (const [uname, info] of Object.entries(allUsers)) {
-      if (uname !== username && info.nickname === newNickname) {
-        return alert(t('nicknameTaken'));
-      }
-    }
-    allUsers[username].nickname = newNickname;
-    allUsers[username].avatar = avatarData;
-    saveUsers(allUsers);
-    alert(t('profileSaved'));
-  }
-
-  function saveLanguage() {
-    const lang = document.getElementById('languageSelect').value;
-    const allUsers = getUsers();
-    allUsers[username].language = lang;
-    saveUsers(allUsers);
-    alert(t('langSaved'));
+  // 初始化
+  initUsers();
+  loadAppData();
+  if (loadSession()) {
+    document.getElementById('authView').classList.remove('active');
+    document.getElementById('mainView').classList.add('active');
+    updateUserUI();
+    switchView('home');
+  } else {
+    document.getElementById('authView').classList.add('active');
+    document.getElementById('mainView').classList.remove('active');
   }
 </script>
 </body>
