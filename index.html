@@ -197,8 +197,12 @@
     <div id="homeView" class="view active">
       <div class="card"><h3 data-i18n="category">📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
       <div class="card" id="touristHotSection">
-        <h3 data-i18n="touristHotTitle">🔎 游客必看·热门TOP5</h3>
+        <h3 data-i18n="mustKillTitle">🔪 必杀榜·热门TOP5</h3>
         <div id="touristHotList"></div>
+        <div class="card" id="forumTopSection">
+        <h3 data-i18n="forumTopTitle">📚 热门攻略TOP5</h3>
+        <div id="forumTopList"></div>
+        </div>
       </div>
     </div>
     <div id="categoryView" class="view">
@@ -1131,6 +1135,7 @@
         activateMainAndShow('homeView', 'home');
         renderHome();
         renderTouristHot();
+        renderForumTop();
         break;
       case 'category':
         activateMainAndShow('categoryView');
@@ -1286,6 +1291,37 @@
     html += '</div>';
     listDiv.innerHTML = html;
   }
+
+  function renderForumTop() {
+  const topDiv = document.getElementById('forumTopList');
+  const posts = Object.values(appData.posts);
+  // 按收藏量降序，相同收藏按点赞数降序
+  posts.sort((a, b) => {
+    const favA = (a.favorites || []).length;
+    const favB = (b.favorites || []).length;
+    if (favB !== favA) return favB - favA;
+    const likeA = (a.likes || []).length;
+    const likeB = (b.likes || []).length;
+    return likeB - likeA;
+  });
+  const top5 = posts.slice(0, 5);
+  if (!top5.length) {
+    topDiv.innerHTML = '<p class="text-sm mt-2">暂无攻略</p>';
+    return;
+  }
+  let html = '<div class="mt-2">';
+  top5.forEach((p, i) => {
+    html += `
+      <div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
+        <div>
+          <span style="color:#ffd966;">#${i+1}</span> <strong>${p.title}</strong>
+          <div class="text-sm">${t('category_'+p.category)} · ❤️${(p.favorites||[]).length} · 👍${(p.likes||[]).length}</div>
+        </div>
+      </div>`;
+  });
+  html += '</div>';
+  topDiv.innerHTML = html;
+}
 
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
