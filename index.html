@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>夜成都·天府美食榜</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐼</text></svg>">
-  <meta name="keywords" content="成都美食,热度榜,火锅,串串,探店,打卡">
+  <meta name="keywords" content="成都美食,热度榜,火锅,串串,探店,打卡,攻略,旅游">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -22,141 +22,54 @@
     .app { max-width:900px; margin:0 auto; padding:1rem; }
     .auth-container { max-width:400px; margin:4rem auto 2rem; }
     .auth-toggle { display:flex; justify-content:center; margin-bottom:1rem; }
-    .auth-toggle span {
-      padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent;
-    }
+    .auth-toggle span { padding:0.4rem 1.2rem; cursor:pointer; opacity:0.6; border-bottom:2px solid transparent; }
     .auth-toggle span.active { opacity:1; border-color:#3b82f6; color:#fff; }
-    .header {
-      text-align:center; padding:2rem 1rem 1rem;
-      backdrop-filter: blur(40px); background: rgba(10,20,40,0.15);
-      border-radius:0 0 32px 32px; margin-bottom:1.5rem;
-    }
-    .header h1 {
-      font-size: 2.6rem; font-weight: 700; letter-spacing: 2px;
-      background: linear-gradient(135deg, #ffffff 0%, #a0d0ff 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 16px rgba(80,160,255,0.7);
-      margin-bottom: 0.5rem;
-    }
+    .header { text-align:center; padding:2rem 1rem 1rem; backdrop-filter: blur(40px); background: rgba(10,20,40,0.15); border-radius:0 0 32px 32px; margin-bottom:1.5rem; }
+    .header h1 { font-size:2.6rem; font-weight:700; letter-spacing:2px; background:linear-gradient(135deg,#ffffff 0%,#a0d0ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 0 16px rgba(80,160,255,0.7); margin-bottom:0.5rem; }
     .header p { color:#c1d4ff; margin-top:0.5rem; font-size:1rem; }
     .nav { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-top:1.5rem; }
-    .nav-btn {
-      background: rgba(30,58,138,0.2);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(96,165,250,0.5);
-      color: #dbeafe; padding: 0.7rem 1.4rem; border-radius: 30px;
-      font-size: 0.95rem; cursor:pointer; transition: all 0.2s;
-      box-shadow: 0 0 8px rgba(59,130,246,0.3); font-weight: 500;
-    }
-    .nav-btn.active, .nav-btn:hover {
-      background: rgba(30,58,138,0.5);
-      border-color: #60a5fa; color: white;
-      box-shadow: 0 0 16px #3b82f6, 0 0 8px #2563eb80; transform: scale(1.03);
-    }
-    .card {
-      background: rgba(15,25,45,0.15); backdrop-filter: blur(30px);
-      border-radius: 24px; padding: 1.2rem; margin-bottom: 1rem;
-      border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .card h3 { font-weight: 600; font-size: 1.2rem; color: #ffffff; text-shadow: 0 0 8px rgba(100,180,255,0.5); }
-    .btn {
-      background: linear-gradient(135deg, rgba(37,99,235,0.6) 0%, rgba(30,64,175,0.6) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
-      font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
-      box-shadow: 0 0 12px rgba(37,99,235,0.4);
-    }
-    .btn:hover {
-      background: linear-gradient(135deg, rgba(59,130,246,0.7) 0%, rgba(37,99,235,0.7) 100%);
-      box-shadow: 0 0 18px #3b82f6; transform: scale(1.03);
-    }
-    .btn-outline {
-      background: rgba(30,58,138,0.15); backdrop-filter: blur(10px);
-      border: 1px solid #3b82f6; color: #bfdbfe; padding: 0.5rem 1.2rem;
-      border-radius: 24px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
-    }
-    .btn-outline:hover {
-      background: rgba(30,58,138,0.4); border-color: #60a5fa;
-      box-shadow: 0 0 12px #3b82f680; color: white;
-    }
-    .input {
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
-      font-size: 0.95rem; outline: none; transition: border 0.2s;
-    }
+    .nav-btn { background: rgba(30,58,138,0.2); backdrop-filter: blur(20px); border:1px solid rgba(96,165,250,0.5); color:#dbeafe; padding:0.7rem 1.4rem; border-radius:30px; font-size:0.95rem; cursor:pointer; transition:all 0.2s; box-shadow:0 0 8px rgba(59,130,246,0.3); font-weight:500; }
+    .nav-btn.active,.nav-btn:hover { background:rgba(30,58,138,0.5); border-color:#60a5fa; color:white; box-shadow:0 0 16px #3b82f6,0 0 8px #2563eb80; transform:scale(1.03); }
+    .card { background:rgba(15,25,45,0.15); backdrop-filter:blur(30px); border-radius:24px; padding:1.2rem; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.2); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+    .card h3 { font-weight:600; font-size:1.2rem; color:#ffffff; text-shadow:0 0 8px rgba(100,180,255,0.5); }
+    .btn { background:linear-gradient(135deg,rgba(37,99,235,0.6) 0%,rgba(30,64,175,0.6) 100%); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.25); color:white; padding:0.6rem 1.4rem; border-radius:24px; font-weight:600; cursor:pointer; transition:all 0.2s; font-size:0.9rem; box-shadow:0 0 12px rgba(37,99,235,0.4); }
+    .btn:hover { background:linear-gradient(135deg,rgba(59,130,246,0.7) 0%,rgba(37,99,235,0.7) 100%); box-shadow:0 0 18px #3b82f6; transform:scale(1.03); }
+    .btn-outline { background:rgba(30,58,138,0.15); backdrop-filter:blur(10px); border:1px solid #3b82f6; color:#bfdbfe; padding:0.5rem 1.2rem; border-radius:24px; font-weight:500; cursor:pointer; transition:all 0.2s; font-size:0.9rem; }
+    .btn-outline:hover { background:rgba(30,58,138,0.4); border-color:#60a5fa; box-shadow:0 0 12px #3b82f680; color:white; }
+    .input { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:0.7rem 1rem; width:100%; color:white; font-size:0.95rem; outline:none; transition:border 0.2s; }
     .input:focus { border-color:#3b82f6; }
-    select.input {
-      appearance: none;
-      -webkit-appearance: none;
-      background-color: rgba(15,25,45,0.3);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.8rem center;
-      background-size: 1.2rem;
-      padding-right: 2.5rem;
-      color: #e1e8f0;
-    }
-    select.input option { background: #15203d; color: #e1e8f0; }
+    select.input { appearance:none; -webkit-appearance:none; background-color:rgba(15,25,45,0.3); background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.8rem center; background-size:1.2rem; padding-right:2.5rem; color:#e1e8f0; }
+    select.input option { background:#15203d; color:#e1e8f0; }
     .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
-    .badge { background: rgba(30,58,138,0.5); color: #cbd5e1; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.8rem; }
-    .shop-item {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
-    }
+    .badge { background:rgba(30,58,138,0.5); color:#cbd5e1; border-radius:20px; padding:0.3rem 0.9rem; font-size:0.8rem; }
+    .shop-item { display:flex; justify-content:space-between; align-items:center; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.06); }
     .shop-item:last-child { border-bottom:none; }
-    .shop-item strong { color: #ffffff; text-shadow: 0 0 6px rgba(100,180,255,0.6); }
-    .rank-number {
-      font-size: 1.6rem; font-weight: 700; color: #ffd966; min-width: 2rem;
-      text-shadow: 0 0 12px rgba(255,200,0,0.5);
-    }
+    .shop-item strong { color:#ffffff; text-shadow:0 0 6px rgba(100,180,255,0.6); }
+    .rank-number { font-size:1.6rem; font-weight:700; color:#ffd966; min-width:2rem; text-shadow:0 0 12px rgba(255,200,0,0.5); }
     .gold { color:#ffd966; text-shadow:0 0 14px #ffd966; }
     .silver { color:#ffffff; text-shadow:0 0 10px #ffffff; }
     .bronze { color:#e0a96d; text-shadow:0 0 10px #cd7f32; }
     .category-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:0.8rem; margin:1rem 0; }
-    .category-item {
-      background: rgba(30,58,138,0.15); backdrop-filter: blur(20px);
-      border: 1px solid rgba(96,165,250,0.4);
-      border-radius: 20px; padding: 1.2rem 0.8rem; text-align: center;
-      cursor: pointer; transition: all 0.2s; color: #e0efff;
-      box-shadow: 0 0 6px rgba(59,130,246,0.15);
-    }
-    .category-item:hover {
-      background: rgba(30,58,138,0.4); border-color: #60a5fa;
-      box-shadow: 0 0 18px #3b82f680; transform: translateY(-2px); color: white;
-    }
+    .category-item { background:rgba(30,58,138,0.15); backdrop-filter:blur(20px); border:1px solid rgba(96,165,250,0.4); border-radius:20px; padding:1.2rem 0.8rem; text-align:center; cursor:pointer; transition:all 0.2s; color:#e0efff; box-shadow:0 0 6px rgba(59,130,246,0.15); }
+    .category-item:hover { background:rgba(30,58,138,0.4); border-color:#60a5fa; box-shadow:0 0 18px #3b82f680; transform:translateY(-2px); color:white; }
     .category-item span { font-size:2rem; display:block; }
-    .category-item div { text-shadow: 0 0 6px rgba(100,180,255,0.4); }
+    .category-item div { text-shadow:0 0 6px rgba(100,180,255,0.4); }
     .mt-2 { margin-top:0.8rem; } .mb-2 { margin-bottom:0.8rem; }
     .text-sm { font-size:0.8rem; color:#b0c4de; }
     .view { display:none; animation:fade 0.25s; }
     .view.active { display:block; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .logout-btn { font-size:0.8rem; opacity:0.7; cursor:pointer; }
-    .user-badge {
-      font-size:0.85rem; background: rgba(30,58,138,0.3); backdrop-filter: blur(10px);
-      padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem;
-    }
+    .user-badge { font-size:0.85rem; background:rgba(30,58,138,0.3); backdrop-filter:blur(10px); padding:0.2rem 0.8rem; border-radius:12px; display:inline-flex; align-items:center; gap:0.3rem; }
     .search-box { display:flex; gap:0.5rem; align-items:center; }
     .avatar-small { width:28px; height:28px; border-radius:50%; object-fit:cover; }
-    .settings-btn {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(30,58,138,0.25); backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #bfdbfe; font-size: 1.4rem; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 8px rgba(59,130,246,0.3);
-    }
-    .settings-btn:hover {
-      background: rgba(30,58,138,0.5); color: white;
-      box-shadow: 0 0 16px #3b82f6; transform: scale(1.05);
-    }
+    .settings-btn { width:40px; height:40px; border-radius:50%; background:rgba(30,58,138,0.25); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.3); color:#bfdbfe; font-size:1.4rem; cursor:pointer; transition:all 0.2s; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(59,130,246,0.3); }
+    .settings-btn:hover { background:rgba(30,58,138,0.5); color:white; box-shadow:0 0 16px #3b82f6; transform:scale(1.05); }
   </style>
 </head>
 <body>
 <div class="app" id="app">
-  <div id="authView" class="view active">
+  <div id="authView" class="view">
     <div class="auth-container card">
       <div class="auth-toggle">
         <span id="loginTab" class="active" onclick="switchAuthTab('login')" data-i18n="loginTab">登录</span>
@@ -182,21 +95,31 @@
       <div class="flex-row" style="justify-content:center; margin-top:0.5rem; align-items:center;">
         <img id="userAvatar" class="avatar-small" style="display:none;">
         <span class="user-badge" id="userBadge"></span>
-        <span class="logout-btn btn-outline" onclick="logout()" data-i18n="logout">退出登录</span>
+        <span id="authButtons" style="display:flex; gap:0.5rem;">
+          <button class="btn-outline" onclick="switchView('auth')" data-i18n="loginTab">登录</button>
+          <button class="btn-outline" onclick="switchView('auth')" data-i18n="regTab">注册</button>
+        </span>
+        <span class="logout-btn btn-outline" onclick="logout()" data-i18n="logout" style="display:none;">退出登录</span>
         <button class="btn-outline" id="adminPanelBtn" style="display:none;" onclick="switchView('adminPanel')" data-i18n="adminPanel">管理面板</button>
         <button class="settings-btn" onclick="window.location.href='settings.html'" title="设置">⚙️</button>
       </div>
       <div class="nav" id="mainNav">
         <button class="nav-btn active" data-view="home" data-i18n="home">🏠 首页</button>
         <button class="nav-btn" data-view="ranking" data-i18n="ranking">🔥 天府美食榜</button>
+        <button class="nav-btn" data-view="forum" data-i18n="forumNav">📝 美食攻略</button>
         <button class="nav-btn" data-view="footprint" data-i18n="footprint">👣 我的足迹</button>
-        <button class="nav-btn" data-view="favorites" data-i18n="favoritesNav">❤️ 我的收藏</button>
-        <button class="nav-btn" data-view="add" data-i18n="addShop">➕ 评价店铺</button>
+        <button class="nav-btn" data-view="favorites" data-i18n="favoritesNav">❤️ 宝藏餐馆</button>
+        <button class="nav-btn" data-view="add" data-i18n="addShop">➕ 添加餐馆</button>
+        <button class="nav-btn" data-view="forumFavorites" data-i18n="forumFavoritesNav">📌 攻略收藏</button>
       </div>
     </div>
 
     <div id="homeView" class="view active">
-      <div class="card"><h3 data-i18n="category">📂 美食种类</h3><div class="category-grid" id="categoryGrid"></div></div>
+      <div class="card"><h3 data-i18n="category">📂 美食分类</h3><div class="category-grid" id="categoryGrid"></div></div>
+      <div class="card" id="touristHotSection">
+        <h3 data-i18n="touristHotTitle">🔎 游客必看·热门TOP5</h3>
+        <div id="touristHotList"></div>
+      </div>
     </div>
     <div id="categoryView" class="view">
       <button class="btn-outline btn mb-2" onclick="switchView('home')" data-i18n="backCategory">← 返回主页</button>
@@ -211,18 +134,18 @@
         <h3 data-i18n="rankTitle">🏆 天府美食榜</h3>
         <p class="text-sm mt-2" data-i18n="rankDesc">近三个月所有用户真实打卡次数排序</p>
         <div class="search-box mt-2 mb-2">
-          <input type="text" class="input" id="rankingSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索店铺..." oninput="filterRanking()">
+          <input type="text" class="input" id="rankingSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索餐馆..." oninput="filterRanking()">
         </div>
         <div id="rankingList"></div>
       </div>
     </div>
     <div id="footprintView" class="view">
-      <div class="card"><h3 data-i18n="footprintTitle">👣 我的美食足迹</h3><p class="text-sm mt-2" data-i18n="footprintDesc">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
+      <div class="card"><h3 data-i18n="footprintTitle">👣 我的美食足迹</h3><p class="text-sm mt-2" data-i18n="footprintDesc">你打卡次数最多的10家餐馆</p><div id="footprintList"></div></div>
     </div>
     <div id="favoritesView" class="view">
       <div class="card">
-        <h3 data-i18n="favoritesTitle">❤️ 我的收藏</h3>
-        <p class="text-sm mt-2" data-i18n="favoritesDesc">你收藏的店铺</p>
+        <h3 data-i18n="favoritesTitle">❤️ 宝藏餐馆</h3>
+        <p class="text-sm mt-2" data-i18n="favoritesDesc">你收藏的餐馆</p>
         <div class="search-box mt-2 mb-2">
           <input type="text" class="input" id="favoritesSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索收藏..." oninput="filterFavorites()">
         </div>
@@ -231,7 +154,7 @@
     </div>
     <div id="addView" class="view">
       <div class="card">
-        <h3 data-i18n="addShopTitle">➕ 添加新店铺</h3>
+        <h3 data-i18n="addShopTitle">➕ 添加餐馆</h3>
         <div class="mt-2">
           <select id="newCategory" class="input">
             <option value="hotpot">🍲 火锅</option><option value="skewer">🍢 串串香</option>
@@ -240,11 +163,54 @@
             <option value="foreign">🌮 异国料理</option><option value="sweet">🍧 甜品饮品</option>
           </select>
         </div>
-        <div class="mt-2"><input type="text" class="input" id="newShopName" data-i18n-placeholder="shopNamePlaceholder" placeholder="输入店铺名称"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopName" data-i18n-placeholder="shopNamePlaceholder" placeholder="输入餐馆名称"></div>
         <div class="mt-2"><input type="text" class="input" id="newShopAddress" data-i18n-placeholder="addressPlaceholder" placeholder="地址（必填）"></div>
         <div class="mt-2"><input type="text" class="input" id="newShopPhone" data-i18n-placeholder="phonePlaceholder" placeholder="电话（选填）"></div>
-        <button class="btn mt-2" onclick="addShop()" data-i18n="addBtn">添加店铺</button>
+        <div class="mt-2"><input type="text" class="input" id="newShopPrice" data-i18n-placeholder="pricePlaceholder" placeholder="人均消费（如 60元/人）"></div>
+        <div class="mt-2"><input type="text" class="input" id="newShopHours" data-i18n-placeholder="hoursPlaceholder" placeholder="营业时间（如 11:00-22:00）"></div>
+        <button class="btn mt-2" onclick="addShop()" data-i18n="addBtn">添加餐馆</button>
         <p class="text-sm mt-2" data-i18n="addHint">添加后可在分类里找到，并开始打卡。</p>
+      </div>
+    </div>
+    <div id="forumView" class="view">
+      <div class="card">
+        <h3 data-i18n="forumTitle">📝 美食攻略</h3>
+        <button class="btn mt-2 mb-2" onclick="switchView('forumNewPost')" data-i18n="newPost">+ 发新帖</button>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="forumSearch" data-i18n-placeholder="forumSearchPlaceholder" placeholder="搜索帖子..." oninput="filterForumPosts()">
+        </div>
+        <div class="flex-row mb-2" style="gap:0.4rem;">
+          <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem;" onclick="sortForumPosts('time')" data-i18n="sortByTime">🕐 最新</button>
+          <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem;" onclick="sortForumPosts('likes')" data-i18n="sortByLikes">🔥 最热</button>
+          <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem;" onclick="sortForumPosts('favorites')" data-i18n="sortByFavorites">❤️ 收藏</button>
+        </div>
+        <div id="forumPostList"></div>
+      </div>
+    </div>
+    <div id="forumNewPostView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('forum')">← 返回论坛</button>
+      <div class="card">
+        <h3 data-i18n="newPost">发新帖</h3>
+        <select id="postCategory" class="input mb-2">
+          <option value="guide" data-i18n="category_guide">🧳 旅游攻略</option>
+          <option value="review" data-i18n="category_review">🍽️ 美食评鉴</option>
+        </select>
+        <input type="text" class="input mb-2" id="postTitle" data-i18n-placeholder="postTitlePlaceholder" placeholder="帖子标题">
+        <textarea class="input" id="postContent" rows="6" data-i18n-placeholder="postContentPlaceholder" placeholder="分享你的攻略或评价..."></textarea>
+        <button class="btn mt-2" onclick="submitPost()" data-i18n="submitPost">发布</button>
+      </div>
+    </div>
+    <div id="postDetailView" class="view">
+      <button class="btn-outline btn mb-2" onclick="switchView('forum')">← 返回论坛</button>
+      <div id="postDetail"></div>
+    </div>
+    <div id="forumFavoritesView" class="view">
+      <div class="card">
+        <h3 data-i18n="forumFavoritesTitle">📌 攻略收藏</h3>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="forumFavoritesSearch" data-i18n-placeholder="forumSearchPlaceholder" placeholder="搜索收藏..." oninput="filterForumFavorites()">
+        </div>
+        <div id="forumFavoritesList"></div>
       </div>
     </div>
     <div id="adminPanelView" class="view">
@@ -256,7 +222,6 @@
         </div>
         <div id="userList"></div>
       </div>
-      <!-- 数据备份与恢复 -->
       <div class="card mt-2">
         <h3>💾 数据备份与恢复</h3>
         <div class="flex-row" style="gap:0.5rem;">
@@ -264,7 +229,7 @@
           <button class="btn-outline" onclick="document.getElementById('restoreFileInput').click()">📤 恢复数据</button>
           <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="importAllData(this)">
         </div>
-        <p class="text-sm mt-2">导出所有网站数据（JSON文件），之后可通过恢复按钮导入。注意：恢复数据将覆盖当前所有信息。</p>
+        <p class="text-sm mt-2">导出所有网站数据（JSON文件），之后可通过恢复按钮导入。</p>
       </div>
     </div>
   </div>
@@ -276,7 +241,6 @@
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
-  // ========== 多语言包 ==========
   const i18n = {
     zh: {
       siteTitle: '夜成都·天府美食榜',
@@ -284,851 +248,430 @@
       loginTab: '登录', regTab: '注册', usernamePlaceholder: '用户名', passwordPlaceholder: '密码',
       loginBtn: '登录', regBtn: '注册', logout: '退出登录', adminPanel: '管理面板',
       home: '🏠 首页', ranking: '🔥 天府美食榜', footprint: '👣 我的足迹',
-      addShop: '➕ 评价店铺', favoritesNav: '❤️ 我的收藏',
+      addShop: '➕ 添加餐馆', favoritesNav: '❤️ 宝藏餐馆', forumNav: '📝 美食攻略', forumFavoritesNav: '📌 攻略收藏',
       category: '📂 美食分类', backCategory: '← 返回分类', backList: '← 返回列表',
       rankTitle: '🏆 天府美食榜', rankDesc: '近三个月所有用户真实打卡次数排序',
-      searchPlaceholder: '搜索店铺...', footprintTitle: '👣 我的美食足迹',
-      footprintDesc: '你打卡次数最多的10家店铺', favoritesTitle: '❤️ 我的收藏',
-      favoritesDesc: '你收藏的店铺', addShopTitle: '➕ 添加新店铺',
-      shopNamePlaceholder: '输入店铺名称', addressPlaceholder: '地址（必填）',
-      phonePlaceholder: '电话（选填）', addBtn: '添加店铺',
-      addHint: '添加后可在分类里找到，并开始打卡。', backHome: '← 返回首页',
-      userManagement: '👥 用户管理', noShop: '暂无店铺，快去添加一个吧～',
-      noData: '还没有店铺数据。', noFootprint: '你还没有打卡记录，快去尝尝看吧～',
-      noFavorites: '你还没有收藏店铺～', bannedMsg: '你已被禁言，无法发表评论。',
-      commentPlaceholder: '写点评价...', send: '发送', checkin: '✅ 我今天去了这里',
-      editInfo: '✏️ 编辑信息', deleteShop: '🗑️ 删除店铺',
-      addressLabel: '📍 地址：', phoneLabel: '📞 电话：', recentCheckins: '近3月打卡',
-      totalCheckins: '总打卡', categoryLabel: '分类：',
+      searchPlaceholder: '搜索餐馆...', footprintTitle: '👣 我的美食足迹',
+      footprintDesc: '你打卡次数最多的10家餐馆', favoritesTitle: '❤️ 宝藏餐馆',
+      favoritesDesc: '你收藏的餐馆', addShopTitle: '➕ 添加餐馆',
+      shopNamePlaceholder: '输入餐馆名称', addressPlaceholder: '地址（必填）',
+      phonePlaceholder: '电话（选填）', pricePlaceholder: '人均消费（如 60元/人）', hoursPlaceholder: '营业时间（如 11:00-22:00）',
+      addBtn: '添加餐馆', addHint: '添加后可在分类里找到，并开始打卡。', backHome: '← 返回首页',
+      userManagement: '👥 用户管理', noShop: '暂无餐馆，快去添加一个吧～',
+      noData: '还没有数据。', noFootprint: '你还没有打卡记录，快去尝尝看吧～',
+      noFavorites: '你还没有收藏餐馆～', bannedMsg: '你已被禁言，无法发表评论。',
+      commentPlaceholder: '写点评价...', send: '发送', checkin: '✅ 我今天去了这家',
+      editInfo: '✏️ 编辑信息', deleteShop: '🗑️ 删除餐馆',
+      addressLabel: '📍 地址：', phoneLabel: '📞 电话：', priceLabel: '💰 人均：', hoursLabel: '🕒 营业时间：',
+      recentCheckins: '近3月打卡', totalCheckins: '总打卡', categoryLabel: '分类：',
       favoriteBtn: '❤️ 收藏', unfavoriteBtn: '💔 取消收藏', favoriteCount: '被收藏次数',
       like: '👍', unlike: '👎', likeCount: '点赞数',
-      sortByLikes: '🔥 按热度', sortByTime: '🕐 按时间',
+      sortByLikes: '🔥 按热度', sortByTime: '🕐 按时间', sortByFavorites: '❤️ 按收藏',
       defaultNickname: '用户', nicknameExists: '昵称已被使用，请更换',
       regSuccess: '注册成功，请登录', loginError: '用户名或密码错误',
-      shopNameRequired: '请输入店铺名', addressRequired: '请输入地址',
-      shopAdded: '店铺添加成功！', confirmDelete: '确认删除该店铺？',
+      shopNameRequired: '请输入餐馆名', addressRequired: '请输入地址',
+      shopAdded: '餐馆添加成功！', confirmDelete: '确认删除该餐馆？',
       category_hotpot: '火锅', category_skewer: '串串香', category_sichuan: '川菜馆',
       category_snack: '小吃', category_noodle: '面馆/米粉', category_bbq: '烧烤',
       category_foreign: '异国料理', category_sweet: '甜品饮品',
-      backupTitle: '💾 数据备份与恢复',
-      exportBtn: '📥 导出数据',
-      restoreBtn: '📤 恢复数据',
-      backupHint: '导出所有网站数据（JSON文件），之后可通过恢复按钮导入。注意：恢复数据将覆盖当前所有信息。',
-      exportSuccess: '数据导出成功！',
-      restoreConfirm: '恢复数据将覆盖当前所有信息（店铺、用户、打卡等），确定继续吗？',
-      restoreSuccess: '数据恢复成功！即将刷新页面以生效。',
-      restoreError: '恢复失败：',
-      invalidBackup: '备份文件格式不正确'
+      backupTitle: '💾 数据备份与恢复', exportBtn: '📥 导出数据', restoreBtn: '📤 恢复数据',
+      backupHint: '导出所有网站数据（JSON文件），之后可通过恢复按钮导入。',
+      exportSuccess: '数据导出成功！', restoreConfirm: '恢复数据将覆盖当前所有信息，确定继续吗？',
+      restoreSuccess: '数据恢复成功！即将刷新页面。', restoreError: '恢复失败：', invalidBackup: '备份文件格式不正确',
+      loginToAction: '请先登录才能执行此操作', loginRequired: '登录后可打卡、评论', touristHotTitle: '🔎 游客必看·热门TOP5',
+      forumTitle: '📝 美食攻略', forumSearchPlaceholder: '搜索攻略...',
+      newPost: '发新帖', postTitlePlaceholder: '标题', postContentPlaceholder: '内容...',
+      submitPost: '发布', category_guide: '🧳 旅游攻略', category_review: '🍽️ 美食评鉴',
+      postDetailTitle: '帖子详情', postCommentPlaceholder: '写评论...', postLike: '👍', postFavorite: '❤️收藏',
+      forumFavoritesTitle: '📌 攻略收藏', noPosts: '暂无帖子'
     },
     en: {
       siteTitle: 'Chengdu Night Food Chart', siteSubtitle: 'Authentic Chengdu flavors voted by your visits',
       loginTab: 'Login', regTab: 'Register', usernamePlaceholder: 'Username', passwordPlaceholder: 'Password',
       loginBtn: 'Login', regBtn: 'Register', logout: 'Logout', adminPanel: 'Admin',
       home: '🏠 Home', ranking: '🔥 Food Chart', footprint: '👣 My Footprint',
-      addShop: '➕ Add Shop', favoritesNav: '❤️ Favorites',
-      category: '📂 Categories', backCategory: '← Back to Categories', backList: '← Back to List',
-      rankTitle: '🏆 Chengdu Food Chart', rankDesc: 'Ranked by real user visits (last 3 months)',
-      searchPlaceholder: 'Search shops...', footprintTitle: '👣 My Food Footprint',
-      footprintDesc: 'Your top 10 most visited shops', favoritesTitle: '❤️ My Favorites',
-      favoritesDesc: 'Your saved shops', addShopTitle: '➕ Add New Shop',
-      shopNamePlaceholder: 'Shop name', addressPlaceholder: 'Address (required)',
-      phonePlaceholder: 'Phone (optional)', addBtn: 'Add Shop',
-      addHint: 'After adding, it will appear in the category for check-ins.', backHome: '← Back to Home',
-      userManagement: '👥 User Management', noShop: 'No shops yet, go add one~',
-      noData: 'No data yet.', noFootprint: 'No check-ins yet, go try some food~',
-      noFavorites: 'No favorites yet~', bannedMsg: 'You have been muted and cannot comment.',
-      commentPlaceholder: 'Write a review...', send: 'Send', checkin: '✅ I went here today',
-      editInfo: '✏️ Edit Info', deleteShop: '🗑️ Delete Shop',
-      addressLabel: '📍 Address: ', phoneLabel: '📞 Phone: ', recentCheckins: 'Recent 3 months',
-      totalCheckins: 'Total', categoryLabel: 'Category: ',
-      favoriteBtn: '❤️ Favorite', unfavoriteBtn: '💔 Unfavorite', favoriteCount: 'Favorited times',
+      addShop: '➕ Add Restaurant', favoritesNav: '❤️ Gems', forumNav: '📝 Forum', forumFavoritesNav: '📌 Saved',
+      category: '📂 Categories', backCategory: '← Back',
+      rankTitle: '🏆 Chengdu Food Chart', rankDesc: 'Ranked by real visits (3 months)',
+      searchPlaceholder: 'Search restaurants...', footprintTitle: '👣 My Footprint',
+      footprintDesc: 'Your top 10 visited restaurants', favoritesTitle: '❤️ Gems',
+      favoritesDesc: 'Your saved restaurants', addShopTitle: '➕ Add Restaurant',
+      shopNamePlaceholder: 'Restaurant name', addressPlaceholder: 'Address (required)',
+      phonePlaceholder: 'Phone (optional)', pricePlaceholder: 'Avg. spend (e.g., ¥60/person)', hoursPlaceholder: 'Hours (e.g., 11:00-22:00)',
+      addBtn: 'Add', addHint: 'It will appear in the category for check-ins.',
+      userManagement: '👥 User Management', noShop: 'No restaurants yet~', noData: 'No data.',
+      noFootprint: 'No check-ins yet~', noFavorites: 'No saved restaurants~',
+      bannedMsg: 'You are muted.', commentPlaceholder: 'Write a review...', send: 'Send', checkin: '✅ I went here',
+      editInfo: '✏️ Edit', deleteShop: '🗑️ Delete',
+      addressLabel: '📍 Address: ', phoneLabel: '📞 Phone: ', priceLabel: '💰 Avg: ', hoursLabel: '🕒 Hours: ',
+      recentCheckins: 'Recent 3m', totalCheckins: 'Total', categoryLabel: 'Category: ',
+      favoriteBtn: '❤️ Save', unfavoriteBtn: '💔 Unsave', favoriteCount: 'Saved times',
       like: '👍', unlike: '👎', likeCount: 'Likes',
-      sortByLikes: '🔥 Hot', sortByTime: '🕐 Recent',
-      defaultNickname: 'User', nicknameExists: 'Nickname already taken',
-      regSuccess: 'Registration successful. Please login.', loginError: 'Wrong username or password',
-      shopNameRequired: 'Please enter a shop name', addressRequired: 'Please enter an address',
-      shopAdded: 'Shop added!', confirmDelete: 'Delete this shop?',
+      sortByLikes: '🔥 Hot', sortByTime: '🕐 New', sortByFavorites: '❤️ Saved',
+      defaultNickname: 'User', nicknameExists: 'Nickname taken', regSuccess: 'Registered!', loginError: 'Wrong credentials',
+      shopNameRequired: 'Name required', addressRequired: 'Address required', shopAdded: 'Restaurant added!',
+      confirmDelete: 'Delete this restaurant?',
       category_hotpot: 'Hot Pot', category_skewer: 'Skewer', category_sichuan: 'Sichuan Cuisine',
       category_snack: 'Snacks', category_noodle: 'Noodles', category_bbq: 'BBQ',
       category_foreign: 'Foreign Cuisine', category_sweet: 'Desserts & Drinks',
-      backupTitle: '💾 Backup & Restore',
-      exportBtn: '📥 Export Data',
-      restoreBtn: '📤 Restore Data',
-      backupHint: 'Export all website data as JSON file. You can restore it later. Warning: Restoring will overwrite all current data.',
-      exportSuccess: 'Data exported successfully!',
-      restoreConfirm: 'Restoring will overwrite all current data (shops, users, check-ins, etc.). Continue?',
-      restoreSuccess: 'Data restored successfully! The page will now reload.',
-      restoreError: 'Restore failed: ',
-      invalidBackup: 'Invalid backup file format'
+      loginToAction: 'Please login', touristHotTitle: '🔎 Top 5 for Tourists',
+      forumTitle: '📝 Food Guide', forumSearchPlaceholder: 'Search posts...',
+      newPost: 'New Post', postTitlePlaceholder: 'Title', postContentPlaceholder: 'Content...',
+      submitPost: 'Post', category_guide: '🧳 Travel Guide', category_review: '🍽️ Food Review',
+      postDetailTitle: 'Post Detail', postCommentPlaceholder: 'Write a comment...',
+      forumFavoritesTitle: '📌 Saved Posts', noPosts: 'No posts yet'
     },
     ja: {
-      siteTitle: '夜成都天府美食ランキング', siteSubtitle: '本場の成都の味をあなたのチェックインで決める',
-      loginTab: 'ログイン', regTab: '登録', usernamePlaceholder: 'ユーザー名', passwordPlaceholder: 'パスワード',
-      loginBtn: 'ログイン', regBtn: '登録', logout: 'ログアウト', adminPanel: '管理',
-      home: '🏠 ホーム', ranking: '🔥 美食ランキング', footprint: '👣 足跡',
-      addShop: '➕ 店舗追加', favoritesNav: '❤️ お気に入り',
-      category: '📂 カテゴリ', backCategory: '← カテゴリに戻る', backList: '← リストに戻る',
-      rankTitle: '🏆 天府美食ランキング', rankDesc: '全ユーザーのチェックイン数に基づく',
-      searchPlaceholder: '店舗を検索...', footprintTitle: '👣 私の美食足跡',
-      footprintDesc: 'あなたが最もチェックインした上位10店舗', favoritesTitle: '❤️ お気に入り',
-      favoritesDesc: '保存したお店', addShopTitle: '➕ 新規店舗追加',
-      shopNamePlaceholder: '店舗名', addressPlaceholder: '住所（必須）',
-      phonePlaceholder: '電話番号（任意）', addBtn: '追加',
-      addHint: '追加後、カテゴリからチェックインできます。', backHome: '← ホームに戻る',
-      userManagement: '👥 ユーザー管理', noShop: 'まだ店舗がありません。追加してください～',
-      noData: 'データがありません。', noFootprint: 'まだチェックインがありません。食べに行きましょう～',
-      noFavorites: 'まだお気に入りがありません～', bannedMsg: 'あなたはミュートされています。コメントできません。',
-      commentPlaceholder: 'レビューを書く...', send: '送信', checkin: '✅ 今日行った',
-      editInfo: '✏️ 情報編集', deleteShop: '🗑️ 店舗削除',
-      addressLabel: '📍 住所: ', phoneLabel: '📞 電話: ', recentCheckins: '直近3ヶ月',
-      totalCheckins: '合計', categoryLabel: 'カテゴリ: ',
-      favoriteBtn: '❤️ お気に入り', unfavoriteBtn: '💔 お気に入り解除', favoriteCount: 'お気に入り数',
-      like: '👍', unlike: '👎', likeCount: 'いいね',
-      sortByLikes: '🔥 人気順', sortByTime: '🕐 新着順',
-      defaultNickname: 'ユーザー', nicknameExists: 'そのニックネームは既に使われています',
-      regSuccess: '登録成功しました。ログインしてください。', loginError: 'ユーザー名またはパスワードが違います',
-      shopNameRequired: '店舗名を入力してください', addressRequired: '住所を入力してください',
-      shopAdded: '店舗を追加しました！', confirmDelete: 'この店舗を削除しますか？',
+      siteTitle: '夜成都天府美食ランキング', siteSubtitle: '本場の成都の味', loginTab: 'ログイン', regTab: '登録',
+      usernamePlaceholder: 'ユーザー名', passwordPlaceholder: 'パスワード', loginBtn: 'ログイン', regBtn: '登録',
+      logout: 'ログアウト', adminPanel: '管理', home: '🏠 ホーム', ranking: '🔥 ランキング', footprint: '👣 足跡',
+      addShop: '➕ 店舗追加', favoritesNav: '❤️ 宝物', forumNav: '📝 掲示板', forumFavoritesNav: '📌 保存',
+      category: '📂 カテゴリ', backCategory: '← 戻る', rankTitle: '🏆 天府美食ランキング',
+      rankDesc: '過去3ヶ月のチェックイン数に基づく', searchPlaceholder: '店舗検索...',
+      footprintTitle: '👣 私の美食足跡', footprintDesc: 'あなたが最もチェックインした上位10店舗',
+      favoritesTitle: '❤️ 宝物', favoritesDesc: '保存した店舗', addShopTitle: '➕ 店舗追加',
+      shopNamePlaceholder: '店舗名', addressPlaceholder: '住所（必須）', phonePlaceholder: '電話番号',
+      pricePlaceholder: '予算（例：60元/人）', hoursPlaceholder: '営業時間', addBtn: '追加', addHint: '追加後にチェックインできます',
+      userManagement: '👥 ユーザー管理', noShop: 'まだ店舗がありません～', noData: 'データなし', noFootprint: 'まだチェックインがありません',
+      noFavorites: '保存した店舗はありません', bannedMsg: 'ミュートされました', commentPlaceholder: 'レビューを書く...', send: '送信',
+      checkin: '✅ 今日行った', editInfo: '✏️ 編集', deleteShop: '🗑️ 削除',
+      addressLabel: '📍 住所: ', phoneLabel: '📞 電話: ', priceLabel: '💰 予算: ', hoursLabel: '🕒 営業時間: ',
+      recentCheckins: '直近3ヶ月', totalCheckins: '合計', categoryLabel: 'カテゴリ: ',
+      favoriteBtn: '❤️ 保存', unfavoriteBtn: '💔 解除', like: '👍', unlike: '👎',
+      sortByLikes: '🔥 人気順', sortByTime: '🕐 新着順', sortByFavorites: '❤️ 保存順',
+      defaultNickname: 'ユーザー', nicknameExists: '既に使われています', regSuccess: '登録成功', loginError: 'ユーザー名またはパスワードが違います',
+      shopNameRequired: '店舗名を入力', addressRequired: '住所を入力', shopAdded: '店舗を追加しました！',
+      confirmDelete: 'この店舗を削除しますか？',
       category_hotpot: '火鍋', category_skewer: '串串香', category_sichuan: '四川料理',
       category_snack: '軽食', category_noodle: '麺類', category_bbq: 'バーベキュー',
       category_foreign: '異国料理', category_sweet: 'デザート・ドリンク',
-      backupTitle: '💾 バックアップと復元',
-      exportBtn: '📥 データのエクスポート',
-      restoreBtn: '📤 データの復元',
-      backupHint: '全データをJSONファイルとしてエクスポートします。復元時に現在のデータは上書きされます。',
-      exportSuccess: 'データをエクスポートしました！',
-      restoreConfirm: '復元すると現在のすべての情報（店舗、ユーザー、チェックインなど）が上書きされます。続行しますか？',
-      restoreSuccess: 'データを復元しました！ページをリロードします。',
-      restoreError: '復元に失敗しました: ',
-      invalidBackup: 'バックアップファイルの形式が正しくありません'
+      loginToAction: 'ログインが必要です', touristHotTitle: '🔎 観光客人気TOP5',
+      forumTitle: '📝 美食攻略', forumSearchPlaceholder: '投稿を検索...',
+      newPost: '新規投稿', postTitlePlaceholder: 'タイトル', postContentPlaceholder: '内容...',
+      submitPost: '投稿', category_guide: '🧳 旅行ガイド', category_review: '🍽️ グルメ評価',
+      postDetailTitle: '投稿詳細', postCommentPlaceholder: 'コメントを書く...',
+      forumFavoritesTitle: '📌 保存した投稿', noPosts: '投稿はまだありません'
     },
     ko: {
       siteTitle: '청두 야간 미식 차트', siteSubtitle: '방문으로 결정되는 진짜 청두의 맛',
       loginTab: '로그인', regTab: '회원가입', usernamePlaceholder: '사용자 이름', passwordPlaceholder: '비밀번호',
       loginBtn: '로그인', regBtn: '회원가입', logout: '로그아웃', adminPanel: '관리',
       home: '🏠 홈', ranking: '🔥 미식 차트', footprint: '👣 내 발자취',
-      addShop: '➕ 가게 추가', favoritesNav: '❤️ 즐겨찾기',
-      category: '📂 카테고리', backCategory: '← 카테고리로 돌아가기', backList: '← 목록으로 돌아가기',
-      rankTitle: '🏆 청두 미식 차트', rankDesc: '실제 사용자 방문 횟수 기준',
-      searchPlaceholder: '가게 검색...', footprintTitle: '👣 나의 미식 발자취',
-      footprintDesc: '가장 많이 방문한 상위 10개 가게', favoritesTitle: '❤️ 즐겨찾기',
-      favoritesDesc: '저장한 가게', addShopTitle: '➕ 새 가게 추가',
-      shopNamePlaceholder: '가게 이름', addressPlaceholder: '주소 (필수)',
-      phonePlaceholder: '전화번호 (선택)', addBtn: '추가',
-      addHint: '추가 후 카테고리에서 체크인할 수 있습니다.', backHome: '← 홈으로 돌아가기',
-      userManagement: '👥 사용자 관리', noShop: '아직 가게가 없습니다. 추가해주세요~',
-      noData: '데이터가 없습니다.', noFootprint: '체크인 기록이 없습니다. 맛집을 찾아보세요~',
-      noFavorites: '아직 즐겨찾기가 없습니다~', bannedMsg: '뮤트 상태입니다. 댓글을 작성할 수 없습니다.',
-      commentPlaceholder: '리뷰 작성...', send: '보내기', checkin: '✅ 오늘 다녀왔어요',
-      editInfo: '✏️ 정보 수정', deleteShop: '🗑️ 가게 삭제',
-      addressLabel: '📍 주소: ', phoneLabel: '📞 전화: ', recentCheckins: '최근 3개월',
-      totalCheckins: '총', categoryLabel: '카테고리: ',
-      favoriteBtn: '❤️ 즐겨찾기', unfavoriteBtn: '💔 즐겨찾기 해제', favoriteCount: '즐겨찾기 수',
-      like: '👍', unlike: '👎', likeCount: '좋아요',
-      sortByLikes: '🔥 인기순', sortByTime: '🕐 최신순',
-      defaultNickname: '사용자', nicknameExists: '이미 사용 중인 닉네임입니다',
-      regSuccess: '회원가입 성공. 로그인해주세요.', loginError: '아이디 또는 비밀번호 오류',
-      shopNameRequired: '가게 이름을 입력하세요', addressRequired: '주소를 입력하세요',
-      shopAdded: '가게가 추가되었습니다!', confirmDelete: '이 가게를 삭제하시겠습니까?',
+      addShop: '➕ 식당 추가', favoritesNav: '❤️ 보물', forumNav: '📝 게시판', forumFavoritesNav: '📌 저장',
+      category: '📂 카테고리', rankTitle: '🏆 청두 미식 차트', rankDesc: '실제 방문 횟수 기준 (3개월)',
+      searchPlaceholder: '식당 검색...', footprintTitle: '👣 내 발자취', footprintDesc: '가장 많이 방문한 상위 10개 식당',
+      favoritesTitle: '❤️ 보물', favoritesDesc: '저장한 식당', addShopTitle: '➕ 새 식당 추가',
+      shopNamePlaceholder: '식당 이름', addressPlaceholder: '주소 (필수)', phonePlaceholder: '전화번호',
+      pricePlaceholder: '1인당 예산', hoursPlaceholder: '영업시간', addBtn: '추가', addHint: '추가 후 체크인할 수 있습니다',
+      userManagement: '👥 사용자 관리', noShop: '식당이 없습니다~', noData: '데이터 없음',
+      noFootprint: '체크인 기록이 없습니다', noFavorites: '저장한 식당이 없습니다',
+      bannedMsg: '뮤트 상태입니다', commentPlaceholder: '리뷰 작성...', send: '보내기', checkin: '✅ 오늘 다녀왔어요',
+      editInfo: '✏️ 수정', deleteShop: '🗑️ 삭제',
+      addressLabel: '📍 주소: ', phoneLabel: '📞 전화: ', priceLabel: '💰 예산: ', hoursLabel: '🕒 영업시간: ',
+      recentCheckins: '최근 3개월', totalCheckins: '총', categoryLabel: '카테고리: ',
+      favoriteBtn: '❤️ 저장', unfavoriteBtn: '💔 해제', like: '👍', unlike: '👎',
+      sortByLikes: '🔥 인기순', sortByTime: '🕐 최신순', sortByFavorites: '❤️ 저장순',
+      defaultNickname: '사용자', nicknameExists: '이미 사용 중', regSuccess: '회원가입 성공', loginError: '아이디 또는 비밀번호 오류',
+      shopNameRequired: '이름을 입력하세요', addressRequired: '주소를 입력하세요', shopAdded: '식당이 추가되었습니다!',
+      confirmDelete: '이 식당을 삭제하시겠습니까?',
       category_hotpot: '훠궈', category_skewer: '꼬치구이', category_sichuan: '사천 요리',
       category_snack: '간식', category_noodle: '면류', category_bbq: '바비큐',
       category_foreign: '세계 요리', category_sweet: '디저트·음료',
-      backupTitle: '💾 백업 및 복원',
-      exportBtn: '📥 데이터 내보내기',
-      restoreBtn: '📤 데이터 복원',
-      backupHint: '모든 웹사이트 데이터를 JSON 파일로 내보냅니다. 복원 시 현재 데이터를 덮어씁니다.',
-      exportSuccess: '데이터를 내보냈습니다!',
-      restoreConfirm: '복원하면 현재의 모든 정보(가게, 사용자, 체크인 등)가 덮어써집니다. 계속하시겠습니까?',
-      restoreSuccess: '데이터가 복원되었습니다! 페이지가 곧 새로고침됩니다.',
-      restoreError: '복원 실패: ',
-      invalidBackup: '잘못된 백업 파일 형식입니다'
+      loginToAction: '로그인이 필요합니다', touristHotTitle: '🔎 관광객 인기 TOP5',
+      forumTitle: '📝 미식 공략', forumSearchPlaceholder: '게시글 검색...',
+      newPost: '새 글', postTitlePlaceholder: '제목', postContentPlaceholder: '내용...',
+      submitPost: '게시', category_guide: '🧳 여행 가이드', category_review: '🍽️ 음식 평가',
+      postDetailTitle: '게시글 상세', postCommentPlaceholder: '댓글 작성...',
+      forumFavoritesTitle: '📌 저장한 글', noPosts: '아직 게시글이 없습니다'
     }
   };
 
   let currentLanguage = 'zh';
   function t(key) { return (i18n[currentLanguage] || i18n.zh)[key] || key; }
-
   function updateCategorySelect() {
-    const select = document.getElementById('newCategory');
-    if (!select) return;
-    const options = select.querySelectorAll('option');
-    options.forEach(opt => {
-      const key = opt.value;
-      if (key && DEFAULT_CATEGORIES[key]) {
-        const emoji = DEFAULT_CATEGORIES[key].icon;
-        opt.textContent = emoji + ' ' + t('category_' + key);
-      }
+    const sel = document.getElementById('newCategory'); if(!sel) return;
+    sel.querySelectorAll('option').forEach(opt => {
+      const k = opt.value; if(k && DEFAULT_CATEGORIES[k]) opt.textContent = DEFAULT_CATEGORIES[k].icon + ' ' + t('category_'+k);
     });
   }
-
   function applyLanguage(lang) {
-    currentLanguage = lang;
-    const dict = i18n[lang] || i18n.zh;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key]) el.textContent = dict[key];
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (dict[key]) el.placeholder = dict[key];
-    });
+    currentLanguage = lang; const dict = i18n[lang] || i18n.zh;
+    document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if(dict[key]) el.textContent = dict[key]; });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const key = el.getAttribute('data-i18n-placeholder'); if(dict[key]) el.placeholder = dict[key]; });
     updateCategorySelect();
   }
 
-  // ========== 用户数据 ==========
-  function initUsers() {
-    if (!localStorage.getItem(USER_STORAGE_KEY)) {
-      const defaultUsers = {
-        admin: { password: 'admin123', role: 'admin', banned: false, nickname: '管理员', avatar: '', language: 'zh' }
-      };
-      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUsers));
-    }
-  }
-
+  function initUsers() { if(!localStorage.getItem(USER_STORAGE_KEY)) localStorage.setItem(USER_STORAGE_KEY, JSON.stringify({ admin: { password:'admin123', role:'admin', banned:false, nickname:'管理员', avatar:'', language:'zh' } })); }
   function getUsers() { return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}'); }
-  function saveUsers(users) { localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users)); }
-
+  function saveUsers(u) { localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(u)); }
   let currentUser = null;
-
   function loadSession() {
     const stored = localStorage.getItem(SESSION_KEY);
-    if (stored) {
-      try {
-        const session = JSON.parse(stored);
-        const users = getUsers();
-        if (users[session.username] && users[session.username].role === session.role) {
-          currentUser = session;
-          currentUser.nickname = users[session.username].nickname || session.username;
-          currentUser.avatar = users[session.username].avatar || '';
-          currentUser.language = users[session.username].language || 'zh';
-          applyLanguage(currentUser.language);
-          return true;
-        }
-      } catch(e) {}
-    }
+    if(stored) { try { const s = JSON.parse(stored); const users = getUsers(); if(users[s.username] && users[s.username].role===s.role) { currentUser = s; currentUser.nickname = users[s.username].nickname||s.username; currentUser.avatar = users[s.username].avatar||''; currentUser.language = users[s.username].language||'zh'; applyLanguage(currentUser.language); return true; } } catch(e){} }
     return false;
   }
-
-  function saveSession(user) {
-    currentUser = user;
-    localStorage.setItem(SESSION_KEY, JSON.stringify({
-        username: user.username,
-        role: user.role,
-        banned: user.banned,
-        nickname: user.nickname,
-        avatar: user.avatar,
-        language: user.language
-    }));
-  }
-
+  function saveSession(u) { currentUser = u; localStorage.setItem(SESSION_KEY, JSON.stringify({ username:u.username, role:u.role, banned:u.banned, nickname:u.nickname, avatar:u.avatar, language:u.language })); }
   function clearSession() { currentUser = null; localStorage.removeItem(SESSION_KEY); }
+  function getDisplayName(uname) { const u = getUsers()[uname]; return u?.nickname || uname; }
 
-  function getDisplayName(username) {
-    const users = getUsers();
-    const user = users[username];
-    return (user?.nickname) || username;
-  }
+  const DEFAULT_CATEGORIES = { hotpot:{name:'火锅',icon:'🍲'}, skewer:{name:'串串香',icon:'🍢'}, sichuan:{name:'川菜馆',icon:'🥢'}, snack:{name:'小吃',icon:'🥟'}, noodle:{name:'面馆/米粉',icon:'🍜'}, bbq:{name:'烧烤',icon:'🍖'}, foreign:{name:'异国料理',icon:'🌮'}, sweet:{name:'甜品饮品',icon:'🍧'} };
 
-  // ========== 美食数据 ==========
-  const DEFAULT_CATEGORIES = {
-    hotpot: { name:'火锅', icon:'🍲' }, skewer: { name:'串串香', icon:'🍢' },
-    sichuan: { name:'川菜馆', icon:'🥢' }, snack: { name:'小吃', icon:'🥟' },
-    noodle: { name:'面馆/米粉', icon:'🍜' }, bbq: { name:'烧烤', icon:'🍖' },
-    foreign: { name:'异国料理', icon:'🌮' }, sweet: { name:'甜品饮品', icon:'🍧' },
-  };
-
-  let appData = { shops: {}, checkins: {}, comments: {}, favorites: {}, commentLikes: {} };
+  let appData = { shops:{}, checkins:{}, comments:{}, favorites:{}, commentLikes:{}, posts:{} };
 
   function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw);
-        if (parsed.checkins) {
-          for (const shopId in parsed.checkins) {
-            const arr = parsed.checkins[shopId];
-            if (arr && arr.length > 0 && typeof arr[0] === 'string') parsed.checkins[shopId] = [];
-          }
-        }
-        for (const shopId in parsed.shops) {
-          const s = parsed.shops[shopId];
-          if (s.address === undefined) s.address = '';
-          if (s.phone === undefined) s.phone = '';
-        }
-        if (!parsed.favorites) parsed.favorites = {};
-        if (!parsed.commentLikes) parsed.commentLikes = {};
-        appData = parsed;
-      } catch(e) { initAppData(); }
-    } else { initAppData(); }
+    if(raw) { try { const p = JSON.parse(raw); if(p.checkins){ for(let id in p.checkins) if(Array.isArray(p.checkins[id]) && p.checkins[id].length && typeof p.checkins[id][0]==='string') p.checkins[id] = []; } for(let id in p.shops){ const s=p.shops[id]; if(s.address===undefined) s.address=''; if(s.phone===undefined) s.phone=''; if(s.priceRange===undefined) s.priceRange=''; if(s.openingHours===undefined) s.openingHours=''; } if(!p.favorites) p.favorites={}; if(!p.commentLikes) p.commentLikes={}; if(!p.posts) p.posts={}; appData = p; } catch(e){ initAppData(); } } else { initAppData(); }
   }
-
   function initAppData() {
-    appData = {
-      shops: {
-        s1: { id:'s1', name:'蜀大侠火锅', category:'hotpot', address:'春熙路南段8号', phone:'028-88886666', createdAt: Date.now() },
-        s2: { id:'s2', name:'钢管厂五区小郡肝', category:'skewer', address:'新华公园后门', phone:'', createdAt: Date.now() },
-        s3: { id:'s3', name:'明婷饭店', category:'sichuan', address:'外曹家巷26号', phone:'', createdAt: Date.now() },
-        s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', address:'文殊院街39号', phone:'028-86938998', createdAt: Date.now() },
-      },
-      checkins: {}, comments: {}, favorites: {}, commentLikes: {}
-    };
+    appData = { shops:{ s1:{id:'s1',name:'蜀大侠火锅',category:'hotpot',address:'春熙路南段8号',phone:'028-88886666',priceRange:'100元/人',openingHours:'11:00-02:00'}, s2:{id:'s2',name:'钢管厂五区小郡肝',category:'skewer',address:'新华公园后门',priceRange:'60元/人',openingHours:'16:00-02:00'}, s3:{id:'s3',name:'明婷饭店',category:'sichuan',address:'外曹家巷26号',priceRange:'50元/人',openingHours:'11:00-21:00'}, s4:{id:'s4',name:'洞子口张老二凉粉',category:'snack',address:'文殊院街39号',phone:'028-86938998',priceRange:'15元/人',openingHours:'09:00-19:00'} }, checkins:{}, comments:{}, favorites:{}, commentLikes:{}, posts:{} };
     saveAppData();
   }
-
   function saveAppData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2,6); }
-  function threeMonthsAgo() { const d = new Date(); d.setDate(d.getDate() - 90); return d.toISOString().split('T')[0]; }
-  function countRecentCheckins(shopId) {
-    const checkins = appData.checkins[shopId] || [];
-    const start = threeMonthsAgo();
-    return checkins.filter(entry => entry.date >= start).length;
-  }
-  function countTotalCheckins(shopId) { return (appData.checkins[shopId] || []).length; }
-  function countUserTotalCheckins(shopId) {
-    if (!currentUser) return 0;
-    const checkins = appData.checkins[shopId] || [];
-    return checkins.filter(entry => entry.userId === currentUser.username).length;
-  }
+  function uid() { return Date.now().toString(36)+Math.random().toString(36).substr(2,6); }
+  function threeMonthsAgo() { const d=new Date(); d.setDate(d.getDate()-90); return d.toISOString().split('T')[0]; }
+  function countRecentCheckins(shopId) { const c = appData.checkins[shopId]||[]; const start = threeMonthsAgo(); return c.filter(e=>e.date>=start).length; }
+  function countTotalCheckins(shopId) { return (appData.checkins[shopId]||[]).length; }
+  function countUserTotalCheckins(shopId) { if(!currentUser) return 0; return (appData.checkins[shopId]||[]).filter(e=>e.userId===currentUser.username).length; }
 
-  // ========== 评论点赞 ==========
-  function toggleCommentLike(commentId) {
-    if (!currentUser) return;
-    if (!appData.commentLikes[commentId]) appData.commentLikes[commentId] = [];
-    const likes = appData.commentLikes[commentId];
-    const idx = likes.indexOf(currentUser.username);
-    if (idx > -1) { likes.splice(idx, 1); }
-    else { likes.push(currentUser.username); }
-    saveAppData();
-    renderCommentsSection();
-  }
+  // 餐馆点赞/收藏/评论
+  function toggleCommentLike(commentId) { if(!currentUser) return alert(t('loginToAction')); if(!appData.commentLikes[commentId]) appData.commentLikes[commentId]=[]; const likes=appData.commentLikes[commentId]; const idx=likes.indexOf(currentUser.username); if(idx>-1) likes.splice(idx,1); else likes.push(currentUser.username); saveAppData(); if(currentShopIdForComments) renderCommentsSection(); }
+  function getCommentLikeCount(cid) { return (appData.commentLikes[cid]||[]).length; }
+  function hasUserLikedComment(cid) { return currentUser && (appData.commentLikes[cid]||[]).includes(currentUser.username); }
+  function toggleFavorite(shopId) { if(!currentUser) return alert(t('loginToAction')); if(!appData.favorites[shopId]) appData.favorites[shopId]=[]; const idx=appData.favorites[shopId].indexOf(currentUser.username); if(idx>-1) appData.favorites[shopId].splice(idx,1); else appData.favorites[shopId].push(currentUser.username); saveAppData(); renderShopDetail(shopId); }
+  function isFavorited(shopId) { return currentUser && (appData.favorites[shopId]||[]).includes(currentUser.username); }
+  function getFavoriteCount(shopId) { return (appData.favorites[shopId]||[]).length; }
+  function getUserFavoriteShopIds() { if(!currentUser) return []; const ids=[]; for(let id in appData.favorites) if(appData.favorites[id].includes(currentUser.username)) ids.push(id); return ids; }
+  function checkinShop(shopId) { if(!currentUser) return alert(t('loginToAction')); const today=new Date().toISOString().split('T')[0]; if(!appData.checkins[shopId]) appData.checkins[shopId]=[]; appData.checkins[shopId].push({userId:currentUser.username, date:today}); saveAppData(); renderShopDetail(shopId); }
+  function addComment(shopId, text) { if(!currentUser) return alert(t('loginToAction')); if(!text.trim() || currentUser.banned) return; if(!appData.comments[shopId]) appData.comments[shopId]=[]; const c={commentId:uid(), userId:currentUser.username, text:text.trim(), date:new Date().toISOString()}; appData.comments[shopId].push(c); saveAppData(); renderCommentsSection(); }
+  function deleteComment(shopId, cid) { if(!currentUser) return; const comments=appData.comments[shopId]||[]; const idx=comments.findIndex(c=>c.commentId===cid); if(idx===-1) return; if(currentUser.role==='admin' || comments[idx].userId===currentUser.username) { comments.splice(idx,1); delete appData.commentLikes[cid]; saveAppData(); renderCommentsSection(); } }
+  function deleteShop(shopId) { if(!currentUser || currentUser.role!=='admin') return; if(confirm(t('confirmDelete'))) { delete appData.shops[shopId]; delete appData.checkins[shopId]; delete appData.comments[shopId]; delete appData.favorites[shopId]; saveAppData(); switchView('home'); } }
+  function editShop(shopId) { if(!currentUser || currentUser.role!=='admin') return; const shop=appData.shops[shopId]; if(!shop) return; const na=prompt(t('addressLabel'), shop.address||''); if(na===null) return; const np=prompt(t('phoneLabel'), shop.phone||''); if(np===null) return; const npr=prompt(t('priceLabel'), shop.priceRange||''); if(npr===null) return; const nh=prompt(t('hoursLabel'), shop.openingHours||''); if(nh===null) return; shop.address=na.trim(); shop.phone=np.trim(); shop.priceRange=npr.trim(); shop.openingHours=nh.trim(); saveAppData(); renderShopDetail(shopId); }
 
-  function getCommentLikeCount(commentId) { return (appData.commentLikes[commentId] || []).length; }
-  function hasUserLikedComment(commentId) {
-    if (!currentUser) return false;
-    return (appData.commentLikes[commentId] || []).includes(currentUser.username);
-  }
-
-  // ========== 收藏 ==========
-  function toggleFavorite(shopId) {
-    if (!currentUser) return;
-    if (!appData.favorites[shopId]) appData.favorites[shopId] = [];
-    const favorites = appData.favorites[shopId];
-    const index = favorites.indexOf(currentUser.username);
-    if (index > -1) { favorites.splice(index, 1); }
-    else { favorites.push(currentUser.username); }
-    saveAppData();
-    renderShopDetail(shopId);
-  }
-
-  function isFavorited(shopId) {
-    if (!currentUser) return false;
-    return (appData.favorites[shopId] || []).includes(currentUser.username);
-  }
-
-  function getFavoriteCount(shopId) { return (appData.favorites[shopId] || []).length; }
-
-  function getUserFavoriteShopIds() {
-    if (!currentUser) return [];
-    const ids = [];
-    for (const shopId in appData.favorites) {
-      if (appData.favorites[shopId].includes(currentUser.username)) ids.push(shopId);
-    }
-    return ids;
-  }
-
-  // ========== 打卡 / 评论 ==========
-  function checkinShop(shopId) {
-    if (!appData.shops[shopId] || !currentUser) return;
-    const today = new Date().toISOString().split('T')[0];
-    if (!appData.checkins[shopId]) appData.checkins[shopId] = [];
-    appData.checkins[shopId].push({ userId: currentUser.username, date: today });
-    saveAppData();
-    renderShopDetail(shopId);
-  }
-
-  function addComment(shopId, text) {
-    if (!text.trim() || !currentUser || currentUser.banned) return;
-    if (!appData.comments[shopId]) appData.comments[shopId] = [];
-    const comment = { commentId: uid(), userId: currentUser.username, text: text.trim(), date: new Date().toISOString() };
-    appData.comments[shopId].push(comment);
-    saveAppData();
-    renderCommentsSection();
-  }
-
-  function deleteComment(shopId, commentId) {
-    if (!currentUser) return;
-    const comments = appData.comments[shopId] || [];
-    const idx = comments.findIndex(c => c.commentId === commentId);
-    if (idx === -1) return;
-    const comment = comments[idx];
-    if (currentUser.role === 'admin' || comment.userId === currentUser.username) {
-      comments.splice(idx, 1);
-      delete appData.commentLikes[commentId];
-      saveAppData();
-      renderCommentsSection();
-    }
-  }
-
-  function deleteShop(shopId) {
-    if (!currentUser || currentUser.role !== 'admin') return;
-    if (confirm(t('confirmDelete'))) {
-      delete appData.shops[shopId]; delete appData.checkins[shopId]; delete appData.comments[shopId]; delete appData.favorites[shopId];
-      saveAppData();
-      switchView('home');
-    }
-  }
-
-  function editShop(shopId) {
-    if (!currentUser || currentUser.role !== 'admin') return;
-    const shop = appData.shops[shopId];
-    if (!shop) return;
-    const newAddress = prompt(t('addressLabel'), shop.address || '');
-    if (newAddress === null) return;
-    const newPhone = prompt(t('phoneLabel'), shop.phone || '');
-    if (newPhone === null) return;
-    shop.address = newAddress.trim(); shop.phone = newPhone.trim();
-    saveAppData();
-    renderShopDetail(shopId);
-  }
-
-  // ========== 评论排序与渲染 ==========
-  let currentCommentSortMode = 'likes';
-  let currentShopIdForComments = null;
-
-  function sortComments(sortMode) {
-    currentCommentSortMode = sortMode;
-    renderCommentsSection();
-  }
-
+  let currentCommentSortMode='likes', currentShopIdForComments=null;
+  function sortComments(mode) { currentCommentSortMode=mode; renderCommentsSection(); }
   function renderCommentsSection() {
-    const shopId = currentShopIdForComments;
-    if (!shopId) return;
-    const comments = (appData.comments[shopId] || []).slice();
-    if (currentCommentSortMode === 'likes') {
-      comments.sort((a, b) => getCommentLikeCount(b.commentId) - getCommentLikeCount(a.commentId));
-    } else {
-      comments.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-
-    const container = document.getElementById('commentsContainer');
-    if (!container) return;
-    let html = `
-      <div class="flex-row mb-2" style="gap:0.4rem;">
-        <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem; ${currentCommentSortMode==='likes'?'background:rgba(30,58,138,0.5);border-color:#60a5fa;':''}" onclick="sortComments('likes')">${t('sortByLikes')}</button>
-        <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem; ${currentCommentSortMode==='time'?'background:rgba(30,58,138,0.5);border-color:#60a5fa;':''}" onclick="sortComments('time')">${t('sortByTime')}</button>
-      </div>`;
-    if (comments.length === 0) {
-      html += '<p class="text-sm mt-2">暂无评论</p>';
-    } else {
-      comments.forEach(c => {
-        const canDelete = (currentUser.role === 'admin' || c.userId === currentUser.username);
-        const likeCount = getCommentLikeCount(c.commentId);
-        const liked = hasUserLikedComment(c.commentId);
-        html += `
-          <div class="text-sm mt-2" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>🗣 <strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
-            <div style="display:flex; align-items:center; gap:0.3rem;">
-              <button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="toggleCommentLike('${c.commentId}')">${liked ? '👎' : '👍'} ${likeCount}</button>
-              ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>` : ''}
-            </div>
-          </div>`;
-      });
-    }
+    const shopId = currentShopIdForComments; if(!shopId) return;
+    let comments = (appData.comments[shopId]||[]).slice();
+    if(currentCommentSortMode==='likes') comments.sort((a,b)=>getCommentLikeCount(b.commentId)-getCommentLikeCount(a.commentId));
+    else comments.sort((a,b)=>new Date(b.date)-new Date(a.date));
+    const container = document.getElementById('commentsContainer'); if(!container) return;
+    let html = `<div class="flex-row mb-2" style="gap:0.4rem;">
+      <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem; ${currentCommentSortMode==='likes'?'background:rgba(30,58,138,0.5);border-color:#60a5fa;':''}" onclick="sortComments('likes')">${t('sortByLikes')}</button>
+      <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem; ${currentCommentSortMode==='time'?'background:rgba(30,58,138,0.5);border-color:#60a5fa;':''}" onclick="sortComments('time')">${t('sortByTime')}</button>
+    </div>`;
+    if(!comments.length) html += '<p class="text-sm mt-2">暂无评论</p>';
+    else comments.forEach(c=>{
+      const canDelete = currentUser && (currentUser.role==='admin' || c.userId===currentUser.username);
+      const likeCount = getCommentLikeCount(c.commentId);
+      const liked = currentUser && hasUserLikedComment(c.commentId);
+      html += `<div class="text-sm mt-2" style="display:flex; justify-content:space-between; align-items:center;">
+        <span>🗣 <strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+        <div style="display:flex; align-items:center; gap:0.3rem;">
+          <button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="toggleCommentLike('${c.commentId}')">${liked?'👎':'👍'} ${likeCount}</button>
+          ${canDelete?`<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>`:''}
+        </div></div>`;
+    });
     container.innerHTML = html;
+    if(!currentUser) container.innerHTML += `<p class="text-sm mt-2" style="color:#ffd966;">${t('loginRequired')}</p>`;
   }
 
-  // ========== 数据备份与恢复（仅管理员） ==========
+  // 论坛帖子操作
+  let currentForumSort = 'time';
+  function sortForumPosts(mode) { currentForumSort = mode; renderForumPosts(); }
+  function renderForumPosts() {
+    const listDiv = document.getElementById('forumPostList');
+    let posts = Object.values(appData.posts);
+    if(currentForumSort==='likes') posts.sort((a,b)=>(b.likes?.length||0)-(a.likes?.length||0));
+    else if(currentForumSort==='favorites') posts.sort((a,b)=>(b.favorites?.length||0)-(a.favorites?.length||0));
+    else posts.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+    const keyword = (document.getElementById('forumSearch')?.value||'').toLowerCase();
+    if(keyword) posts = posts.filter(p=>p.title.toLowerCase().includes(keyword)||p.content.toLowerCase().includes(keyword));
+    if(!posts.length) { listDiv.innerHTML = `<p class="text-sm mt-2">${t('noPosts')}</p>`; return; }
+    let html = '<div class="mt-2">';
+    posts.forEach(p=>{
+      const likes = (p.likes||[]).length, favs = (p.favorites||[]).length;
+      html += `<div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
+        <div>
+          <strong>${p.title}</strong>
+          <div class="text-sm">${p.category==='guide'?t('category_guide'):t('category_review')} · ${getDisplayName(p.authorId)} · ${new Date(p.createdAt).toLocaleDateString()} · 👍${likes} · ❤️${favs}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>'; listDiv.innerHTML = html;
+  }
+  function filterForumPosts() { renderForumPosts(); }
+  function submitPost() {
+    if(!currentUser) return alert(t('loginToAction'));
+    const title = document.getElementById('postTitle').value.trim();
+    const content = document.getElementById('postContent').value.trim();
+    const category = document.getElementById('postCategory').value;
+    if(!title||!content) return alert('标题和内容不能为空');
+    const postId = uid();
+    appData.posts[postId] = { id:postId, title, content, category, authorId:currentUser.username, createdAt: new Date().toISOString(), likes:[], favorites:[], comments:[] };
+    saveAppData();
+    document.getElementById('postTitle').value = ''; document.getElementById('postContent').value = '';
+    switchView('forum');
+  }
+  function togglePostLike(postId) {
+    if(!currentUser) return alert(t('loginToAction'));
+    const post = appData.posts[postId]; if(!post) return;
+    if(!post.likes) post.likes = [];
+    const idx = post.likes.indexOf(currentUser.username);
+    if(idx>-1) post.likes.splice(idx,1); else post.likes.push(currentUser.username);
+    saveAppData(); renderPostDetail(postId);
+  }
+  function togglePostFavorite(postId) {
+    if(!currentUser) return alert(t('loginToAction'));
+    const post = appData.posts[postId]; if(!post) return;
+    if(!post.favorites) post.favorites = [];
+    const idx = post.favorites.indexOf(currentUser.username);
+    if(idx>-1) post.favorites.splice(idx,1); else post.favorites.push(currentUser.username);
+    saveAppData(); renderPostDetail(postId);
+  }
+  function addPostComment(postId, text) {
+    if(!currentUser) return alert(t('loginToAction'));
+    if(!text.trim()) return;
+    const post = appData.posts[postId]; if(!post) return;
+    if(!post.comments) post.comments = [];
+    post.comments.push({ commentId: uid(), userId: currentUser.username, text: text.trim(), date: new Date().toISOString(), likes:[] });
+    saveAppData(); renderPostDetail(postId);
+  }
+  function deletePostComment(postId, commentId) {
+    if(!currentUser) return;
+    const post = appData.posts[postId]; if(!post) return;
+    const idx = post.comments.findIndex(c=>c.commentId===commentId); if(idx===-1) return;
+    if(currentUser.role==='admin' || post.comments[idx].userId===currentUser.username) { post.comments.splice(idx,1); saveAppData(); renderPostDetail(postId); }
+  }
+  function togglePostCommentLike(postId, commentId) {
+    if(!currentUser) return alert(t('loginToAction'));
+    const post = appData.posts[postId]; if(!post) return;
+    const comment = post.comments.find(c=>c.commentId===commentId); if(!comment) return;
+    if(!comment.likes) comment.likes = [];
+    const idx = comment.likes.indexOf(currentUser.username);
+    if(idx>-1) comment.likes.splice(idx,1); else comment.likes.push(currentUser.username);
+    saveAppData(); renderPostDetail(postId);
+  }
+
+  let postCommentsSort = 'time';
+  function sortPostComments(mode) { postCommentsSort = mode; renderPostDetail(currentPostId); }
+  let currentPostId = null;
+  function renderPostDetail(postId) {
+    currentPostId = postId;
+    const post = appData.posts[postId]; if(!post) return;
+    const liked = currentUser && post.likes?.includes(currentUser.username);
+    const faved = currentUser && post.favorites?.includes(currentUser.username);
+    let comments = post.comments?.slice()||[];
+    if(postCommentsSort==='likes') comments.sort((a,b)=>(b.likes?.length||0)-(a.likes?.length||0));
+    else comments.sort((a,b)=>new Date(b.date)-new Date(a.date));
+    const detailDiv = document.getElementById('postDetail');
+    let html = `<div class="card">
+      <h3>${post.title}</h3>
+      <p class="text-sm">${post.category==='guide'?t('category_guide'):t('category_review')} · ${getDisplayName(post.authorId)} · ${new Date(post.createdAt).toLocaleDateString()}</p>
+      <p class="mt-2">${post.content}</p>
+      <div class="flex-row mt-2">
+        <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostLike('${postId}')">${liked?'👎':'👍'} ${post.likes?.length||0}</button>
+        <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostFavorite('${postId}')">${faved?'💔':'❤️'} ${post.favorites?.length||0}</button>
+      </div></div>
+    <div class="card mt-2"><h4>💬 评论</h4>
+      <div class="flex-row mb-2"><button class="btn-outline btn" style="font-size:0.7rem;" onclick="sortPostComments('time')">🕐</button><button class="btn-outline btn" style="font-size:0.7rem;" onclick="sortPostComments('likes')">🔥</button></div>`;
+    if(!comments.length) html += '<p class="text-sm">暂无评论</p>';
+    else comments.forEach(c=>{
+      html += `<div class="text-sm mt-2" style="display:flex; justify-content:space-between;">
+        <span><strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+        <div>
+          <button class="btn-outline" style="padding:0.1rem 0.3rem; font-size:0.7rem;" onclick="togglePostCommentLike('${postId}','${c.commentId}')">👍 ${c.likes?.length||0}</button>
+          ${(currentUser&&(currentUser.role==='admin'||c.userId===currentUser.username))?`<button class="btn-outline" style="padding:0.1rem 0.3rem; font-size:0.7rem;" onclick="deletePostComment('${postId}','${c.commentId}')">✕</button>`:''}
+        </div></div>`;
+    });
+    html += `${!currentUser?`<p class="text-sm mt-2" style="color:#ffd966;">${t('loginRequired')}</p>`:`
+    <div class="flex-row mt-2"><input type="text" class="input" id="postCommentInput" placeholder="${t('postCommentPlaceholder')}"><button class="btn" onclick="addPostComment('${postId}',document.getElementById('postCommentInput').value)">${t('send')}</button></div>`}</div>`;
+    detailDiv.innerHTML = html;
+  }
+
+  function renderForumFavorites() {
+    if(!currentUser) { document.getElementById('forumFavoritesList').innerHTML = `<p class="text-sm mt-2">${t('loginRequired')}</p>`; return; }
+    const favIds = Object.values(appData.posts).filter(p=>p.favorites?.includes(currentUser.username)).map(p=>p.id);
+    const listDiv = document.getElementById('forumFavoritesList');
+    if(!favIds.length) { listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFavorites')}</p>`; return; }
+    let html = '<div class="mt-2">';
+    favIds.forEach(id=>{ const p=appData.posts[id]; if(!p) return; html += `<div class="shop-item"><div><strong>${p.title}</strong></div><button class="btn-outline btn" onclick="switchView('postDetail','${id}')">查看</button></div>`; });
+    html += '</div>'; listDiv.innerHTML = html;
+  }
+
   function exportAllData() {
-    if (!currentUser || currentUser.role !== 'admin') return alert('仅管理员可操作');
-    const users = getUsers();
-    const foodData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    const backup = {
-      version: '1.0',
-      exportTime: new Date().toISOString(),
-      users: users,
-      foodData: foodData
-    };
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `yechengdu-backup-${new Date().toISOString().slice(0,10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    alert(t('exportSuccess'));
+    if(!currentUser||currentUser.role!=='admin') return;
+    const backup = { users: getUsers(), foodData: JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}') };
+    const blob = new Blob([JSON.stringify(backup)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backup.json'; a.click();
   }
-
   function importAllData(input) {
-    if (!currentUser || currentUser.role !== 'admin') return alert('仅管理员可操作');
-    if (!confirm(t('restoreConfirm'))) {
-      input.value = '';
-      return;
-    }
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const backup = JSON.parse(e.target.result);
-        if (!backup.users || !backup.foodData) {
-          throw new Error(t('invalidBackup'));
-        }
-        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(backup.users));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(backup.foodData));
-        alert(t('restoreSuccess'));
-        window.location.reload();
-      } catch (error) {
-        alert(t('restoreError') + error.message);
-      } finally {
-        input.value = '';
-      }
-    };
+    if(!currentUser||currentUser.role!=='admin') return;
+    const file=input.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=function(e){ try{ const data=JSON.parse(e.target.result); localStorage.setItem(USER_STORAGE_KEY,JSON.stringify(data.users)); localStorage.setItem(STORAGE_KEY,JSON.stringify(data.foodData)); alert(t('restoreSuccess')); window.location.reload(); }catch(ex){ alert(t('restoreError')+ex.message); } };
     reader.readAsText(file);
   }
 
-  // ========== UI 渲染 ==========
-  let currentCategory = null;
-  let currentShopId = null;
-  let fromView = null;
-  let fromCategory = null;
+  let currentCategory=null,currentShopId=null,fromView=null,fromCategory=null;
+  function switchView(viewName, key=null, shopId=null){
+    if(viewName==='shop' && currentShopId && key!==null) shopId=key;
+    const needsLogin=['footprint','favorites','add','adminPanel','forumNewPost','postDetail','forumFavorites'];
+    if(needsLogin.includes(viewName)&&!currentUser) return alert(t('loginToAction'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    if(viewName==='home'){ document.getElementById('mainView').classList.add('active'); document.getElementById('homeView').classList.add('active'); document.querySelector('[data-view="home"]').classList.add('active'); renderHome(); renderTouristHot(); }
+    else if(viewName==='category'){ document.getElementById('mainView').classList.add('active'); document.getElementById('categoryView').classList.add('active'); currentCategory=key; renderCategory(key); }
+    else if(viewName==='shop'){ document.getElementById('mainView').classList.add('active'); document.getElementById('shopView').classList.add('active'); currentShopId=shopId; currentShopIdForComments=shopId; renderShopDetail(shopId); }
+    else if(viewName==='ranking'){ document.getElementById('mainView').classList.add('active'); document.getElementById('rankingView').classList.add('active'); document.querySelector('[data-view="ranking"]').classList.add('active'); renderRanking(); }
+    else if(viewName==='footprint'){ document.getElementById('mainView').classList.add('active'); document.getElementById('footprintView').classList.add('active'); document.querySelector('[data-view="footprint"]').classList.add('active'); renderFootprint(); }
+    else if(viewName==='favorites'){ document.getElementById('mainView').classList.add('active'); document.getElementById('favoritesView').classList.add('active'); document.querySelector('[data-view="favorites"]').classList.add('active'); renderFavorites(); }
+    else if(viewName==='add'){ document.getElementById('mainView').classList.add('active'); document.getElementById('addView').classList.add('active'); document.querySelector('[data-view="add"]').classList.add('active'); }
+    else if(viewName==='forum'){ document.getElementById('mainView').classList.add('active'); document.getElementById('forumView').classList.add('active'); document.querySelector('[data-view="forum"]').classList.add('active'); renderForumPosts(); }
+    else if(viewName==='forumNewPost'){ document.getElementById('mainView').classList.add('active'); document.getElementById('forumNewPostView').classList.add('active'); }
+    else if(viewName==='postDetail'){ document.getElementById('mainView').classList.add('active'); document.getElementById('postDetailView').classList.add('active'); currentPostId=key; renderPostDetail(key); }
+    else if(viewName==='forumFavorites'){ document.getElementById('mainView').classList.add('active'); document.getElementById('forumFavoritesView').classList.add('active'); renderForumFavorites(); }
+    else if(viewName==='adminPanel'){ document.getElementById('mainView').classList.add('active'); document.getElementById('adminPanelView').classList.add('active'); renderAdminPanel(); }
+    else if(viewName==='auth'){ document.getElementById('authView').classList.add('active'); }
+  }
+  function backToCategory(){ if(fromView==='category'&&fromCategory) switchView('category',fromCategory); else if(fromView==='ranking') switchView('ranking'); else if(fromView==='footprint') switchView('footprint'); else if(fromView==='favorites') switchView('favorites'); else if(fromView==='forum') switchView('forum'); else switchView('home'); }
 
-  function switchView(viewName, categoryKey = null, shopId = null) {
-    if (!currentUser && viewName !== 'auth') return;
+  function switchAuthTab(tab){ document.getElementById('loginTab').classList.toggle('active',tab==='login'); document.getElementById('regTab').classList.toggle('active',tab==='register'); document.getElementById('loginForm').style.display=tab==='login'?'block':'none'; document.getElementById('registerForm').style.display=tab==='register'?'block':'none'; }
+  function handleLogin(){ /* 同之前 */ const uname=document.getElementById('loginUsername').value.trim(); const pwd=document.getElementById('loginPassword').value.trim(); if(!uname||!pwd) return alert(t('loginError')); const users=getUsers(); const u=users[uname]; if(!u||u.password!==pwd) return alert(t('loginError')); const session={ username:uname, role:u.role, banned:u.banned||false, nickname:u.nickname||uname, avatar:u.avatar||'', language:u.language||'zh' }; saveSession(session); currentUser=session; applyLanguage(currentUser.language); document.getElementById('authView').classList.remove('active'); document.getElementById('mainView').classList.add('active'); updateUserUI(); switchView('home'); }
+  function handleRegister(){ const uname=document.getElementById('regUsername').value.trim(); const pwd=document.getElementById('regPassword').value.trim(); if(!uname||!pwd) return alert(t('loginError')); const users=getUsers(); if(users[uname]) return alert(t('nicknameExists')); const nick=uname; if(Object.values(users).some(u=>u.nickname===nick)) return alert(t('nicknameExists')); users[uname]={ password:pwd, role:'user', banned:false, nickname:nick, avatar:'', language:'zh' }; saveUsers(users); alert(t('regSuccess')); document.getElementById('regUsername').value=''; document.getElementById('regPassword').value=''; switchAuthTab('login'); }
+  function logout(){ clearSession(); document.getElementById('authView').classList.remove('active'); document.getElementById('mainView').classList.remove('active'); updateUserUI(); switchView('home'); }
 
-    if (viewName === 'shop') {
-      if (document.getElementById('categoryView').classList.contains('active')) {
-        fromView = 'category'; fromCategory = currentCategory;
-      } else if (document.getElementById('rankingView').classList.contains('active')) {
-        fromView = 'ranking';
-      } else if (document.getElementById('footprintView').classList.contains('active')) {
-        fromView = 'footprint';
-      } else if (document.getElementById('favoritesView').classList.contains('active')) {
-        fromView = 'favorites';
-      } else {
-        fromView = 'home';
-      }
-    } else if (viewName === 'category') {
-      fromView = null; fromCategory = null;
-    }
-
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-    if (viewName === 'home') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('homeView').classList.add('active');
-      document.querySelector('[data-view="home"]')?.classList.add('active');
-      renderHome();
-    } else if (viewName === 'category') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('categoryView').classList.add('active');
-      currentCategory = categoryKey;
-      renderCategory(categoryKey);
-    } else if (viewName === 'shop') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('shopView').classList.add('active');
-      currentShopId = shopId;
-      currentShopIdForComments = shopId;
-      renderShopDetail(shopId);
-    } else if (viewName === 'ranking') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('rankingView').classList.add('active');
-      document.querySelector('[data-view="ranking"]')?.classList.add('active');
-      renderRanking(); filterRanking();
-    } else if (viewName === 'footprint') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('footprintView').classList.add('active');
-      document.querySelector('[data-view="footprint"]')?.classList.add('active');
-      renderFootprint();
-    } else if (viewName === 'favorites') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('favoritesView').classList.add('active');
-      document.querySelector('[data-view="favorites"]')?.classList.add('active');
-      renderFavorites();
-    } else if (viewName === 'add') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('addView').classList.add('active');
-      document.querySelector('[data-view="add"]')?.classList.add('active');
-    } else if (viewName === 'adminPanel') {
-      document.getElementById('mainView').classList.add('active');
-      document.getElementById('adminPanelView').classList.add('active');
-      renderAdminPanel();
-    } else if (viewName === 'auth') {
-      document.getElementById('authView').classList.add('active');
+  function updateUserUI(){
+    const avatar=document.getElementById('userAvatar'), badge=document.getElementById('userBadge'), authBtns=document.getElementById('authButtons'), logoutBtn=document.querySelector('.logout-btn'), adminBtn=document.getElementById('adminPanelBtn');
+    if(currentUser){
+      if(currentUser.avatar){ avatar.src=currentUser.avatar; avatar.style.display='inline-block'; } else avatar.style.display='none';
+      badge.textContent = `${currentUser.role==='admin'?'👑':''} ${currentUser.nickname||currentUser.username} (${currentUser.role})`+(currentUser.banned?' [禁言]':'');
+      badge.style.display='inline-flex'; authBtns.style.display='none'; logoutBtn.style.display='inline-block';
+      if(adminBtn) adminBtn.style.display=currentUser.role==='admin'?'inline-block':'none';
+    } else {
+      avatar.style.display='none'; badge.style.display='none'; authBtns.style.display='flex'; logoutBtn.style.display='none'; if(adminBtn) adminBtn.style.display='none';
     }
   }
 
-  function backToCategory() {
-    if (fromView === 'category' && fromCategory) { switchView('category', fromCategory); }
-    else if (fromView === 'ranking') { switchView('ranking'); }
-    else if (fromView === 'footprint') { switchView('footprint'); }
-    else if (fromView === 'favorites') { switchView('favorites'); }
-    else { switchView('home'); }
-  }
+  function renderTouristHot(){ const list=document.getElementById('touristHotList'); const top=Object.values(appData.shops).map(s=>({...s,recent:countRecentCheckins(s.id)})).sort((a,b)=>b.recent-a.recent).slice(0,5); if(!top.length){ list.innerHTML='<p class="text-sm mt-2">暂无数据</p>'; return; } let html='<div class="mt-2">'; top.forEach((s,i)=>{ html+=`<div class="shop-item"><div><span style="color:#ffd966;">#${i+1}</span> <strong>${s.name}</strong> <span class="text-sm">🔥${s.recent}次</span></div><button class="btn-outline btn" onclick="switchView('shop','${s.category}','${s.id}')">详情</button></div>`; }); list.innerHTML=html+'</div>'; }
 
-  function switchAuthTab(tab) {
-    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
-    document.getElementById('regTab').classList.toggle('active', tab === 'register');
-    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-    applyLanguage(currentLanguage);
-  }
+  function renderHome(){ const grid=document.getElementById('categoryGrid'); grid.innerHTML=''; Object.entries(DEFAULT_CATEGORIES).forEach(([k,v])=>{ const d=document.createElement('div'); d.className='category-item'; d.innerHTML=`<span>${v.icon}</span><div>${t('category_'+k)}</div>`; d.onclick=()=>switchView('category',k); grid.appendChild(d); }); }
+  function renderCategory(catKey){ const cat=DEFAULT_CATEGORIES[catKey]; const ids=Object.keys(appData.shops).filter(id=>appData.shops[id].category===catKey); const div=document.getElementById('categoryDetail'); let h=`<h3>${cat.icon} ${t('category_'+catKey)}</h3>`; if(!ids.length) h+=`<p class="text-sm mt-2">${t('noShop')}</p>`; else { h+='<div class="mt-2">'; ids.forEach(id=>{ const s=appData.shops[id]; h+=`<div class="shop-item"><div><strong>${s.name}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)}次</div></div><button class="btn-outline btn" onclick="switchView('shop','${catKey}','${id}')">详情</button></div>`; }); h+='</div>'; } div.innerHTML=h; }
+  function renderShopDetail(shopId){ const s=appData.shops[shopId]; if(!s) return; const recent=countRecentCheckins(shopId), total=countTotalCheckins(shopId), favCount=getFavoriteCount(shopId), favorited=currentUser&&isFavorited(shopId); const div=document.getElementById('shopDetail'); let h=`<div class="card"><h3>${s.name}</h3><p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[s.category]?.icon||'')} ${t('category_'+s.category)}</p><p class="text-sm">${t('addressLabel')}${s.address||'暂无'}</p><p class="text-sm">${t('phoneLabel')}${s.phone||'暂无'}</p><p class="text-sm">${t('priceLabel')}${s.priceRange||'暂无'}</p><p class="text-sm">${t('hoursLabel')}${s.openingHours||'暂无'}</p><div class="flex-row mt-2"><div class="badge">🔥${t('recentCheckins')} ${recent}次</div><div class="badge">📋${t('totalCheckins')} ${total}次</div><div class="badge">❤️${t('favoriteCount')}:${favCount}</div></div><div class="mt-2"><button class="btn" onclick="checkinShop('${shopId}')">${t('checkin')}</button><button class="btn-outline" style="margin-left:0.5rem;" onclick="toggleFavorite('${shopId}')">${favorited?t('unfavoriteBtn'):t('favoriteBtn')}</button>${currentUser&&currentUser.role==='admin'?`<button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">${t('editInfo')}</button><button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">${t('deleteShop')}</button>`:''}</div></div><div class="card mt-2"><h4>💬 留言 (${(appData.comments[shopId]||[]).length})</h4><div id="commentsContainer"></div>${!currentUser?`<p class="text-sm mt-2" style="color:#ffd966;">${t('loginRequired')}</p>`:(!currentUser.banned?`<div class="flex-row mt-2"><input type="text" class="input" id="commentInput" placeholder="${t('commentPlaceholder')}"><button class="btn" onclick="addComment('${shopId}',document.getElementById('commentInput').value)">${t('send')}</button></div>`:`<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`)}</div>`; div.innerHTML=h; renderCommentsSection(); }
+  function renderRanking(){ const all=Object.values(appData.shops).map(s=>({...s,recent:countRecentCheckins(s.id)})).sort((a,b)=>b.recent-a.recent); const div=document.getElementById('rankingList'); if(!all.length){ div.innerHTML=`<p class="text-sm mt-2">${t('noData')}</p>`; return; } let h='<div class="mt-2">'; all.forEach((s,i)=>{ let rc=i===0?'gold':(i===1?'silver':(i===2?'bronze':'')); h+=`<div class="shop-item" data-name="${s.name.toLowerCase()}"><div class="flex-row"><span class="rank-number ${rc}">#${i+1}</span><div><strong>${s.name}</strong><div class="text-sm">${s.recent}次打卡</div></div></div><button class="btn-outline btn" onclick="switchView('shop','${s.category}','${s.id}')">详情</button></div>`; }); div.innerHTML=h+'</div>'; }
+  function renderFootprint(){ if(!currentUser){ document.getElementById('footprintList').innerHTML=`<p class="text-sm mt-2">${t('loginRequired')}</p>`; return; } const all=Object.values(appData.shops).map(s=>({...s,total:countUserTotalCheckins(s.id)})).filter(s=>s.total>0).sort((a,b)=>b.total-a.total).slice(0,10); const div=document.getElementById('footprintList'); if(!all.length){ div.innerHTML=`<p class="text-sm mt-2">${t('noFootprint')}</p>`; return; } let h='<div class="mt-2">'; all.forEach((s,i)=>{ let rc=i===0?'gold':(i===1?'silver':(i===2?'bronze':'')); h+=`<div class="shop-item"><div class="flex-row"><span class="rank-number ${rc}">#${i+1}</span><div><strong>${s.name}</strong><div class="text-sm">${s.total}次打卡</div></div></div><button class="btn-outline btn" onclick="switchView('shop','${s.category}','${s.id}')">详情</button></div>`; }); div.innerHTML=h+'</div>'; }
+  function renderFavorites(){ if(!currentUser){ document.getElementById('favoritesList').innerHTML=`<p class="text-sm mt-2">${t('loginRequired')}</p>`; return; } const ids=getUserFavoriteShopIds(); const div=document.getElementById('favoritesList'); if(!ids.length){ div.innerHTML=`<p class="text-sm mt-2">${t('noFavorites')}</p>`; return; } let h='<div class="mt-2">'; ids.forEach(id=>{ const s=appData.shops[id]; if(!s) return; h+=`<div class="shop-item" data-name="${s.name.toLowerCase()}"><div><strong>${s.name}</strong></div><button class="btn-outline btn" onclick="switchView('shop','${s.category}','${id}')">详情</button></div>`; }); div.innerHTML=h+'</div>'; }
+  function renderAdminPanel(){ const users=getUsers(); const div=document.getElementById('userList'); let h=''; Object.entries(users).forEach(([uname,u])=>{ const banned=u.banned||false; h+=`<div class="shop-item" data-username="${uname.toLowerCase()}"><div><strong>${u.nickname||uname}</strong> (${u.role}) <span class="text-sm">${banned?'🚫已封禁':'✅正常'}</span></div><div>${u.role!=='admin'?`<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${banned?'解封':'封禁'}</button>`:''}</div></div>`; }); div.innerHTML=h||'<p>暂无用户</p>'; }
+  function filterUsers(){ const kw=(document.getElementById('userSearch')?.value||'').toLowerCase(); document.querySelectorAll('#userList .shop-item').forEach(el=>{ el.style.display = (el.getAttribute('data-username')||'').includes(kw)?'':'none'; }); }
+  function toggleBanUser(uname){ if(!currentUser||currentUser.role!=='admin') return; const users=getUsers(); if(users[uname]&&users[uname].role!=='admin'){ users[uname].banned=!users[uname].banned; saveUsers(users); if(currentUser.username===uname){ currentUser.banned=users[uname].banned; saveSession(currentUser); updateUserUI(); } renderAdminPanel(); } }
+  function filterRanking(){ const kw=(document.getElementById('rankingSearch')?.value||'').toLowerCase(); document.querySelectorAll('#rankingList .shop-item').forEach(el=>{ el.style.display=(el.getAttribute('data-name')||'').includes(kw)?'':'none'; }); }
+  function filterFavorites(){ const kw=(document.getElementById('favoritesSearch')?.value||'').toLowerCase(); document.querySelectorAll('#favoritesList .shop-item').forEach(el=>{ el.style.display=(el.getAttribute('data-name')||'').includes(kw)?'':'none'; }); }
+  function filterForumFavorites(){ /* same logic */ }
 
-  function handleLogin() {
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    if (!username || !password) return alert(t('loginError'));
-    const users = getUsers();
-    const user = users[username];
-    if (!user || user.password !== password) return alert(t('loginError'));
-    const sessionUser = {
-        username, role: user.role, banned: user.banned || false,
-        nickname: user.nickname || username, avatar: user.avatar || '', language: user.language || 'zh'
-    };
-    saveSession(sessionUser);
-    currentUser = sessionUser;
-    applyLanguage(currentUser.language);
-    document.getElementById('authView').classList.remove('active');
-    document.getElementById('mainView').classList.add('active');
-    updateUserUI();
-    switchView('home');
-  }
+  document.getElementById('mainNav').addEventListener('click', e=>{ if(e.target.classList.contains('nav-btn')) switchView(e.target.dataset.view); });
 
-  function handleRegister() {
-    const username = document.getElementById('regUsername').value.trim();
-    const password = document.getElementById('regPassword').value.trim();
-    if (!username || !password) return alert(t('loginError'));
-    const users = getUsers();
-    if (users[username]) return alert(t('nicknameExists'));
-    const nickname = username;
-    const nicknameTaken = Object.values(users).some(u => u.nickname === nickname);
-    if (nicknameTaken) return alert(t('nicknameExists'));
-    users[username] = { password, role: 'user', banned: false, nickname: nickname, avatar: '', language: 'zh' };
-    saveUsers(users);
-    alert(t('regSuccess'));
-    document.getElementById('regUsername').value = ''; document.getElementById('regPassword').value = '';
-    switchAuthTab('login');
-  }
-
-  function logout() {
-    clearSession();
-    document.getElementById('mainView').classList.remove('active');
-    document.getElementById('authView').classList.add('active');
-    document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = '';
-  }
-
-  function updateUserUI() {
-    if (!currentUser) return;
-    const avatarImg = document.getElementById('userAvatar');
-    if (currentUser.avatar) { avatarImg.src = currentUser.avatar; avatarImg.style.display = 'inline-block'; }
-    else { avatarImg.style.display = 'none'; }
-    document.getElementById('userBadge').textContent =
-      `${currentUser.role === 'admin' ? '👑' : ''} ${currentUser.nickname || currentUser.username} (${currentUser.role})` +
-      (currentUser.banned ? ' [禁言]' : '');
-    document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
-  }
-
-  function renderAdminPanel() {
-    const users = getUsers();
-    const listDiv = document.getElementById('userList');
-    let html = '';
-    Object.entries(users).forEach(([uname, info]) => {
-      const isBanned = info.banned || false;
-      html += `<div class="shop-item" data-username="${uname.toLowerCase()}">
-          <div><strong>${info.nickname || uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫 已封禁' : '✅ 正常'}</span></div>
-          <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
-        </div>`;
-    });
-    listDiv.innerHTML = html || '<p>暂无用户</p>';
-  }
-
-  function filterUsers() {
-    const keyword = document.getElementById('userSearch')?.value?.toLowerCase() || '';
-    const items = document.querySelectorAll('#userList .shop-item');
-    items.forEach(item => { const name = item.getAttribute('data-username') || ''; item.style.display = name.includes(keyword) ? '' : 'none'; });
-  }
-
-  function toggleBanUser(username) {
-    if (!currentUser || currentUser.role !== 'admin') return;
-    const users = getUsers();
-    if (users[username] && users[username].role !== 'admin') {
-      users[username].banned = !users[username].banned;
-      saveUsers(users);
-      if (currentUser.username === username) { currentUser.banned = users[username].banned; saveSession(currentUser); updateUserUI(); }
-      renderAdminPanel();
-    }
-  }
-
-  function filterRanking() {
-    const keyword = document.getElementById('rankingSearch')?.value?.toLowerCase() || '';
-    document.querySelectorAll('#rankingList .shop-item').forEach(item => {
-      const name = item.getAttribute('data-name') || ''; item.style.display = name.includes(keyword) ? '' : 'none';
-    });
-  }
-
-  function filterFavorites() {
-    const keyword = document.getElementById('favoritesSearch')?.value?.toLowerCase() || '';
-    document.querySelectorAll('#favoritesList .shop-item').forEach(item => {
-      const name = item.getAttribute('data-name') || ''; item.style.display = name.includes(keyword) ? '' : 'none';
-    });
-  }
-
-  function renderHome() {
-    const grid = document.getElementById('categoryGrid'); grid.innerHTML = '';
-    Object.entries(DEFAULT_CATEGORIES).forEach(([key, cat]) => {
-      const div = document.createElement('div'); div.className = 'category-item';
-      div.innerHTML = `<span>${cat.icon}</span><div>${t('category_' + key)}</div>`;
-      div.onclick = () => switchView('category', key);
-      grid.appendChild(div);
-    });
-  }
-
-  function renderCategory(catKey) {
-    const cat = DEFAULT_CATEGORIES[catKey];
-    const shopIds = Object.keys(appData.shops).filter(id => appData.shops[id].category === catKey);
-    const detailDiv = document.getElementById('categoryDetail');
-    let html = `<h3>${cat.icon} ${t('category_' + catKey)}</h3>`;
-    if (shopIds.length === 0) { html += `<p class="text-sm mt-2">${t('noShop')}</p>`; }
-    else {
-      html += '<div class="mt-2">';
-      shopIds.forEach(id => {
-        const shop = appData.shops[id];
-        html += `<div class="shop-item">
-            <div><strong>${shop.name}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)} 次</div></div>
-            <button class="btn-outline btn" onclick="switchView('shop', '${catKey}', '${id}')">详情</button>
-          </div>`;
-      });
-      html += '</div>';
-    }
-    detailDiv.innerHTML = html;
-  }
-
-  function renderShopDetail(shopId) {
-    const shop = appData.shops[shopId];
-    if (!shop || !currentUser) return;
-    const recentCount = countRecentCheckins(shopId);
-    const totalCount = countTotalCheckins(shopId);
-    const favorited = isFavorited(shopId);
-    const favCount = getFavoriteCount(shopId);
-    const detailDiv = document.getElementById('shopDetail');
-    let html = `
-      <div class="card">
-        <h3>${shop.name}</h3>
-        <p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${t('category_' + shop.category)}</p>
-        <p class="text-sm">${t('addressLabel')} ${shop.address || '暂无'}</p>
-        <p class="text-sm">${t('phoneLabel')} ${shop.phone || '暂无'}</p>
-        <div class="flex-row mt-2">
-          <div class="badge">🔥 ${t('recentCheckins')} ${recentCount} 次</div>
-          <div class="badge">📋 ${t('totalCheckins')} ${totalCount} 次</div>
-          <div class="badge">❤️ ${t('favoriteCount')}: ${favCount}</div>
-        </div>
-        <div class="mt-2">
-          <button class="btn" onclick="checkinShop('${shopId}')">${t('checkin')}</button>
-          <button class="btn-outline" style="margin-left:0.5rem;" onclick="toggleFavorite('${shopId}')">${favorited ? t('unfavoriteBtn') : t('favoriteBtn')}</button>
-          ${currentUser.role === 'admin' ? `
-            <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">${t('editInfo')}</button>
-            <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">${t('deleteShop')}</button>
-          ` : ''}
-        </div>
-      </div>
-      <div class="card mt-2">
-        <h4>💬 留言 (${(appData.comments[shopId] || []).length})</h4>
-        <div id="commentsContainer"></div>
-        ${!currentUser.banned ? `
-        <div class="flex-row mt-2">
-          <input type="text" class="input" id="commentInput" placeholder="${t('commentPlaceholder')}">
-          <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">${t('send')}</button>
-        </div>` : `<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`}
-      </div>`;
-    detailDiv.innerHTML = html;
-    renderCommentsSection();
-  }
-
-  function renderRanking() {
-    const allShops = Object.values(appData.shops);
-    const ranked = allShops.map(shop => ({ ...shop, recent: countRecentCheckins(shop.id) })).sort((a,b) => b.recent - a.recent);
-    const listDiv = document.getElementById('rankingList');
-    if (ranked.length === 0) { listDiv.innerHTML = `<p class="text-sm mt-2">${t('noData')}</p>`; return; }
-    let html = '<div class="mt-2">';
-    ranked.forEach((shop, idx) => {
-      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
-      html += `<div class="shop-item" data-name="${shop.name.toLowerCase()}">
-          <div class="flex-row"><span class="rank-number ${rankClass}">#${idx+1}</span>
-            <div><strong>${shop.name}</strong><div class="text-sm">${shop.recent} 次打卡</div></div>
-          </div>
-          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
-        </div>`;
-    });
-    html += '</div>'; listDiv.innerHTML = html;
-  }
-
-  function renderFootprint() {
-    const allShops = Object.values(appData.shops);
-    const userShops = allShops.map(shop => ({ ...shop, total: countUserTotalCheckins(shop.id) })).filter(s => s.total > 0).sort((a,b) => b.total - a.total).slice(0, 10);
-    const listDiv = document.getElementById('footprintList');
-    if (userShops.length === 0) { listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFootprint')}</p>`; return; }
-    let html = '<div class="mt-2">';
-    userShops.forEach((shop, idx) => {
-      let rankClass = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
-      html += `<div class="shop-item">
-          <div class="flex-row"><span class="rank-number ${rankClass}">#${idx+1}</span>
-            <div><strong>${shop.name}</strong><div class="text-sm">${shop.total} 次打卡</div></div>
-          </div>
-          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shop.id}')">详情</button>
-        </div>`;
-    });
-    html += '</div>'; listDiv.innerHTML = html;
-  }
-
-  function renderFavorites() {
-    const favoriteIds = getUserFavoriteShopIds();
-    const listDiv = document.getElementById('favoritesList');
-    if (favoriteIds.length === 0) { listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFavorites')}</p>`; return; }
-    let html = '<div class="mt-2">';
-    favoriteIds.forEach(shopId => {
-      const shop = appData.shops[shopId];
-      if (!shop) return;
-      const favCount = getFavoriteCount(shopId);
-      html += `<div class="shop-item" data-name="${shop.name.toLowerCase()}">
-          <div><strong>${shop.name}</strong><div class="text-sm">❤️ ${favCount} 次收藏</div></div>
-          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shopId}')">详情</button>
-        </div>`;
-    });
-    html += '</div>'; listDiv.innerHTML = html;
-  }
-
-  function addShop() {
-    if (!currentUser) return;
-    const name = document.getElementById('newShopName').value.trim();
-    const category = document.getElementById('newCategory').value;
-    const address = document.getElementById('newShopAddress').value.trim();
-    const phone = document.getElementById('newShopPhone').value.trim();
-    if (!name) return alert(t('shopNameRequired'));
-    if (!address) return alert(t('addressRequired'));
-    const shopId = uid();
-    appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
-    appData.checkins[shopId] = []; appData.comments[shopId] = []; appData.favorites[shopId] = [];
-    saveAppData();
-    document.getElementById('newShopName').value = ''; document.getElementById('newShopAddress').value = ''; document.getElementById('newShopPhone').value = '';
-    alert(t('shopAdded'));
-    switchView('home');
-  }
-
-  document.getElementById('mainNav').addEventListener('click', e => {
-    if (e.target.classList.contains('nav-btn')) { const view = e.target.dataset.view; switchView(view); }
-  });
-
-  // 初始化
   initUsers(); loadAppData();
-  if (loadSession()) {
-    document.getElementById('authView').classList.remove('active');
-    document.getElementById('mainView').classList.add('active');
-    updateUserUI();
-    switchView('home');
-  } else {
-    document.getElementById('authView').classList.add('active');
-    document.getElementById('mainView').classList.remove('active');
-  }
+  if(loadSession()){ document.getElementById('authView').classList.remove('active'); document.getElementById('mainView').classList.add('active'); updateUserUI(); switchView('home'); }
+  else { document.getElementById('authView').classList.remove('active'); document.getElementById('mainView').classList.add('active'); updateUserUI(); switchView('home'); }
 </script>
 </body>
 </html>
