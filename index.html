@@ -586,7 +586,7 @@
         avatar: user.avatar,
         language: user.language
     }));
-}
+  }
 
   function clearSession() {
     currentUser = null;
@@ -745,9 +745,31 @@
   // ========== UI 渲染 ==========
   let currentCategory = null;
   let currentShopId = null;
+  // 记录进入详情前的视图
+  let fromView = null;
+  let fromCategory = null;
 
   function switchView(viewName, categoryKey = null, shopId = null) {
     if (!currentUser && viewName !== 'auth') return;
+
+    // 如果即将进入店铺详情，记录当前的来源视图
+    if (viewName === 'shop') {
+      if (document.getElementById('categoryView').classList.contains('active')) {
+        fromView = 'category';
+        fromCategory = currentCategory;
+      } else if (document.getElementById('rankingView').classList.contains('active')) {
+        fromView = 'ranking';
+      } else if (document.getElementById('footprintView').classList.contains('active')) {
+        fromView = 'footprint';
+      } else {
+        fromView = 'home';
+      }
+    } else if (viewName === 'category') {
+      // 进入分类时重置来源，以便返回列表时不会是旧数据干扰
+      fromView = null;
+      fromCategory = null;
+    }
+
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
@@ -790,7 +812,18 @@
     }
   }
 
-  function backToCategory() { switchView('category', currentCategory); }
+  function backToCategory() {
+    if (fromView === 'category' && fromCategory) {
+      switchView('category', fromCategory);
+    } else if (fromView === 'ranking') {
+      switchView('ranking');
+    } else if (fromView === 'footprint') {
+      switchView('footprint');
+    } else {
+      // 如果找不到来源，回到首页
+      switchView('home');
+    }
+  }
 
   function switchAuthTab(tab) {
     document.getElementById('loginTab').classList.toggle('active', tab === 'login');
@@ -824,7 +857,7 @@
     document.getElementById('mainView').classList.add('active');
     updateUserUI();
     switchView('home');
-}
+  }
 
   function handleRegister() {
     const username = document.getElementById('regUsername').value.trim();
@@ -860,7 +893,7 @@
     } else {
       avatarImg.style.display = 'none';
     }
-    document.getElementById('userBadge').textContent = 
+    document.getElementById('userBadge').textContent =
       `${currentUser.role === 'admin' ? '👑' : ''} ${currentUser.nickname || currentUser.username} (${currentUser.role})` +
       (currentUser.banned ? ' [禁言]' : '');
     document.getElementById('adminPanelBtn').style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
