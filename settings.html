@@ -36,6 +36,24 @@
       border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
       font-size: 0.95rem; outline: none; margin-bottom: 0.8rem;
     }
+
+    /* 下拉框优化 */
+    select.input {
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: rgba(15,25,45,0.9);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-size: 1.2rem;
+      padding-right: 2.5rem;
+      color: #e1e8f0;
+    }
+    select.input option {
+      background: #15203d;
+      color: #e1e8f0;
+    }
+
     .btn {
       background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
       border: none; color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
@@ -61,14 +79,14 @@
 </head>
 <body>
 <div class="container">
-  <button class="btn-outline mb-2" onclick="window.location.href='index.html'">← 返回主页</button>
+  <button class="btn-outline mb-2" onclick="window.location.href='index.html'" data-i18n="back">← 返回主页</button>
   <div class="card">
     <h3 data-i18n="profileTitle">👤 个人信息</h3>
     <img id="avatarPreview" class="avatar-preview" src="" alt="头像">
     <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="previewAvatar()">
     <button class="btn-outline mt-2" data-i18n="changeAvatar" onclick="document.getElementById('avatarInput').click()">📷 更换头像</button>
     <label for="nicknameInput" data-i18n="nicknameLabel">昵称</label>
-    <input type="text" class="input" id="nicknameInput" placeholder="设置昵称">
+    <input type="text" class="input" id="nicknameInput" data-i18n-placeholder="nicknamePlaceholder" placeholder="设置昵称">
     <button class="btn mt-2" data-i18n="saveProfile" onclick="saveProfile()">保存个人信息</button>
   </div>
   <div class="card">
@@ -183,8 +201,13 @@
       const key = el.getAttribute('data-i18n');
       if (t(key)) el.textContent = t(key);
     });
-    document.getElementById('nicknameInput').placeholder = t('nicknamePlaceholder');
-    document.querySelector('.btn-outline.mb-2').textContent = t('back');
+    // 同时更新 placeholder 属性
+    const nicknameInput = document.getElementById('nicknameInput');
+    if (nicknameInput) {
+      nicknameInput.placeholder = t('nicknamePlaceholder');
+    }
+    // 更新返回按钮文字（class 为 btn-outline 的按钮可能有两个，我们通过 data-i18n 已经更新了）
+    // 但为了确保，可单独处理（已包含在 data-i18n 选择器中）
   }
 
   applySettingsLanguage();
@@ -193,6 +216,7 @@
   document.getElementById('nicknameInput').value = user.nickname || username;
   document.getElementById('languageSelect').value = currentLang;
 
+  // 监听语言选择框变化，实时切换界面语言预览
   document.getElementById('languageSelect').addEventListener('change', function() {
     currentLang = this.value;
     applySettingsLanguage();
