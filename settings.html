@@ -129,6 +129,13 @@
     <button class="btn mt-2" data-i18n="saveProfile" onclick="saveProfile()">保存个人信息</button>
   </div>
   <div class="card">
+    <h3 data-i18n="passwordTitle">🔒 修改密码</h3>
+    <input type="password" class="input" id="oldPassword" data-i18n-placeholder="oldPasswordPlaceholder" placeholder="原密码">
+    <input type="password" class="input" id="newPassword" data-i18n-placeholder="newPasswordPlaceholder" placeholder="新密码">
+    <input type="password" class="input" id="confirmPassword" data-i18n-placeholder="confirmPasswordPlaceholder" placeholder="确认新密码">
+    <button class="btn mt-2" data-i18n="savePassword" onclick="savePassword()">修改密码</button>
+  </div>
+  <div class="card">
     <h3 data-i18n="langTitle">🌐 语言设置</h3>
     <select id="languageSelect" class="input">
       <option value="zh">中文</option>
@@ -177,12 +184,21 @@
       nicknameLabel: '昵称',
       nicknamePlaceholder: '设置昵称',
       saveProfile: '保存个人信息',
+      passwordTitle: '🔒 修改密码',
+      oldPasswordPlaceholder: '原密码',
+      newPasswordPlaceholder: '新密码',
+      confirmPasswordPlaceholder: '确认新密码',
+      savePassword: '修改密码',
       langTitle: '🌐 语言设置',
       saveLang: '保存语言',
       back: '← 返回主页',
       nicknameRequired: '昵称不能为空',
       nicknameTaken: '昵称已被其他用户使用',
       profileSaved: '个人信息已保存',
+      passwordError: '原密码错误',
+      passwordMismatch: '两次新密码不一致',
+      passwordEmpty: '请填写所有密码字段',
+      passwordSaved: '密码修改成功',
       langSaved: '语言已保存，返回主页生效'
     },
     en: {
@@ -191,12 +207,21 @@
       nicknameLabel: 'Nickname',
       nicknamePlaceholder: 'Set nickname',
       saveProfile: 'Save Profile',
+      passwordTitle: '🔒 Change Password',
+      oldPasswordPlaceholder: 'Current password',
+      newPasswordPlaceholder: 'New password',
+      confirmPasswordPlaceholder: 'Confirm new password',
+      savePassword: 'Change Password',
       langTitle: '🌐 Language',
       saveLang: 'Save Language',
       back: '← Back to Home',
       nicknameRequired: 'Nickname cannot be empty',
       nicknameTaken: 'Nickname already taken',
       profileSaved: 'Profile saved',
+      passwordError: 'Wrong current password',
+      passwordMismatch: 'New passwords do not match',
+      passwordEmpty: 'Please fill in all password fields',
+      passwordSaved: 'Password changed successfully',
       langSaved: 'Language saved, back to home to apply'
     },
     ja: {
@@ -205,12 +230,21 @@
       nicknameLabel: 'ニックネーム',
       nicknamePlaceholder: 'ニックネームを設定',
       saveProfile: 'プロフィール保存',
+      passwordTitle: '🔒 パスワード変更',
+      oldPasswordPlaceholder: '現在のパスワード',
+      newPasswordPlaceholder: '新しいパスワード',
+      confirmPasswordPlaceholder: '新しいパスワード（確認）',
+      savePassword: 'パスワードを変更',
       langTitle: '🌐 言語',
       saveLang: '言語を保存',
       back: '← ホームに戻る',
       nicknameRequired: 'ニックネームは必須です',
       nicknameTaken: 'そのニックネームは既に使われています',
       profileSaved: 'プロフィールを保存しました',
+      passwordError: '現在のパスワードが違います',
+      passwordMismatch: '新しいパスワードが一致しません',
+      passwordEmpty: 'すべてのパスワード欄を入力してください',
+      passwordSaved: 'パスワードを変更しました',
       langSaved: '言語を保存しました。ホームに戻って反映されます'
     },
     ko: {
@@ -219,12 +253,21 @@
       nicknameLabel: '닉네임',
       nicknamePlaceholder: '닉네임 설정',
       saveProfile: '프로필 저장',
+      passwordTitle: '🔒 비밀번호 변경',
+      oldPasswordPlaceholder: '현재 비밀번호',
+      newPasswordPlaceholder: '새 비밀번호',
+      confirmPasswordPlaceholder: '새 비밀번호 확인',
+      savePassword: '비밀번호 변경',
       langTitle: '🌐 언어',
       saveLang: '언어 저장',
       back: '← 홈으로 돌아가기',
       nicknameRequired: '닉네임을 입력하세요',
       nicknameTaken: '이미 사용 중인 닉네임입니다',
       profileSaved: '프로필이 저장되었습니다',
+      passwordError: '현재 비밀번호가 틀렸습니다',
+      passwordMismatch: '새 비밀번호가 일치하지 않습니다',
+      passwordEmpty: '모든 비밀번호 필드를 입력하세요',
+      passwordSaved: '비밀번호가 변경되었습니다',
       langSaved: '언어가 저장되었습니다. 홈으로 돌아가 적용됩니다'
     }
   };
@@ -239,6 +282,10 @@
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (t(key)) el.textContent = t(key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t(key)) el.placeholder = t(key);
     });
     const nicknameInput = document.getElementById('nicknameInput');
     if (nicknameInput) {
@@ -281,6 +328,41 @@
     allUsers[username].avatar = avatarData;
     saveUsers(allUsers);
     alert(t('profileSaved'));
+  }
+
+  function savePassword() {
+    const oldPassword = document.getElementById('oldPassword').value.trim();
+    const newPassword = document.getElementById('newPassword').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return alert(t('passwordEmpty'));
+    }
+
+    const allUsers = getUsers();
+    const currentData = allUsers[username];
+    if (!currentData) {
+      return alert('用户数据异常');
+    }
+
+    // 验证原密码
+    if (currentData.password !== oldPassword) {
+      return alert(t('passwordError'));
+    }
+
+    // 检查两次新密码是否一致
+    if (newPassword !== confirmPassword) {
+      return alert(t('passwordMismatch'));
+    }
+
+    // 更新密码
+    allUsers[username].password = newPassword;
+    saveUsers(allUsers);
+    // 清空输入框
+    document.getElementById('oldPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+    alert(t('passwordSaved'));
   }
 
   function saveLanguage() {
