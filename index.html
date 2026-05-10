@@ -256,6 +256,16 @@
         </div>
         <div id="userList"></div>
       </div>
+      <!-- 数据备份与恢复 -->
+      <div class="card mt-2">
+        <h3>💾 数据备份与恢复</h3>
+        <div class="flex-row" style="gap:0.5rem;">
+          <button class="btn" onclick="exportAllData()">📥 导出数据</button>
+          <button class="btn-outline" onclick="document.getElementById('restoreFileInput').click()">📤 恢复数据</button>
+          <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="importAllData(this)">
+        </div>
+        <p class="text-sm mt-2">导出所有网站数据（JSON文件），之后可通过恢复按钮导入。注意：恢复数据将覆盖当前所有信息。</p>
+      </div>
     </div>
   </div>
 </div>
@@ -269,7 +279,7 @@
   // ========== 多语言包 ==========
   const i18n = {
     zh: {
-      siteTitle: '夜成都天府美食榜',
+      siteTitle: '夜成都·天府美食榜',
       siteSubtitle: '深夜里的地道成都味道，由你打卡决定',
       loginTab: '登录', regTab: '注册', usernamePlaceholder: '用户名', passwordPlaceholder: '密码',
       loginBtn: '登录', regBtn: '注册', logout: '退出登录', adminPanel: '管理面板',
@@ -299,7 +309,16 @@
       shopAdded: '店铺添加成功！', confirmDelete: '确认删除该店铺？',
       category_hotpot: '火锅', category_skewer: '串串香', category_sichuan: '川菜馆',
       category_snack: '小吃', category_noodle: '面馆/米粉', category_bbq: '烧烤',
-      category_foreign: '异国料理', category_sweet: '甜品饮品'
+      category_foreign: '异国料理', category_sweet: '甜品饮品',
+      backupTitle: '💾 数据备份与恢复',
+      exportBtn: '📥 导出数据',
+      restoreBtn: '📤 恢复数据',
+      backupHint: '导出所有网站数据（JSON文件），之后可通过恢复按钮导入。注意：恢复数据将覆盖当前所有信息。',
+      exportSuccess: '数据导出成功！',
+      restoreConfirm: '恢复数据将覆盖当前所有信息（店铺、用户、打卡等），确定继续吗？',
+      restoreSuccess: '数据恢复成功！即将刷新页面以生效。',
+      restoreError: '恢复失败：',
+      invalidBackup: '备份文件格式不正确'
     },
     en: {
       siteTitle: 'Chengdu Night Food Chart', siteSubtitle: 'Authentic Chengdu flavors voted by your visits',
@@ -331,7 +350,16 @@
       shopAdded: 'Shop added!', confirmDelete: 'Delete this shop?',
       category_hotpot: 'Hot Pot', category_skewer: 'Skewer', category_sichuan: 'Sichuan Cuisine',
       category_snack: 'Snacks', category_noodle: 'Noodles', category_bbq: 'BBQ',
-      category_foreign: 'Foreign Cuisine', category_sweet: 'Desserts & Drinks'
+      category_foreign: 'Foreign Cuisine', category_sweet: 'Desserts & Drinks',
+      backupTitle: '💾 Backup & Restore',
+      exportBtn: '📥 Export Data',
+      restoreBtn: '📤 Restore Data',
+      backupHint: 'Export all website data as JSON file. You can restore it later. Warning: Restoring will overwrite all current data.',
+      exportSuccess: 'Data exported successfully!',
+      restoreConfirm: 'Restoring will overwrite all current data (shops, users, check-ins, etc.). Continue?',
+      restoreSuccess: 'Data restored successfully! The page will now reload.',
+      restoreError: 'Restore failed: ',
+      invalidBackup: 'Invalid backup file format'
     },
     ja: {
       siteTitle: '夜成都天府美食ランキング', siteSubtitle: '本場の成都の味をあなたのチェックインで決める',
@@ -363,7 +391,16 @@
       shopAdded: '店舗を追加しました！', confirmDelete: 'この店舗を削除しますか？',
       category_hotpot: '火鍋', category_skewer: '串串香', category_sichuan: '四川料理',
       category_snack: '軽食', category_noodle: '麺類', category_bbq: 'バーベキュー',
-      category_foreign: '異国料理', category_sweet: 'デザート・ドリンク'
+      category_foreign: '異国料理', category_sweet: 'デザート・ドリンク',
+      backupTitle: '💾 バックアップと復元',
+      exportBtn: '📥 データのエクスポート',
+      restoreBtn: '📤 データの復元',
+      backupHint: '全データをJSONファイルとしてエクスポートします。復元時に現在のデータは上書きされます。',
+      exportSuccess: 'データをエクスポートしました！',
+      restoreConfirm: '復元すると現在のすべての情報（店舗、ユーザー、チェックインなど）が上書きされます。続行しますか？',
+      restoreSuccess: 'データを復元しました！ページをリロードします。',
+      restoreError: '復元に失敗しました: ',
+      invalidBackup: 'バックアップファイルの形式が正しくありません'
     },
     ko: {
       siteTitle: '청두 야간 미식 차트', siteSubtitle: '방문으로 결정되는 진짜 청두의 맛',
@@ -395,7 +432,16 @@
       shopAdded: '가게가 추가되었습니다!', confirmDelete: '이 가게를 삭제하시겠습니까?',
       category_hotpot: '훠궈', category_skewer: '꼬치구이', category_sichuan: '사천 요리',
       category_snack: '간식', category_noodle: '면류', category_bbq: '바비큐',
-      category_foreign: '세계 요리', category_sweet: '디저트·음료'
+      category_foreign: '세계 요리', category_sweet: '디저트·음료',
+      backupTitle: '💾 백업 및 복원',
+      exportBtn: '📥 데이터 내보내기',
+      restoreBtn: '📤 데이터 복원',
+      backupHint: '모든 웹사이트 데이터를 JSON 파일로 내보냅니다. 복원 시 현재 데이터를 덮어씁니다.',
+      exportSuccess: '데이터를 내보냈습니다!',
+      restoreConfirm: '복원하면 현재의 모든 정보(가게, 사용자, 체크인 등)가 덮어써집니다. 계속하시겠습니까?',
+      restoreSuccess: '데이터가 복원되었습니다! 페이지가 곧 새로고침됩니다.',
+      restoreError: '복원 실패: ',
+      invalidBackup: '잘못된 백업 파일 형식입니다'
     }
   };
 
@@ -492,7 +538,6 @@
   };
 
   let appData = { shops: {}, checkins: {}, comments: {}, favorites: {}, commentLikes: {} };
-  // commentLikes: { commentId: [username1, username2, ...] }
 
   function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -557,10 +602,7 @@
     renderCommentsSection();
   }
 
-  function getCommentLikeCount(commentId) {
-    return (appData.commentLikes[commentId] || []).length;
-  }
-
+  function getCommentLikeCount(commentId) { return (appData.commentLikes[commentId] || []).length; }
   function hasUserLikedComment(commentId) {
     if (!currentUser) return false;
     return (appData.commentLikes[commentId] || []).includes(currentUser.username);
@@ -650,7 +692,7 @@
   }
 
   // ========== 评论排序与渲染 ==========
-  let currentCommentSortMode = 'likes'; // 'likes' | 'time'
+  let currentCommentSortMode = 'likes';
   let currentShopIdForComments = null;
 
   function sortComments(sortMode) {
@@ -693,6 +735,55 @@
       });
     }
     container.innerHTML = html;
+  }
+
+  // ========== 数据备份与恢复（仅管理员） ==========
+  function exportAllData() {
+    if (!currentUser || currentUser.role !== 'admin') return alert('仅管理员可操作');
+    const users = getUsers();
+    const foodData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const backup = {
+      version: '1.0',
+      exportTime: new Date().toISOString(),
+      users: users,
+      foodData: foodData
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `yechengdu-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    alert(t('exportSuccess'));
+  }
+
+  function importAllData(input) {
+    if (!currentUser || currentUser.role !== 'admin') return alert('仅管理员可操作');
+    if (!confirm(t('restoreConfirm'))) {
+      input.value = '';
+      return;
+    }
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const backup = JSON.parse(e.target.result);
+        if (!backup.users || !backup.foodData) {
+          throw new Error(t('invalidBackup'));
+        }
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(backup.users));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(backup.foodData));
+        alert(t('restoreSuccess'));
+        window.location.reload();
+      } catch (error) {
+        alert(t('restoreError') + error.message);
+      } finally {
+        input.value = '';
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   // ========== UI 渲染 ==========
@@ -950,7 +1041,6 @@
         </div>` : `<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`}
       </div>`;
     detailDiv.innerHTML = html;
-    // 渲染评论区
     renderCommentsSection();
   }
 
