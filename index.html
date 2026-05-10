@@ -562,11 +562,14 @@
   function saveSession(user) {
     currentUser = user;
     localStorage.setItem(SESSION_KEY, JSON.stringify({
-      username: user.username,
-      role: user.role,
-      banned: user.banned
+        username: user.username,
+        role: user.role,
+        banned: user.banned,
+        nickname: user.nickname,
+        avatar: user.avatar,
+        language: user.language
     }));
-  }
+}
 
   function clearSession() {
     currentUser = null;
@@ -787,13 +790,25 @@
     const users = getUsers();
     const user = users[username];
     if (!user || user.password !== password) return alert(t('loginError'));
-    const sessionUser = { username, role: user.role, banned: user.banned || false };
+
+    // 构建完整的会话对象，包含昵称、头像、语言
+    const sessionUser = {
+        username,
+        role: user.role,
+        banned: user.banned || false,
+        nickname: user.nickname || username,
+        avatar: user.avatar || '',
+        language: user.language || 'zh'
+    };
+
     saveSession(sessionUser);
+    currentUser = sessionUser;      // 直接同步 currentUser
+    applyLanguage(currentUser.language);
     document.getElementById('authView').classList.remove('active');
     document.getElementById('mainView').classList.add('active');
     updateUserUI();
     switchView('home');
-  }
+}
 
   function handleRegister() {
     const username = document.getElementById('regUsername').value.trim();
