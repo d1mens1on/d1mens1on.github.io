@@ -201,6 +201,7 @@
         <button class="nav-btn active" data-view="home" data-i18n="home">🏠 首页</button>
         <button class="nav-btn" data-view="ranking" data-i18n="ranking">🔥 天府美食榜</button>
         <button class="nav-btn" data-view="footprint" data-i18n="footprint">👣 我的足迹</button>
+        <button class="nav-btn" data-view="favorites" data-i18n="favoritesNav">❤️ 我的收藏</button>
         <button class="nav-btn" data-view="add" data-i18n="addShop">➕ 评价店铺</button>
       </div>
     </div>
@@ -228,6 +229,16 @@
     </div>
     <div id="footprintView" class="view">
       <div class="card"><h3 data-i18n="footprintTitle">👣 我的美食足迹</h3><p class="text-sm mt-2" data-i18n="footprintDesc">你打卡次数最多的10家店铺</p><div id="footprintList"></div></div>
+    </div>
+    <div id="favoritesView" class="view">
+      <div class="card">
+        <h3 data-i18n="favoritesTitle">❤️ 我的收藏</h3>
+        <p class="text-sm mt-2" data-i18n="favoritesDesc">你收藏的店铺</p>
+        <div class="search-box mt-2 mb-2">
+          <input type="text" class="input" id="favoritesSearch" data-i18n-placeholder="searchPlaceholder" placeholder="搜索收藏..." oninput="filterFavorites()">
+        </div>
+        <div id="favoritesList"></div>
+      </div>
     </div>
     <div id="addView" class="view">
       <div class="card">
@@ -266,7 +277,7 @@
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
-  // ========== 多语言包（已去除管理面板图标） ==========
+  // ========== 多语言包（已加入收藏相关文本） ==========
   const i18n = {
     zh: {
       siteTitle: '夜成都天府美食榜',
@@ -283,6 +294,7 @@
       ranking: '🔥 天府美食榜',
       footprint: '👣 我的足迹',
       addShop: '➕ 评价店铺',
+      favoritesNav: '❤️ 我的收藏',
       category: '📂 美食分类',
       backCategory: '← 返回分类',
       backList: '← 返回列表',
@@ -291,6 +303,8 @@
       searchPlaceholder: '搜索店铺...',
       footprintTitle: '👣 我的美食足迹',
       footprintDesc: '你打卡次数最多的10家店铺',
+      favoritesTitle: '❤️ 我的收藏',
+      favoritesDesc: '你收藏的店铺',
       addShopTitle: '➕ 添加新店铺',
       shopNamePlaceholder: '输入店铺名称',
       addressPlaceholder: '地址（必填）',
@@ -302,6 +316,7 @@
       noShop: '暂无店铺，快去添加一个吧～',
       noData: '还没有店铺数据。',
       noFootprint: '你还没有打卡记录，快去尝尝看吧～',
+      noFavorites: '你还没有收藏店铺～',
       bannedMsg: '你已被禁言，无法发表评论。',
       commentPlaceholder: '写点评价...',
       send: '发送',
@@ -313,6 +328,9 @@
       recentCheckins: '近3月打卡',
       totalCheckins: '总打卡',
       categoryLabel: '分类：',
+      favoriteBtn: '❤️ 收藏',
+      unfavoriteBtn: '💔 取消收藏',
+      favoriteCount: '被收藏次数',
       defaultNickname: '用户',
       nicknameExists: '昵称已被使用，请更换',
       regSuccess: '注册成功，请登录',
@@ -345,6 +363,7 @@
       ranking: '🔥 Food Chart',
       footprint: '👣 My Footprint',
       addShop: '➕ Add Shop',
+      favoritesNav: '❤️ Favorites',
       category: '📂 Categories',
       backCategory: '← Back to Categories',
       backList: '← Back to List',
@@ -353,6 +372,8 @@
       searchPlaceholder: 'Search shops...',
       footprintTitle: '👣 My Food Footprint',
       footprintDesc: 'Your top 10 most visited shops',
+      favoritesTitle: '❤️ My Favorites',
+      favoritesDesc: 'Your saved shops',
       addShopTitle: '➕ Add New Shop',
       shopNamePlaceholder: 'Shop name',
       addressPlaceholder: 'Address (required)',
@@ -364,6 +385,7 @@
       noShop: 'No shops yet, go add one~',
       noData: 'No data yet.',
       noFootprint: 'No check-ins yet, go try some food~',
+      noFavorites: 'No favorites yet~',
       bannedMsg: 'You have been muted and cannot comment.',
       commentPlaceholder: 'Write a review...',
       send: 'Send',
@@ -375,6 +397,9 @@
       recentCheckins: 'Recent 3 months',
       totalCheckins: 'Total',
       categoryLabel: 'Category: ',
+      favoriteBtn: '❤️ Favorite',
+      unfavoriteBtn: '💔 Unfavorite',
+      favoriteCount: 'Favorited times',
       defaultNickname: 'User',
       nicknameExists: 'Nickname already taken',
       regSuccess: 'Registration successful. Please login.',
@@ -407,6 +432,7 @@
       ranking: '🔥 美食ランキング',
       footprint: '👣 足跡',
       addShop: '➕ 店舗追加',
+      favoritesNav: '❤️ お気に入り',
       category: '📂 カテゴリ',
       backCategory: '← カテゴリに戻る',
       backList: '← リストに戻る',
@@ -415,6 +441,8 @@
       searchPlaceholder: '店舗を検索...',
       footprintTitle: '👣 私の美食足跡',
       footprintDesc: 'あなたが最もチェックインした上位10店舗',
+      favoritesTitle: '❤️ お気に入り',
+      favoritesDesc: '保存したお店',
       addShopTitle: '➕ 新規店舗追加',
       shopNamePlaceholder: '店舗名',
       addressPlaceholder: '住所（必須）',
@@ -426,6 +454,7 @@
       noShop: 'まだ店舗がありません。追加してください～',
       noData: 'データがありません。',
       noFootprint: 'まだチェックインがありません。食べに行きましょう～',
+      noFavorites: 'まだお気に入りがありません～',
       bannedMsg: 'あなたはミュートされています。コメントできません。',
       commentPlaceholder: 'レビューを書く...',
       send: '送信',
@@ -437,6 +466,9 @@
       recentCheckins: '直近3ヶ月',
       totalCheckins: '合計',
       categoryLabel: 'カテゴリ: ',
+      favoriteBtn: '❤️ お気に入り',
+      unfavoriteBtn: '💔 お気に入り解除',
+      favoriteCount: 'お気に入り数',
       defaultNickname: 'ユーザー',
       nicknameExists: 'そのニックネームは既に使われています',
       regSuccess: '登録成功しました。ログインしてください。',
@@ -469,6 +501,7 @@
       ranking: '🔥 미식 차트',
       footprint: '👣 내 발자취',
       addShop: '➕ 가게 추가',
+      favoritesNav: '❤️ 즐겨찾기',
       category: '📂 카테고리',
       backCategory: '← 카테고리로 돌아가기',
       backList: '← 목록으로 돌아가기',
@@ -477,6 +510,8 @@
       searchPlaceholder: '가게 검색...',
       footprintTitle: '👣 나의 미식 발자취',
       footprintDesc: '가장 많이 방문한 상위 10개 가게',
+      favoritesTitle: '❤️ 즐겨찾기',
+      favoritesDesc: '저장한 가게',
       addShopTitle: '➕ 새 가게 추가',
       shopNamePlaceholder: '가게 이름',
       addressPlaceholder: '주소 (필수)',
@@ -488,6 +523,7 @@
       noShop: '아직 가게가 없습니다. 추가해주세요~',
       noData: '데이터가 없습니다.',
       noFootprint: '체크인 기록이 없습니다. 맛집을 찾아보세요~',
+      noFavorites: '아직 즐겨찾기가 없습니다~',
       bannedMsg: '뮤트 상태입니다. 댓글을 작성할 수 없습니다.',
       commentPlaceholder: '리뷰 작성...',
       send: '보내기',
@@ -499,6 +535,9 @@
       recentCheckins: '최근 3개월',
       totalCheckins: '총',
       categoryLabel: '카테고리: ',
+      favoriteBtn: '❤️ 즐겨찾기',
+      unfavoriteBtn: '💔 즐겨찾기 해제',
+      favoriteCount: '즐겨찾기 수',
       defaultNickname: '사용자',
       nicknameExists: '이미 사용 중인 닉네임입니다',
       regSuccess: '회원가입 성공. 로그인해주세요.',
@@ -617,7 +656,7 @@
     sweet: { name:'甜品饮品', icon:'🍧' },
   };
 
-  let appData = { shops: {}, checkins: {}, comments: {} };
+  let appData = { shops: {}, checkins: {}, comments: {}, favorites: {} };
 
   function loadAppData() {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -635,6 +674,7 @@
           if (s.address === undefined) s.address = '';
           if (s.phone === undefined) s.phone = '';
         }
+        if (!parsed.favorites) parsed.favorites = {};
         appData = parsed;
       } catch(e) { initAppData(); }
     } else { initAppData(); }
@@ -648,7 +688,7 @@
         s3: { id:'s3', name:'明婷饭店', category:'sichuan', address:'外曹家巷26号', phone:'', createdAt: Date.now() },
         s4: { id:'s4', name:'洞子口张老二凉粉', category:'snack', address:'文殊院街39号', phone:'028-86938998', createdAt: Date.now() },
       },
-      checkins: {}, comments: {}
+      checkins: {}, comments: {}, favorites: {}
     };
     saveAppData();
   }
@@ -668,6 +708,44 @@
     return checkins.filter(entry => entry.userId === currentUser.username).length;
   }
 
+  // ========== 收藏相关函数 ==========
+  function toggleFavorite(shopId) {
+    if (!currentUser) return;
+    if (!appData.favorites[shopId]) appData.favorites[shopId] = [];
+    const favorites = appData.favorites[shopId];
+    const index = favorites.indexOf(currentUser.username);
+    if (index > -1) {
+      favorites.splice(index, 1);
+    } else {
+      favorites.push(currentUser.username);
+    }
+    saveAppData();
+    renderShopDetail(shopId);
+  }
+
+  function isFavorited(shopId) {
+    if (!currentUser) return false;
+    const favorites = appData.favorites[shopId] || [];
+    return favorites.includes(currentUser.username);
+  }
+
+  function getFavoriteCount(shopId) {
+    return (appData.favorites[shopId] || []).length;
+  }
+
+  // 获取当前用户收藏的店铺 ID 列表
+  function getUserFavoriteShopIds() {
+    if (!currentUser) return [];
+    const ids = [];
+    for (const shopId in appData.favorites) {
+      if (appData.favorites[shopId].includes(currentUser.username)) {
+        ids.push(shopId);
+      }
+    }
+    return ids;
+  }
+
+  // 打卡、评论、删除等并不影响收藏逻辑，保留原有代码
   function checkinShop(shopId) {
     if (!appData.shops[shopId] || !currentUser) return;
     const today = new Date().toISOString().split('T')[0];
@@ -702,7 +780,7 @@
   function deleteShop(shopId) {
     if (!currentUser || currentUser.role !== 'admin') return;
     if (confirm(t('confirmDelete'))) {
-      delete appData.shops[shopId]; delete appData.checkins[shopId]; delete appData.comments[shopId];
+      delete appData.shops[shopId]; delete appData.checkins[shopId]; delete appData.comments[shopId]; delete appData.favorites[shopId];
       saveAppData();
       switchView('home');
     }
@@ -738,6 +816,8 @@
         fromView = 'ranking';
       } else if (document.getElementById('footprintView').classList.contains('active')) {
         fromView = 'footprint';
+      } else if (document.getElementById('favoritesView').classList.contains('active')) {
+        fromView = 'favorites';
       } else {
         fromView = 'home';
       }
@@ -775,6 +855,11 @@
       document.getElementById('footprintView').classList.add('active');
       document.querySelector('[data-view="footprint"]')?.classList.add('active');
       renderFootprint();
+    } else if (viewName === 'favorites') {
+      document.getElementById('mainView').classList.add('active');
+      document.getElementById('favoritesView').classList.add('active');
+      document.querySelector('[data-view="favorites"]')?.classList.add('active');
+      renderFavorites();
     } else if (viewName === 'add') {
       document.getElementById('mainView').classList.add('active');
       document.getElementById('addView').classList.add('active');
@@ -795,6 +880,8 @@
       switchView('ranking');
     } else if (fromView === 'footprint') {
       switchView('footprint');
+    } else if (fromView === 'favorites') {
+      switchView('favorites');
     } else {
       switchView('home');
     }
@@ -922,6 +1009,15 @@
     });
   }
 
+  function filterFavorites() {
+    const keyword = document.getElementById('favoritesSearch')?.value?.toLowerCase() || '';
+    const items = document.querySelectorAll('#favoritesList .shop-item');
+    items.forEach(item => {
+      const name = item.getAttribute('data-name') || '';
+      item.style.display = name.includes(keyword) ? '' : 'none';
+    });
+  }
+
   function renderHome() {
     const grid = document.getElementById('categoryGrid');
     grid.innerHTML = '';
@@ -962,6 +1058,8 @@
     const recentCount = countRecentCheckins(shopId);
     const totalCount = countTotalCheckins(shopId);
     const comments = appData.comments[shopId] || [];
+    const favorited = isFavorited(shopId);
+    const favCount = getFavoriteCount(shopId);
     const detailDiv = document.getElementById('shopDetail');
     let html = `
       <div class="card">
@@ -972,9 +1070,11 @@
         <div class="flex-row mt-2">
           <div class="badge">🔥 ${t('recentCheckins')} ${recentCount} 次</div>
           <div class="badge">📋 ${t('totalCheckins')} ${totalCount} 次</div>
+          <div class="badge">❤️ ${t('favoriteCount')}: ${favCount}</div>
         </div>
         <div class="mt-2">
           <button class="btn" onclick="checkinShop('${shopId}')">${t('checkin')}</button>
+          <button class="btn-outline" style="margin-left:0.5rem;" onclick="toggleFavorite('${shopId}')">${favorited ? t('unfavoriteBtn') : t('favoriteBtn')}</button>
           ${currentUser.role === 'admin' ? `
             <button class="btn-outline" style="margin-left:0.5rem;" onclick="editShop('${shopId}')">${t('editInfo')}</button>
             <button class="btn-outline" style="margin-left:0.5rem; color:#ff6666;" onclick="deleteShop('${shopId}')">${t('deleteShop')}</button>
@@ -1056,6 +1156,31 @@
     listDiv.innerHTML = html;
   }
 
+  function renderFavorites() {
+    const favoriteIds = getUserFavoriteShopIds();
+    const listDiv = document.getElementById('favoritesList');
+    if (favoriteIds.length === 0) {
+      listDiv.innerHTML = `<p class="text-sm mt-2">${t('noFavorites')}</p>`;
+      return;
+    }
+    let html = '<div class="mt-2">';
+    favoriteIds.forEach(shopId => {
+      const shop = appData.shops[shopId];
+      if (!shop) return;
+      const favCount = getFavoriteCount(shopId);
+      html += `
+        <div class="shop-item" data-name="${shop.name.toLowerCase()}">
+          <div>
+            <strong>${shop.name}</strong>
+            <div class="text-sm">❤️ ${favCount} 次收藏</div>
+          </div>
+          <button class="btn-outline btn" onclick="switchView('shop', '${shop.category}', '${shopId}')">详情</button>
+        </div>`;
+    });
+    html += '</div>';
+    listDiv.innerHTML = html;
+  }
+
   function addShop() {
     if (!currentUser) return;
     const name = document.getElementById('newShopName').value.trim();
@@ -1066,7 +1191,7 @@
     if (!address) return alert(t('addressRequired'));
     const shopId = uid();
     appData.shops[shopId] = { id: shopId, name, category, address, phone, createdAt: Date.now() };
-    appData.checkins[shopId] = []; appData.comments[shopId] = [];
+    appData.checkins[shopId] = []; appData.comments[shopId] = []; appData.favorites[shopId] = [];
     saveAppData();
     document.getElementById('newShopName').value = ''; document.getElementById('newShopAddress').value = ''; document.getElementById('newShopPhone').value = '';
     alert(t('shopAdded'));
