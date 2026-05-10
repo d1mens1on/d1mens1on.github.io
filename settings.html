@@ -21,27 +21,36 @@
       margin: 2rem auto;
       padding: 1rem;
     }
+    /* 卡片 – 与 index 一致的透明玻璃 */
     .card {
-      background: rgba(15,25,45,0.55);
-      backdrop-filter: blur(12px);
+      background: rgba(15,25,45,0.3);
+      backdrop-filter: blur(20px);
       border-radius: 24px;
       padding: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       margin-bottom: 1rem;
     }
     .card h3 { color: white; text-shadow: 0 0 8px rgba(100,180,255,0.5); margin-bottom: 1rem; }
+
+    /* 输入框 – 透明 */
     .input {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px; padding: 0.7rem 1rem; width: 100%; color: white;
-      font-size: 0.95rem; outline: none; margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 0.7rem 1rem;
+      width: 100%;
+      color: white;
+      font-size: 0.95rem;
+      outline: none;
+      margin-bottom: 0.8rem;
     }
 
-    /* 下拉框优化 */
+    /* 下拉框 – 透明玻璃 */
     select.input {
       appearance: none;
       -webkit-appearance: none;
-      background-color: rgba(15,25,45,0.9);
+      background-color: rgba(15,25,45,0.5);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.8rem center;
@@ -54,18 +63,48 @@
       color: #e1e8f0;
     }
 
+    /* 主按钮 – 玻璃渐变 */
     .btn {
-      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-      border: none; color: white; padding: 0.6rem 1.4rem; border-radius: 24px;
-      font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
-      box-shadow: 0 0 12px rgba(37,99,235,0.5); width: 100%;
+      background: linear-gradient(135deg, rgba(37,99,235,0.7) 0%, rgba(30,64,175,0.7) 100%);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 0 12px rgba(37,99,235,0.5);
+      width: 100%;
     }
-    .btn:hover { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(59,130,246,0.8) 0%, rgba(37,99,235,0.8) 100%);
+      box-shadow: 0 0 18px #3b82f6;
+      transform: scale(1.03);
+    }
+
+    /* 次按钮 – 更通透 */
     .btn-outline {
-      background: rgba(30,58,138,0.35); backdrop-filter: blur(8px);
-      border: 1px solid #3b82f6; color: #bfdbfe; padding: 0.5rem 1.2rem;
-      border-radius: 24px; cursor: pointer; font-size: 0.9rem; width: 100%;
+      background: rgba(30,58,138,0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3b82f6;
+      color: #bfdbfe;
+      padding: 0.5rem 1.2rem;
+      border-radius: 24px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      width: 100%;
     }
+    .btn-outline:hover {
+      background: rgba(30,58,138,0.5);
+      border-color: #60a5fa;
+      box-shadow: 0 0 12px #3b82f680;
+      color: white;
+    }
+
     .avatar-preview {
       width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
       background: rgba(255,255,255,0.1); margin: 0.5rem auto;
@@ -201,13 +240,10 @@
       const key = el.getAttribute('data-i18n');
       if (t(key)) el.textContent = t(key);
     });
-    // 同时更新 placeholder 属性
     const nicknameInput = document.getElementById('nicknameInput');
     if (nicknameInput) {
       nicknameInput.placeholder = t('nicknamePlaceholder');
     }
-    // 更新返回按钮文字（class 为 btn-outline 的按钮可能有两个，我们通过 data-i18n 已经更新了）
-    // 但为了确保，可单独处理（已包含在 data-i18n 选择器中）
   }
 
   applySettingsLanguage();
@@ -216,7 +252,6 @@
   document.getElementById('nicknameInput').value = user.nickname || username;
   document.getElementById('languageSelect').value = currentLang;
 
-  // 监听语言选择框变化，实时切换界面语言预览
   document.getElementById('languageSelect').addEventListener('change', function() {
     currentLang = this.value;
     applySettingsLanguage();
