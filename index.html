@@ -79,6 +79,24 @@
       font-size: 0.95rem; outline: none; transition: border 0.2s;
     }
     .input:focus { border-color:#3b82f6; }
+
+    /* ---- 下拉框专属优化 ---- */
+    select.input {
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: rgba(15,25,45,0.9);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2393b4ff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-size: 1.2rem;
+      padding-right: 2.5rem;
+      color: #e1e8f0;
+    }
+    select.input option {
+      background: #15203d;
+      color: #e1e8f0;
+    }
+
     .flex-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
     .badge { background: rgba(30,58,138,0.5); color: #cbd5e1; border-radius: 20px; padding: 0.3rem 0.9rem; font-size: 0.8rem; }
     .shop-item {
@@ -759,7 +777,7 @@
     document.getElementById('regTab').classList.toggle('active', tab === 'register');
     document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
     document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-    applyLanguage(currentLanguage); // 刷新显示
+    applyLanguage(currentLanguage);
   }
 
   function handleLogin() {
