@@ -320,12 +320,56 @@
 </div>
 
 <script>
+  // ==================== 安全工具函数 ====================
+  // 防 XSS：将用户输入转为纯文本，防止 HTML 注入
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  // 密码加盐常量 - 防止彩虹表攻击
+  const PASSWORD_PEPPER = 'chengdu_food_2024_salt';
+
+  // 使用 Web Crypto API 进行 SHA-256 哈希
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password + PASSWORD_PEPPER);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function verifyPassword(password, hash) {
+    return await hashPassword(password) === hash;
+  }
+
+  // 检查密码是否已是哈希值（64位十六进制字符串）
+  function isAlreadyHashed(password) {
+    return /^[a-f0-9]{64}$/.test(password);
+  }
+
+  // 迁移所有未哈希的密码
+  async function hashAllPasswords() {
+    const users = getUsers();
+    let changed = false;
+    for (const uname of Object.keys(users)) {
+      if (!isAlreadyHashed(users[uname].password)) {
+        users[uname].password = await hashPassword(users[uname].password);
+        changed = true;
+      }
+    }
+    if (changed) {
+      saveUsers(users);
+    }
+  }
+
   // ==================== 数据与配置 ====================
   const STORAGE_KEY = 'chengdu_food_data';
   const USER_STORAGE_KEY = 'chengdu_users';
   const SESSION_KEY = 'chengdu_current_user';
 
-  // 多语言包
+  // 多语言包（开发者定义，输出时无需转义）
   const i18n = {
     zh: {
       siteTitle: '夜成都·天府美食榜',
@@ -528,10 +572,15 @@
   // ==================== 用户管理 ====================
   function initUsers() {
     if (!localStorage.getItem(USER_STORAGE_KEY)) {
+      // 密码将在启动时通过 hashAllPasswords() 自动哈希
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify({
         admin: {
-          password: 'admin123', role: 'admin', banned: false,
-          nickname: '管理员', avatar: '', language: 'zh'
+          password: 'admin123',
+          role: 'admin',
+          banned: false,
+          nickname: '管理员',
+          avatar: '',
+          language: 'zh'
         }
       }));
     }
@@ -821,6 +870,7 @@
     const container = document.getElementById('commentsContainer');
     if (!container) return;
 
+    // 排序按钮 - 不含用户输入
     let html = `
       <div class="flex-row mb-2" style="gap:0.4rem;">
         <button class="btn-outline btn" style="font-size:0.8rem; padding:0.3rem 0.8rem; ${currentCommentSortMode === 'likes' ? 'background:rgba(30,58,138,0.5);border-color:#60a5fa;' : ''}" onclick="sortComments('likes')">${t('sortByLikes')}</button>
@@ -836,7 +886,7 @@
         const liked = currentUser && hasUserLikedComment(c.commentId);
         html += `
           <div class="text-sm mt-2" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>🗣 <strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+            <span>🗣 <strong>${escapeHtml(getDisplayName(c.userId))}</strong>: ${escapeHtml(c.text)} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
             <div style="display:flex; align-items:center; gap:0.3rem;">
               <button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="toggleCommentLike('${c.commentId}')">${liked ? '👎' : '👍'} ${likeCount}</button>
               ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.5rem; font-size:0.7rem;" onclick="deleteComment('${shopId}','${c.commentId}')">✕</button>` : ''}
@@ -885,11 +935,14 @@
     posts.forEach(p => {
       const likeCount = (p.likes || []).length;
       const favCount = (p.favorites || []).length;
+      const escapedTitle = escapeHtml(p.title);
+      const escapedAuthor = escapeHtml(getDisplayName(p.authorId));
+      const categoryLabel = escapeHtml(t('category_' + p.category));
       html += `
         <div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
           <div>
-            <strong>${p.title}</strong>
-            <div class="text-sm">${p.category === 'guide' ? t('category_guide') : t('category_review')} · ${getDisplayName(p.authorId)} · ${new Date(p.createdAt).toLocaleDateString()} · 👍${likeCount} · ❤️${favCount}</div>
+            <strong>${escapedTitle}</strong>
+            <div class="text-sm">${categoryLabel} · ${escapedAuthor} · ${new Date(p.createdAt).toLocaleDateString()} · 👍${likeCount} · ❤️${favCount}</div>
           </div>
         </div>`;
     });
@@ -1017,14 +1070,21 @@
     }
 
     const detailDiv = document.getElementById('postDetail');
+    const escapedTitle = escapeHtml(post.title);
+    const escapedContent = escapeHtml(post.content);
+    const escapedAuthor = escapeHtml(getDisplayName(post.authorId));
+    const categoryLabel = escapeHtml(t('category_' + post.category));
+    const likeCount = post.likes?.length || 0;
+    const favCount = post.favorites?.length || 0;
+
     let html = `
       <div class="card">
-        <h3>${post.title}</h3>
-        <p class="text-sm">${post.category === 'guide' ? t('category_guide') : t('category_review')} · ${getDisplayName(post.authorId)} · ${new Date(post.createdAt).toLocaleDateString()}</p>
-        <p class="mt-2">${post.content}</p>
+        <h3>${escapedTitle}</h3>
+        <p class="text-sm">${categoryLabel} · ${escapedAuthor} · ${new Date(post.createdAt).toLocaleDateString()}</p>
+        <p class="mt-2">${escapedContent}</p>
         <div class="flex-row mt-2">
-          <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostLike('${postId}')">${liked ? '👎' : '👍'} ${post.likes?.length || 0}</button>
-          <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostFavorite('${postId}')">${faved ? '💔' : '❤️'} ${post.favorites?.length || 0}</button>
+          <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostLike('${postId}')">${liked ? '👎' : '👍'} ${likeCount}</button>
+          <button class="btn-outline" style="font-size:0.8rem;" onclick="togglePostFavorite('${postId}')">${faved ? '💔' : '❤️'} ${favCount}</button>
         </div>
       </div>
       <div class="card mt-2">
@@ -1038,12 +1098,13 @@
       html += '<p class="text-sm">暂无评论</p>';
     } else {
       comments.forEach(c => {
+        const canDelete = currentUser && (currentUser.role === 'admin' || c.userId === currentUser.username);
         html += `
           <div class="text-sm mt-2" style="display:flex; justify-content:space-between;">
-            <span><strong>${getDisplayName(c.userId)}</strong>: ${c.text} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
+            <span><strong>${escapeHtml(getDisplayName(c.userId))}</strong>: ${escapeHtml(c.text)} <span style="color:#666;">${new Date(c.date).toLocaleDateString()}</span></span>
             <div>
               <button class="btn-outline" style="padding:0.1rem 0.3rem; font-size:0.7rem;" onclick="togglePostCommentLike('${postId}','${c.commentId}')">👍 ${c.likes?.length || 0}</button>
-              ${(currentUser && (currentUser.role === 'admin' || c.userId === currentUser.username)) ? `<button class="btn-outline" style="padding:0.1rem 0.3rem; font-size:0.7rem;" onclick="deletePostComment('${postId}','${c.commentId}')">✕</button>` : ''}
+              ${canDelete ? `<button class="btn-outline" style="padding:0.1rem 0.3rem; font-size:0.7rem;" onclick="deletePostComment('${postId}','${c.commentId}')">✕</button>` : ''}
             </div>
           </div>`;
       });
@@ -1051,7 +1112,7 @@
 
     html += `${!currentUser ? `<p class="text-sm mt-2" style="color:#ffd966;">${t('loginRequired')}</p>` : `
       <div class="flex-row mt-2">
-        <input type="text" class="input" id="postCommentInput" placeholder="${t('postCommentPlaceholder')}">
+        <input type="text" class="input" id="postCommentInput" placeholder="${escapeHtml(t('postCommentPlaceholder'))}">
         <button class="btn" onclick="addPostComment('${postId}', document.getElementById('postCommentInput').value)">${t('send')}</button>
       </div>`}
       </div>`;
@@ -1078,7 +1139,7 @@
       if (!p) return;
       html += `
         <div class="shop-item">
-          <div><strong>${p.title}</strong></div>
+          <div><strong>${escapeHtml(p.title)}</strong></div>
           <button class="btn-outline btn" onclick="switchView('postDetail','${id}')">查看</button>
         </div>`;
     });
@@ -1125,6 +1186,18 @@
   function switchView(viewName, key = null, shopId = null) {
     const needsLogin = ['footprint', 'favorites', 'add', 'adminPanel', 'forumNewPost', 'postDetail', 'forumFavorites'];
     if (needsLogin.includes(viewName) && !currentUser) return alert(t('loginToAction'));
+
+    // 记录导航来源，供返回按钮使用
+    if (viewName === 'shop') {
+      const activeView = document.querySelector('.view.active');
+      if (activeView) {
+        if (activeView.id === 'categoryView') { fromView = 'category'; fromCategory = currentCategory; }
+        else if (activeView.id === 'rankingView') fromView = 'ranking';
+        else if (activeView.id === 'footprintView') fromView = 'footprint';
+        else if (activeView.id === 'favoritesView') fromView = 'favorites';
+        else if (activeView.id === 'homeView') fromView = 'home';
+      }
+    }
 
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1203,7 +1276,7 @@
     else if (fromView === 'ranking') switchView('ranking');
     else if (fromView === 'footprint') switchView('footprint');
     else if (fromView === 'favorites') switchView('favorites');
-    else if (fromView === 'forum') switchView('forum');
+    else if (fromView === 'home') switchView('home');
     else switchView('home');
   }
 
@@ -1214,13 +1287,17 @@
     document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
   }
 
-  function handleLogin() {
+  async function handleLogin() {
     const uname = document.getElementById('loginUsername').value.trim();
     const pwd = document.getElementById('loginPassword').value.trim();
     if (!uname || !pwd) return alert(t('loginError'));
     const users = getUsers();
     const user = users[uname];
-    if (!user || user.password !== pwd) return alert(t('loginError'));
+    if (!user) return alert(t('loginError'));
+
+    const passwordMatch = await verifyPassword(pwd, user.password);
+    if (!passwordMatch) return alert(t('loginError'));
+
     const session = {
       username: uname, role: user.role, banned: user.banned || false,
       nickname: user.nickname || uname, avatar: user.avatar || '', language: user.language || 'zh'
@@ -1234,7 +1311,7 @@
     switchView('home');
   }
 
-  function handleRegister() {
+  async function handleRegister() {
     const uname = document.getElementById('regUsername').value.trim();
     const pwd = document.getElementById('regPassword').value.trim();
     if (!uname || !pwd) return alert(t('loginError'));
@@ -1242,7 +1319,8 @@
     if (users[uname]) return alert(t('nicknameExists'));
     const nickname = uname;
     if (Object.values(users).some(u => u.nickname === nickname)) return alert(t('nicknameExists'));
-    users[uname] = { password: pwd, role: 'user', banned: false, nickname, avatar: '', language: 'zh' };
+    const hashedPassword = await hashPassword(pwd);
+    users[uname] = { password: hashedPassword, role: 'user', banned: false, nickname, avatar: '', language: 'zh' };
     saveUsers(users);
     alert(t('regSuccess'));
     document.getElementById('regUsername').value = '';
@@ -1292,7 +1370,7 @@
     top5.forEach((s, i) => {
       html += `
         <div class="shop-item">
-          <div><span style="color:#ffd966;">#${i + 1}</span> <strong>${s.name}</strong> <span class="text-sm">🔥${s.recent}次</span></div>
+          <div><span style="color:#ffd966;">#${i + 1}</span> <strong>${escapeHtml(s.name)}</strong> <span class="text-sm">🔥${s.recent}次</span></div>
           <button class="btn-outline btn" onclick="switchView('shop','${s.category}','${s.id}')">详情</button>
         </div>`;
     });
@@ -1321,8 +1399,8 @@
       html += `
         <div class="shop-item" style="cursor:pointer" onclick="switchView('postDetail','${p.id}')">
           <div>
-            <span style="color:#ffd966;">#${i+1}</span> <strong>${p.title}</strong>
-            <div class="text-sm">${t('category_'+p.category)} · ❤️${(p.favorites||[]).length} · 👍${(p.likes||[]).length}</div>
+            <span style="color:#ffd966;">#${i+1}</span> <strong>${escapeHtml(p.title)}</strong>
+            <div class="text-sm">${escapeHtml(t('category_'+p.category))} · ❤️${(p.favorites||[]).length} · 👍${(p.likes||[]).length}</div>
           </div>
         </div>`;
     });
@@ -1336,7 +1414,12 @@
     Object.entries(DEFAULT_CATEGORIES).forEach(([key, cat]) => {
       const div = document.createElement('div');
       div.className = 'category-item';
-      div.innerHTML = `<span>${cat.icon}</span><div>${t('category_' + key)}</div>`;
+      const iconSpan = document.createElement('span');
+      iconSpan.textContent = cat.icon;
+      const labelDiv = document.createElement('div');
+      labelDiv.textContent = t('category_' + key);
+      div.appendChild(iconSpan);
+      div.appendChild(labelDiv);
       div.onclick = () => switchView('category', key);
       grid.appendChild(div);
     });
@@ -1346,7 +1429,7 @@
     const cat = DEFAULT_CATEGORIES[catKey];
     const shopIds = Object.keys(appData.shops).filter(id => appData.shops[id].category === catKey);
     const detailDiv = document.getElementById('categoryDetail');
-    let html = `<h3>${cat.icon} ${t('category_' + catKey)}</h3>`;
+    let html = `<h3>${cat.icon} ${escapeHtml(t('category_' + catKey))}</h3>`;
     if (!shopIds.length) {
       html += `<p class="text-sm mt-2">${t('noShop')}</p>`;
     } else {
@@ -1355,7 +1438,7 @@
         const shop = appData.shops[id];
         html += `
           <div class="shop-item">
-            <div><strong>${shop.name}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)}次</div></div>
+            <div><strong>${escapeHtml(shop.name)}</strong><div class="text-sm">${t('recentCheckins')}: ${countRecentCheckins(id)}次</div></div>
             <button class="btn-outline btn" onclick="switchView('shop','${catKey}','${id}')">详情</button>
           </div>`;
       });
@@ -1374,12 +1457,12 @@
     const detailDiv = document.getElementById('shopDetail');
     let html = `
       <div class="card">
-        <h3>${shop.name}</h3>
-        <p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${t('category_' + shop.category)}</p>
-        <p class="text-sm">${t('addressLabel')}${shop.address || '暂无'}</p>
-        <p class="text-sm">${t('phoneLabel')}${shop.phone || '暂无'}</p>
-        <p class="text-sm">${t('priceLabel')}${shop.priceRange || '暂无'}</p>
-        <p class="text-sm">${t('hoursLabel')}${shop.openingHours || '暂无'}</p>
+        <h3>${escapeHtml(shop.name)}</h3>
+        <p class="text-sm">${t('categoryLabel')} ${(DEFAULT_CATEGORIES[shop.category]?.icon || '')} ${escapeHtml(t('category_' + shop.category))}</p>
+        <p class="text-sm">${t('addressLabel')}${escapeHtml(shop.address || '暂无')}</p>
+        <p class="text-sm">${t('phoneLabel')}${escapeHtml(shop.phone || '暂无')}</p>
+        <p class="text-sm">${t('priceLabel')}${escapeHtml(shop.priceRange || '暂无')}</p>
+        <p class="text-sm">${t('hoursLabel')}${escapeHtml(shop.openingHours || '暂无')}</p>
         <div class="flex-row mt-2">
           <div class="badge">🔥${t('recentCheckins')} ${recent}次</div>
           <div class="badge">📋${t('totalCheckins')} ${total}次</div>
@@ -1400,7 +1483,7 @@
         ${!currentUser ? `<p class="text-sm mt-2" style="color:#ffd966;">${t('loginRequired')}</p>` :
           (!currentUser.banned ? `
             <div class="flex-row mt-2">
-              <input type="text" class="input" id="commentInput" placeholder="${t('commentPlaceholder')}">
+              <input type="text" class="input" id="commentInput" placeholder="${escapeHtml(t('commentPlaceholder'))}">
               <button class="btn" onclick="addComment('${shopId}', document.getElementById('commentInput').value)">${t('send')}</button>
             </div>` : `<p class="text-sm mt-2" style="color:#ff6666;">${t('bannedMsg')}</p>`)}
       </div>`;
@@ -1418,10 +1501,10 @@
     allShops.forEach((shop, idx) => {
       let rc = idx === 0 ? 'gold' : (idx === 1 ? 'silver' : (idx === 2 ? 'bronze' : ''));
       html += `
-        <div class="shop-item" data-name="${shop.name.toLowerCase()}">
+        <div class="shop-item" data-name="${escapeHtml(shop.name.toLowerCase())}">
           <div class="flex-row">
             <span class="rank-number ${rc}">#${idx + 1}</span>
-            <div><strong>${shop.name}</strong><div class="text-sm">${shop.recent}次打卡</div></div>
+            <div><strong>${escapeHtml(shop.name)}</strong><div class="text-sm">${shop.recent}次打卡</div></div>
           </div>
           <button class="btn-outline btn" onclick="switchView('shop','${shop.category}','${shop.id}')">详情</button>
         </div>`;
@@ -1449,7 +1532,7 @@
         <div class="shop-item">
           <div class="flex-row">
             <span class="rank-number ${rc}">#${idx + 1}</span>
-            <div><strong>${shop.name}</strong><div class="text-sm">${shop.total}次打卡</div></div>
+            <div><strong>${escapeHtml(shop.name)}</strong><div class="text-sm">${shop.total}次打卡</div></div>
           </div>
           <button class="btn-outline btn" onclick="switchView('shop','${shop.category}','${shop.id}')">详情</button>
         </div>`;
@@ -1471,8 +1554,8 @@
       const s = appData.shops[id];
       if (!s) return;
       html += `
-        <div class="shop-item" data-name="${s.name.toLowerCase()}">
-          <div><strong>${s.name}</strong></div>
+        <div class="shop-item" data-name="${escapeHtml(s.name.toLowerCase())}">
+          <div><strong>${escapeHtml(s.name)}</strong></div>
           <button class="btn-outline btn" onclick="switchView('shop','${s.category}','${id}')">详情</button>
         </div>`;
     });
@@ -1487,9 +1570,9 @@
     Object.entries(users).forEach(([uname, info]) => {
       const isBanned = info.banned || false;
       html += `
-        <div class="shop-item" data-username="${uname.toLowerCase()}">
-          <div><strong>${info.nickname || uname}</strong> (${info.role}) <span class="text-sm">${isBanned ? '🚫已封禁' : '✅正常'}</span></div>
-          <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${uname}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
+        <div class="shop-item" data-username="${escapeHtml(uname.toLowerCase())}">
+          <div><strong>${escapeHtml(info.nickname || uname)}</strong> (${escapeHtml(info.role)}) <span class="text-sm">${isBanned ? '🚫已封禁' : '✅正常'}</span></div>
+          <div>${info.role !== 'admin' ? `<button class="btn-outline btn" onclick="toggleBanUser('${escapeHtml(uname)}')">${isBanned ? '解封' : '封禁'}</button>` : ''}</div>
         </div>`;
     });
     listDiv.innerHTML = html || '<p>暂无用户</p>';
@@ -1542,6 +1625,31 @@
     });
   }
 
+  function addShop() {
+    if (!currentUser) return alert(t('loginRequired'));
+    const name = document.getElementById('newShopName').value.trim();
+    const address = document.getElementById('newShopAddress').value.trim();
+    if (!name) return alert(t('shopNameRequired'));
+    if (!address) return alert(t('addressRequired'));
+    const shopId = uid();
+    appData.shops[shopId] = {
+      id: shopId,
+      name: name,
+      category: document.getElementById('newCategory').value,
+      address: address,
+      phone: document.getElementById('newShopPhone').value.trim(),
+      priceRange: document.getElementById('newShopPrice').value.trim(),
+      openingHours: document.getElementById('newShopHours').value.trim()
+    };
+    saveAppData();
+    document.getElementById('newShopName').value = '';
+    document.getElementById('newShopAddress').value = '';
+    document.getElementById('newShopPhone').value = '';
+    document.getElementById('newShopPrice').value = '';
+    document.getElementById('newShopHours').value = '';
+    alert(t('shopAdded'));
+  }
+
   // ==================== 启动 ====================
   document.getElementById('mainNav').addEventListener('click', e => {
     if (e.target.classList.contains('nav-btn')) {
@@ -1549,20 +1657,23 @@
     }
   });
 
-  initUsers();
-  loadAppData();
+  (async function() {
+    initUsers();
+    await hashAllPasswords();
+    loadAppData();
 
-  if (loadSession()) {
-    document.getElementById('authView').classList.remove('active');
-    document.getElementById('mainView').classList.add('active');
-    updateUserUI();
-    switchView('home');
-  } else {
-    document.getElementById('authView').classList.remove('active');
-    document.getElementById('mainView').classList.add('active');
-    updateUserUI();
-    switchView('home');
-  }
+    if (loadSession()) {
+      document.getElementById('authView').classList.remove('active');
+      document.getElementById('mainView').classList.add('active');
+      updateUserUI();
+      switchView('home');
+    } else {
+      document.getElementById('authView').classList.remove('active');
+      document.getElementById('mainView').classList.add('active');
+      updateUserUI();
+      switchView('home');
+    }
+  })();
 </script>
 </body>
 </html>
